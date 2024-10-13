@@ -1,0 +1,21 @@
+{
+  "name": "performance-testing",
+  "version": "1.0.0",
+  "description": "",
+  
+  "scripts": {
+    "test": "npm run setup && npx playwright test --headed",
+    "setup": "rm -rf ./performance-reports"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.47.1",
+    "lighthouse": "9.6.8"
+  },
+  "dependencies": {
+    "@lighthousejs/types": "^0.0.3",
+    "playwright-lighthouse": "2.2.2"
+  }
+}
