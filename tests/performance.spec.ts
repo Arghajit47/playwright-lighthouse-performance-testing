@@ -1,7 +1,7 @@
 import { playAudit } from "playwright-lighthouse";
 import { test } from '@playwright/test';
 import desktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
-import {runPerformanceAuditInMobile, runPerformanceAuditInDesktop} from "../utils/helpers"
+import {runPerformanceAuditInMobile, runPerformanceAuditInDesktop} from "../utils/helpers";
 
 test.describe('Lighthouse Performance Test', () => {
   test('Home Page Performance Audit', async ({page}) => {
