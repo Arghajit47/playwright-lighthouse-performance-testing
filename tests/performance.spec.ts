@@ -2,23 +2,31 @@ import { playAudit } from "playwright-lighthouse";
 import { test } from '@playwright/test';
 import desktopConfig from 'lighthouse/lighthouse-core/config/desktop-config.js';
 import {runPerformanceAuditInMobile, runPerformanceAuditInDesktop} from "../utils/helpers";
+const data = require("../url.json");
 
-test.describe('Lighthouse Performance Test', () => {
-  test('Home Page Performance Audit', async ({page}) => {
-    await page.goto("https://nextbnb-three.vercel.app/")
-    const setView = desktopConfig;
-    await runPerformanceAuditInDesktop(page, setView, "https://nextbnb-three.vercel.app/", "b-performance");
-  })
-  
-  test.skip('Desktop - About Page Performance Audit', async ({page}) => {
-    const setView = desktopConfig;
-    await page.goto("https://www.webpagetest.org/about")
-    await runPerformanceAuditInDesktop(page, setView,"https://www.webpagetest.org/about", "about-page-performance");
-  })
+for (const key in data) {
+  const value = data[key];
 
-  test('Mobile - About Page Performance Audit', async ({page}) => {
-    const setView = "lighthouse:default";
-    // await page.goto("https://sagnik-ghosh.vercel.app/")
-    await runPerformanceAuditInMobile(page, "https://nextbnb-three.vercel.app/", "a-performance");
-  })
-})
+  test.describe(`Lighthouse Performance Test - ${key}`, () => {
+    test(`Performance Audit - ${key}`, async ({ page }) => {
+      await page.goto(value);
+      const setView = desktopConfig;
+      await runPerformanceAuditInDesktop(
+        page,
+        setView,
+        value,
+        `${key}-desktop-performance`
+      );
+    });
+
+    test(`Mobile - Performance Audit - ${key}`, async ({ page }) => {
+      const setView = "lighthouse:default";
+      await page.goto(value);
+      await runPerformanceAuditInMobile(
+        page,
+        value,
+        `${key}-mobile-performance`
+      );
+    });
+  });
+}
