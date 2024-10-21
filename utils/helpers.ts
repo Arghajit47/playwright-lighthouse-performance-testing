@@ -1,4 +1,5 @@
 import { playAudit } from "playwright-lighthouse";
+import { thresholds } from "../lighthouse/base";
 
 export async function runPerformanceAuditInDesktop(
   page,
@@ -10,12 +11,7 @@ export async function runPerformanceAuditInDesktop(
     page: page,
     config: config,
     port: 9222,
-    thresholds: {
-      performance: 80,
-      accessibility: 50,
-      "best-practices": 50,
-      seo: 50,
-    },
+    thresholds: thresholds,
     ignoreError: true,
     reports: {
       formats: {
@@ -39,12 +35,7 @@ export async function runPerformanceAuditInMobile(
     page: page,
     config: config,
     port: 9222,
-    thresholds: {
-      performance: 80,
-      accessibility: 50,
-      "best-practices": 50,
-      seo: 50,
-    },
+    thresholds: thresholds,
     ignoreError: true,
     reports: {
       formats: {

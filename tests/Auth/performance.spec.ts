@@ -22,10 +22,12 @@ for (const key in data) {
       await page
         .locator(".gap-3 .border-neutral-200 svg")
         .click({ force: true });
-      await page.click('//div[text()="Login"]');
-      await page.fill("#email", String(process.env.EMAIL));
-      await page.fill("#password", String(process.env.PASSWORD));
-      await page.click('//button[text()="Continue"]');
+      await page.click('//div[text()="Login"]', { force: true });
+      await page.fill("#email", String(process.env.EMAIL), { force: true });
+      await page.fill("#password", String(process.env.PASSWORD), {
+        force: true,
+      });
+      await page.click('//button[text()="Continue"]', { force: true });
       await page.waitForLoadState("networkidle");
     });
     test(`Authorized Desktop Performance Audit - ${key}`, async ({ page }) => {

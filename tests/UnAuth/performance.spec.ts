@@ -20,7 +20,6 @@ for (const key in data) {
       await page.waitForLoadState("networkidle");
     });
     test(`Desktop Performance Audit - ${key}`, async ({ page }) => {
-      // await page.goto(value);
       await runPerformanceAuditInDesktop(
         page,
         `${test.info().title}-performance`,
@@ -30,7 +29,6 @@ for (const key in data) {
     });
 
     test(`Mobile Performance Audit - ${key}`, async ({ page }) => {
-      // await page.goto(value);
       await runPerformanceAuditInMobile(
         page,
         `${test.info().title}-performance`,
