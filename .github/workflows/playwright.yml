@@ -18,6 +18,9 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright Performance tests
+      env:
+        EMAIL: ${{ secrets.EMAIL }}
+        PASSWORD: ${{secrets.PASSWORD}}
       run: npm run test
     - uses: actions/upload-artifact@v4
       if: always()
@@ -28,6 +31,12 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: performance-reports
-        path: performance-reports/
+        name: Authorized-performance-reports
+        path: Authorized-performance-reports/
         retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: Unauthorized-performance-reports
+        path: Unauthorized-performance-reports/
+        retention-days: 30    

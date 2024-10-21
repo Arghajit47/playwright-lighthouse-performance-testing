@@ -29,10 +29,10 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    
+    headless: true,
     launchOptions: {
       // Specify the --remote-debugging-port option
-      args: ['--remote-debugging-port=9222'],
+      args: ["--remote-debugging-port=9222"],
     },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -45,17 +45,47 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup',
+      name: "setup",
       testMatch: /global.setup\.ts/,
     },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: '**/tests/*.spec.ts',
-      // dependencies: ['setup'],
-      // use: {
-      //   storageState: STORAGE_STATE,
-      // },
+      name: "Authorized_Test",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          slowMo: 3000,
+          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          timeout: 300000,
+        },
+        viewport: { width: 1920, height: 1080 },
+      },
+      testDir: "./tests/Auth/",
+    },
+    {
+      name: "Unauthorized_Test",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          slowMo: 3000,
+          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          timeout: 300000,
+        },
+        viewport: { width: 1920, height: 1080 },
+      },
+      testDir: "./tests/UnAuth/",
+    },
+    {
+      name: "Test",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          slowMo: 3000,
+          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          timeout: 300000,
+        },
+        viewport: { width: 1920, height: 1080 },
+      },
+      testDir: "./tests/",
     },
 
     // {
@@ -97,4 +127,4 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-})
+});

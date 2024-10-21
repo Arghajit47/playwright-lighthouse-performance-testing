@@ -2,10 +2,12 @@
   "name": "performance-testing",
   "version": "1.0.0",
   "description": "",
-  
   "scripts": {
-    "test": "npm run setup && npx playwright test",
-    "setup": "rm -rf ./performance-reports"
+    "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test",
+    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test",
+    "test": "npx playwright test --config=playwright.config.ts --project=Test",
+    "setup:Auth": "rm -rf ./Authorized-performance-reports",
+    "setup:UnAuth": "rm -rf ./Unauthorized-performance-reports"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
   },
   "dependencies": {
     "@lighthousejs/types": "^0.0.3",
+    "dotenv": "^16.4.5",
     "playwright-lighthouse": "2.2.2"
   }
 }
