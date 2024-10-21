@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test --workers=6",
-    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test --workers=6",
-    "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=6",
+    "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test",
+    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test",
+    "test": "npx playwright test --config=playwright.config.ts --project=Test",
     "setup:Auth": "rm -rf ./Authorized-performance-reports",
     "setup:UnAuth": "rm -rf ./Unauthorized-performance-reports"
   },

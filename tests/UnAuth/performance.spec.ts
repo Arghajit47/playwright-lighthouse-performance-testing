@@ -14,9 +14,13 @@ test.describe.configure({ mode: "serial" });
 for (const key in data) {
   const value = data[key];
 
-  test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, () => {
-    test(`Desktop Performance Audit - ${key}`, async ({ page }) => {
+  test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
+    test.beforeEach(async ({ page }) => {
       await page.goto(value);
+      await page.waitForLoadState("networkidle");
+    });
+    test(`Desktop Performance Audit - ${key}`, async ({ page }) => {
+      // await page.goto(value);
       await runPerformanceAuditInDesktop(
         page,
         `${test.info().title}-performance`,
@@ -26,13 +30,17 @@ for (const key in data) {
     });
 
     test(`Mobile Performance Audit - ${key}`, async ({ page }) => {
-      await page.goto(value);
+      // await page.goto(value);
       await runPerformanceAuditInMobile(
         page,
         `${test.info().title}-performance`,
         mobileConfig,
         `Unauthorized-performance-reports`
       );
+    });
+
+    test.afterEach(async ({ page }) => {
+      await page.close();
     });
   });
 }
