@@ -1,9 +1,10 @@
 import { test } from "@playwright/test";
 import desktopConfig from "lighthouse/lighthouse-core/config/desktop-config.js";
-import { mobileConfig } from "../../lighthouse/base";
+import { mobileConfig, tabletConfig } from "../../lighthouse/base";
 import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
+  runPerformanceAuditInTablet,
 } from "../../utils/helpers";
 import "dotenv/config";
 import { URLS } from "../../test-data/enum";
@@ -35,7 +36,7 @@ for (const key in data) {
         page,
         `${test.info().title}-performance`,
         desktopConfig,
-        `Authorized-performance-reports`
+        `Authorized-performance-reports/Desktop`
       );
     });
 
@@ -44,7 +45,16 @@ for (const key in data) {
         page,
         `${test.info().title}-performance`,
         mobileConfig,
-        `Authorized-performance-reports`
+        `Authorized-performance-reports/Mobile`
+      );
+    });
+
+    test(`Authorized Tablet Performance Audit - ${key}`, async ({ page }) => {
+      await runPerformanceAuditInMobile(
+        page,
+        `${test.info().title}-performance`,
+        tabletConfig,
+        `Authorized-performance-reports/Tablet`
       );
     });
 
