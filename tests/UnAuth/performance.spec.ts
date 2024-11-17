@@ -15,8 +15,7 @@ test.describe.configure({ mode: "serial" });
 for (const key in data) {
   const value = data[key];
 
-  test.describe
-    .only(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
+  test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
     test.beforeEach(async ({ page }) => {
       await page.goto(value);
       await page.waitForLoadState("networkidle");
