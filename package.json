@@ -19,6 +19,7 @@
   "dependencies": {
     "@lighthousejs/types": "^0.0.3",
     "dotenv": "^16.4.5",
+    "netlify-cli": "^17.37.2",
     "playwright-lighthouse": "2.2.2"
   }
 }

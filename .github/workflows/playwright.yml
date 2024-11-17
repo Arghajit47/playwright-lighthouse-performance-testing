@@ -39,4 +39,10 @@ jobs:
       with:
         name: Unauthorized-performance-reports
         path: Unauthorized-performance-reports/
-        retention-days: 30    
+        retention-days: 30
+    - name: Deploy to Netlify
+      if: always()
+      run: |
+          npx netlify deploy --site 96d1bba3-06fb-4ded-9cee-de5e1c37ccf4 --prod --dir playwright-report
+      env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}        
