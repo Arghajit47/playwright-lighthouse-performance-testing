@@ -24,6 +24,8 @@ jobs:
       run: npm run test
     - name: Generate Overall Performance Test Report
       run: npm run folderStructure
+    - name: Wait for 10 seconds before generating the report
+      run: sleep 10      
     - uses: actions/upload-artifact@v4
       if: always()
       with:
