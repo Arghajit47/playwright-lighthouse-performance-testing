@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Performance Testing Report</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    Performance Testing Report
+  </header>
+
+  <div class="container">
+    <h2>Available Reports</h2>
+    <p>Select a category to explore detailed performance testing results.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Authorized Performance Reports</h3>
+        <p>Detailed reports for authorized users with insights on Performance Testing</p>
+        <a href="javascript:void(0);" id="authorized-reports-btn">View Reports</a>
+      </div>
+      <div class="card">
+        <h3>Unauthorized Performance Reports</h3>
+        <p>Explore performance metrics for unauthorized access attempts</p>
+        <a href="javascript:void(0);" id="unauthorized-reports-btn">View Reports</a>
+      </div>
+    </div>
+
+    <!-- Folder Structure (Hidden by default) -->
+    <div id="folder-structure" style="display: none;">
+      <div id="report-container"></div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Performance Test Report Insights | Built by Arghajit
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -7,7 +7,8 @@
     "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test",
     "test": "npx playwright test --config=playwright.config.ts --project=Test",
     "setup:Auth": "rm -rf ./Authorized-performance-reports",
-    "setup:UnAuth": "rm -rf ./Unauthorized-performance-reports"
+    "setup:UnAuth": "rm -rf ./Unauthorized-performance-reports",
+    "folderStructure": "cd performance-report/ && node app.js "
   },
   "keywords": [],
   "author": "",

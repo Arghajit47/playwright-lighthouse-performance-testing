@@ -36,7 +36,7 @@ for (const key in data) {
         page,
         `${test.info().title}-performance`,
         desktopConfig,
-        `Authorized-performance-reports/Desktop`
+        `performance-report/Authorized-performance-reports/Desktop`
       );
     });
 
@@ -45,7 +45,7 @@ for (const key in data) {
         page,
         `${test.info().title}-performance`,
         mobileConfig,
-        `Authorized-performance-reports/Mobile`
+        `performance-report/Authorized-performance-reports/Mobile`
       );
     });
 
@@ -54,7 +54,7 @@ for (const key in data) {
         page,
         `${test.info().title}-performance`,
         tabletConfig,
-        `Authorized-performance-reports/Tablet`
+        `performance-report/Authorized-performance-reports/Tablet`
       );
     });
 
