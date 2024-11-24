@@ -98,4 +98,40 @@ async function fetchFolderStructure() {
   }
 }
 
+// Function to toggle dark mode
+async function toggleDarkMode() {
+  const body = document.body;
+  const toggleButton = document.getElementById("dark-mode-toggle");
+
+  // Toggle the dark-mode class
+  body.classList.toggle("dark-mode");
+
+  // Save the user's preference
+  const isDarkMode = body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDarkMode ? "enabled" : "disabled");
+
+  // Update the icon based on the current mode
+  toggleButton.textContent = isDarkMode ? "🌞" : "🌙";
+}
+
+// Function to load the user's dark mode preference
+async function loadDarkModePreference() {
+  const darkMode = localStorage.getItem("darkMode");
+  const toggleButton = document.getElementById("dark-mode-toggle");
+
+  if (darkMode === "enabled") {
+    document.body.classList.add("dark-mode");
+    toggleButton.textContent = "🌞"; // Sun icon for dark mode
+  } else {
+    toggleButton.textContent = "🌙"; // Moon icon for light mode
+  }
+}
+
+// Add event listener to the dark mode toggle button
+document.getElementById("dark-mode-toggle").addEventListener("click", toggleDarkMode);
+
+// Load dark mode preference on page load
+window.addEventListener("DOMContentLoaded", loadDarkModePreference);
+
+
 setupReportViewer();
