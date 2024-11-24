@@ -12,6 +12,28 @@ async function fetchFolderStructure() {
   }
 }
 
+// Function to render folder categories dynamically
+function renderCategories(folderStructure) {
+  const categoriesContainer = document.getElementById("categories");
+  categoriesContainer.innerHTML = ""; // Clear existing content
+
+  Object.keys(folderStructure).forEach((category) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${category.replace(/-/g, " ")}</h3>
+      <p>Explore detailed performance reports.</p>
+      <a href="javascript:void(0);" data-category="${category}">View Reports</a>
+    `;
+
+    card.querySelector("a").addEventListener("click", () => {
+      renderReports(category, folderStructure[category]);
+    });
+
+    categoriesContainer.appendChild(card);
+  });
+}
+
 // Utility to create a list of files with nested paths
 function createFileList(subfolderName, files) {
   const ul = document.createElement("ul");
@@ -50,29 +72,12 @@ function renderReports(category, data) {
   document.getElementById("folder-structure").style.display = "block";
 }
 
-// Load folder structure and set up event listeners
+// Initialize the app
 async function setupReportViewer() {
   const folderStructure = await fetchFolderStructure();
-  if (!folderStructure) return;
-
-  document
-    .getElementById("authorized-reports-btn")
-    .addEventListener("click", () => {
-      renderReports(
-        "Authorized-performance-reports",
-        folderStructure["Authorized-performance-reports"]
-      );
-    });
-
-  document
-    .getElementById("unauthorized-reports-btn")
-    .addEventListener("click", () => {
-      renderReports(
-        "Unauthorized-performance-reports",
-        folderStructure["Unauthorized-performance-reports"]
-      );
-    });
+  if (folderStructure) {
+    renderCategories(folderStructure);
+  }
 }
 
-// Initialize the app
 setupReportViewer();

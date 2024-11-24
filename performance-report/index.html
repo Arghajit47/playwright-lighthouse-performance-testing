@@ -16,18 +16,8 @@
     <h2>Available Reports</h2>
     <p>Select a category to explore detailed performance testing results.</p>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Authorized Performance Reports</h3>
-        <p>Detailed reports for authorized users with insights on Performance Testing</p>
-        <a href="javascript:void(0);" id="authorized-reports-btn">View Reports</a>
-      </div>
-      <div class="card">
-        <h3>Unauthorized Performance Reports</h3>
-        <p>Explore performance metrics for unauthorized access attempts</p>
-        <a href="javascript:void(0);" id="unauthorized-reports-btn">View Reports</a>
-      </div>
-    </div>
+    <!-- Dynamic categories will be rendered here -->
+    <div id="categories" class="grid"></div>
 
     <!-- Folder Structure (Hidden by default) -->
     <div id="folder-structure" style="display: none;">
@@ -36,7 +26,7 @@
   </div>
 
   <footer>
-    &copy; 2024 Performance Test Report Insights | Built by Arghajit
+    &copy; 2024 Performance Test Report Insights | Built dynamically
   </footer>
 
   <script src="script.js"></script>
