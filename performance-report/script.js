@@ -1,14 +1,20 @@
-// Function to fetch folder structure JSON
-async function fetchFolderStructure() {
-  try {
-    const response = await fetch("./folderStructure.json");
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch folder structure:", error);
-    return null;
+// Function to toggle the folder structure section
+function toggleReports(category, data) {
+  const folderStructure = document.getElementById("folder-structure");
+  const reportContainer = document.getElementById("report-container");
+
+  // Check if the reports section is already visible and contains the current category
+  if (
+    folderStructure.style.display === "block" &&
+    reportContainer.dataset.category === category
+  ) {
+    folderStructure.style.display = "none"; // Hide the section
+    reportContainer.dataset.category = ""; // Reset the category
+  } else {
+    // Render the reports and show the section
+    renderReports(category, data);
+    folderStructure.style.display = "block";
+    reportContainer.dataset.category = category; // Store the current category
   }
 }
 
@@ -27,7 +33,7 @@ function renderCategories(folderStructure) {
     `;
 
     card.querySelector("a").addEventListener("click", () => {
-      renderReports(category, folderStructure[category]);
+      toggleReports(category, folderStructure[category]); // Toggle the visibility of the reports
     });
 
     categoriesContainer.appendChild(card);
@@ -69,14 +75,26 @@ function renderReports(category, data) {
   const container = document.getElementById("report-container");
   container.innerHTML = `<h3>${category.replace(/-/g, " ")}</h3>`;
   container.appendChild(createSubfolders(category, data));
-  document.getElementById("folder-structure").style.display = "block";
 }
 
 // Initialize the app
 async function setupReportViewer() {
   const folderStructure = await fetchFolderStructure();
-  if (folderStructure) {
-    renderCategories(folderStructure);
+  if (!folderStructure) return;
+
+  renderCategories(folderStructure);
+}
+// Function to fetch folder structure JSON
+async function fetchFolderStructure() {
+  try {
+    const response = await fetch("./folderStructure.json");
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Failed to fetch folder structure:", error);
+    return null;
   }
 }
 
