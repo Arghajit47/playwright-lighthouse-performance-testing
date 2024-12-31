@@ -1,7 +1,7 @@
+# <p align="center"> Playwright - Lighthouse Performance Test <img height="50" width="50" align="center" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"></p>
+</hr>
 
-# Playwright - Lighthouse Performance Test
-
-This project integrates **Playwright** and **Lighthouse** to automate performance testing for web applications. It focuses on testing both authorized (logged-in) and unauthorized (public) user flows, capturing key performance metrics such as page load time, time-to-interactive, and more. These tests are run in both desktop and mobile configurations, providing a thorough evaluation of your application's performance under different user scenarios.
+<p align="center">This project integrates <b>Playwright</b> and <b>Lighthouse</b> to automate performance testing for web applications. It focuses on testing both authorized (logged-in) and unauthorized (public) user flows, capturing key performance metrics such as page load time, time-to-interactive, and more. These tests are run in both desktop and mobile configurations, providing a thorough evaluation of your application's performance under different user scenarios.</p>
 
 ## Table of Contents
 
@@ -21,17 +21,22 @@ This project integrates **Playwright** and **Lighthouse** to automate performanc
 - [Project Structure](#project-structure)
 - [Dependencies](#dependencies)
 
-## Project Purpose
+---
 
-This project aims to simplify and automate performance testing by combining **Playwright**, a powerful browser automation tool, with **Lighthouse**, a web performance audit tool. The focus is on two distinct user journeys:
+## <p align="center"> Project Purpose </p>
+
+<p align="center">This project aims to simplify and automate performance testing by combining <b>Playwright</b>, a powerful browser automation tool, with <b>Lighthouse</b>, a web performance audit tool. The focus is on two distinct user journeys:</p>
+
 - **Authorized (logged-in) users**: Performance metrics for authenticated user flows.
 - **Unauthorized (public) users**: Performance metrics for users without authentication.
 
-These tests evaluate the performance of your web application across both desktop and mobile environments.
+<p align="center">These tests evaluate the performance of your web application across both desktop and mobile environments.</p>
 
-## Prerequisites
+---
 
-Before you begin, make sure you have the following installed:
+## <p align="center"> Prerequisites </p>
+
+<p align="center">Before you begin, make sure you have the following installed:</p>
 
 - **Node.js**: Use the latest LTS (Long Term Support) version of Node.js.
 - **npm**: Comes pre-installed with Node.js. This is used to manage dependencies.
@@ -43,11 +48,13 @@ node -v
 npm -v
 ```
 
-## Setup Instructions
+---
 
-### Installing Dependencies
+## <p align="center"> Setup Instructions </p>
 
-Ensure you have the correct versions of the dependencies by using the `npm ci` command, which installs exactly what is specified in the `package.json` file, without making any updates to versions.
+### <p align="center"> Installing Dependencies </p>
+
+<p align="center">Ensure you have the correct versions of the dependencies by using the `npm ci` command, which installs exactly what is specified in the `package.json` file, without making any updates to versions.</p>
 
 ```bash
 npm ci
@@ -55,24 +62,26 @@ npm ci
 
 > **Important**: Do not modify the versions of the dependencies listed in `package.json`. Any changes to the versions might lead to failed tests, as the project relies on specific versions of both Playwright and Lighthouse.
 
-### Environment Variables
+### <p align="center"> Environment Variables </p>
 
-This project requires a few environment variables to manage login for authenticated tests. Create a `.env` file in the root of your project with the following variables:
+<p align="center">This project requires a few environment variables to manage login for authenticated tests. Create a `.env` file in the root of your project with the following variables:</p>
 
 ```bash
 EMAIL=<your_login_email>
 PASSWORD=<your_login_password>
 ```
 
-These values will be used during the tests to perform login actions on your website.
+<p align="center">These values will be used during the tests to perform login actions on your website.</p>
 
-## Running Tests
+---
 
-This project contains several npm scripts for running different types of performance tests.
+## <p align="center"> Running Tests </p>
 
-### Authorized User Tests
+<p align="center">This project contains several npm scripts for running different types of performance tests.</p>
 
-To run the performance tests for **authorized** users (i.e., users who need to log in):
+### <p align="center"> Authorized User Tests </p>
+
+<p align="center">To run the performance tests for <b>authorized</b> users (i.e., users who need to log in):</p>
 
 ```bash
 npm run test:Auth
@@ -82,9 +91,9 @@ This script will:
 1. Remove any previous reports generated by authorized tests.
 2. Execute both desktop and mobile performance audits for authorized users using Playwright and Lighthouse.
 
-### Unauthorized User Tests
+### <p align="center"> Unauthorized User Tests </p>
 
-To run the performance tests for **unauthorized** users (i.e., users who do not need to log in):
+<p align="center">To run the performance tests for <b>unauthorized</b> users (i.e., users who do not need to log in):</p>
 
 ```bash
 npm run test:UnAuth
@@ -94,9 +103,9 @@ This script will:
 1. Remove any previous reports generated by unauthorized tests.
 2. Execute both desktop and mobile performance audits for unauthorized users.
 
-### General Tests
+### <p align="center"> General Tests </p>
 
-To run the general performance tests (without focusing on authorization):
+<p align="center">To run the general performance tests (without focusing on authorization):</p>
 
 ```bash
 npm run test
@@ -105,33 +114,38 @@ npm run test
 This script will:
 - Execute a general performance audit without cleaning or distinguishing between authorized and unauthorized tests.
 
-## Test Structure
+---
 
-### Authorized Performance Tests
+## <p align="center"> Test Structure </p>
 
-Located in the `tests/Auth/` directory, these tests simulate the behavior of users who are required to log in. They include:
+### <p align="center"> Authorized Performance Tests </p>
+
+<p align="center">Located in the `tests/Auth/` directory, these tests simulate the behavior of users who are required to log in. They include:</p>
+
 - Navigating to a URL.
 - Logging in using credentials stored in environment variables.
 - Running both desktop and mobile performance audits using Lighthouse.
 
 Example: `Auth/performance.spec.ts`
 
-### Unauthorized Performance Tests
+### <p align="center"> Unauthorized Performance Tests </p>
 
-Located in the `tests/UnAuth/` directory, these tests simulate the performance of your web application for users who are not logged in. They measure performance metrics for the public-facing parts of the application.
+<p align="center">Located in the `tests/UnAuth/` directory, these tests simulate the performance of your web application for users who are not logged in. They measure performance metrics for the public-facing parts of the application.</p>
 
 Example: `UnAuth/performance.spec.ts`
 
-## CI Integration
+---
 
-This project is configured to run tests automatically on push or pull request events using **GitHub Actions**. The `playwright.yml` file contains the workflow configuration that performs the following steps:
+## <p align="center"> CI Integration </p>
+
+<p align="center">This project is configured to run tests automatically on push or pull request events using <b>GitHub Actions</b>. The `playwright.yml` file contains the workflow configuration that performs the following steps:</p>
 
 1. **Install dependencies**: Runs `npm ci` to install the required dependencies.
 2. **Install Playwright browsers**: Ensures the necessary browsers are installed for running the tests.
 3. **Run tests**: Executes the Playwright-Lighthouse tests and uploads the performance reports as artifacts.
 4. **Upload reports**: The performance reports generated by both authorized and unauthorized tests are uploaded as artifacts, stored for 30 days.
 
-### Example GitHub Actions Workflow (`playwright.yml`)
+<p align="center">### Example GitHub Actions Workflow (`playwright.yml`) </p>
 
 The CI workflow is triggered on:
 - Pushes to `main` or `master` branches.
@@ -139,9 +153,11 @@ The CI workflow is triggered on:
 
 The performance reports will be available as downloadable artifacts after the workflow completes.
 
-## Project Structure
+---
 
-The repository is organized as follows:
+## <p align="center"> Project Structure </p>
+
+<p align="center">The repository is organized as follows:</p>
 
 ```
 ├── tests
@@ -161,16 +177,18 @@ The repository is organized as follows:
 ├── playwright.yml                 # GitHub Actions CI workflow
 ```
 
-## Dependencies
+---
 
-This project depends on the following tools:
+## <p align="center"> Dependencies </p>
+
+<p align="center">This project depends on the following tools:</p>
 
 - **@playwright/test** (`^1.47.1`): A testing framework for Playwright to run browser-based tests.
 - **lighthouse** (`9.6.8`): A tool to audit web applications for performance, accessibility, SEO, and more.
 - **dotenv** (`^16.4.5`): For managing environment variables.
 - **playwright-lighthouse** (`2.2.2`): A utility that allows integrating Playwright with Lighthouse for performance audits.
 
-Make sure to use the exact versions specified in `package.json` to avoid any issues with the tests.
+<p align="center">Make sure to use the exact versions specified in `package.json` to avoid any issues with the tests.</p>
 
 ```json
 "devDependencies": {
@@ -184,15 +202,17 @@ Make sure to use the exact versions specified in `package.json` to avoid any iss
 }
 ```
 
-## Notes
+---
+
+## <p align="center"> Notes </p>
 
 - Ensure you set up the environment variables correctly, as the authenticated tests depend on them.
 - Always use `npm ci` instead of `npm install` to prevent version changes that might cause test failures.
-- Run `npm run test` to execute the both kind of tests (Authorized and Unauthorized).
-- For CI/CD The repo already have the secrets saved, i.e,
+- Run `npm run test` to execute both kinds of tests (Authorized and Unauthorized).
+- For CI/CD The repo already has the secrets saved, i.e.,
 
-    ```
-    env:
-        EMAIL: ${{ secrets.EMAIL }}
-        PASSWORD: ${{secrets.PASSWORD}}
-    ```        
+```
+env:
+    EMAIL: ${{ secrets.EMAIL }}
+    PASSWORD: ${{secrets.PASSWORD}}
+```
