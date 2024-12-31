@@ -63,8 +63,8 @@ body {
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Elevate on hover */
 }
 
-.card h3 {
-  color: var(--text-color); /* Use theme-based text color */
+h3 {
+  text-transform: capitalize;
 }
 
 .card p {
@@ -200,4 +200,19 @@ footer {
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1; /* Pushes the footer to the bottom */
+}
+
+.file a {
+  text-decoration: none;
+  color: var(--text-color); /* Use theme-based text color */
+  font-weight: bold;
+  border: 1px solid var(--text-color);
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.file a:hover {
+  background: var(--text-color);
+  color: var(--background-color); /* Contrast on hover */
 }
