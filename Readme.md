@@ -1,4 +1,4 @@
-#  Playwright - Lighthouse Performance Test <img height="50" width="50" align="center" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+#  Playwright - Lighthouse Performance Test
 
 
 This project integrates Playwright and Lighthouse to automate performance testing for web applications. It focuses on testing both authorized (logged-in) and unauthorized (public) user flows, capturing key performance metrics such as page load time, time-to-interactive, and more. These tests are run in both desktop and mobile configurations, providing a thorough evaluation of your application's performance under different user scenarios.
