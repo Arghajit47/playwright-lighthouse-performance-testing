@@ -3,9 +3,9 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-Authorized-performance-reports
-Unauthorized-performance-reports
-cpu
+/performance-report/Authorized-performance-reports
+/performance-report/Unauthorized-performance-reports
+/performance-report/cpu/
 .vscode
 .env
 /performance-report/folderStructure.json

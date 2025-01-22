@@ -3,6 +3,8 @@ import { thresholds } from "../lighthouse/base";
 import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
+import * as path from "path";
+
 
 export async function runPerformanceAuditInDesktop(
   page,
@@ -153,6 +155,10 @@ export async function generateGraph(metrics: Metric[], filename: string) {
       },
     ],
   };
+  const directory = path.dirname(filename);
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
 
   const imageBuffer = await chartJSNodeCanvas.renderToBuffer(configuration);
   fs.writeFileSync(filename, imageBuffer);
