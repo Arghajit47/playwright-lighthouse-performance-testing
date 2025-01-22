@@ -4,7 +4,6 @@ import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
-import nodeHtmlToImage from "node-html-to-image";
 
 export async function runPerformanceAuditInDesktop(
   page,
@@ -201,7 +200,8 @@ export async function createHtmlScreenshot(
       name: string,
       options: { path: string; contentType: string }
     ) => void;
-  }
+  },
+  page = this.page
 ) {
   let folderPath;
   // Determine the correct folder path based on the test title
@@ -219,27 +219,25 @@ export async function createHtmlScreenshot(
 
     // Check if the HTML file exists
     if (!fs.existsSync(htmlPath)) {
-      // console.error(`File not found: ${htmlPath}`);
+      console.error(`File not found: ${htmlPath}`);
       return;
     }
 
-    // Read the HTML content from the file
-    const htmlContent = fs.readFileSync(htmlPath, "utf8");
+    // Convert the HTML file to a file URL
+    const htmlFileUrl = `file://${htmlPath}`;
 
-    const directory = path.dirname(htmlPath);
-    if (!fs.existsSync(directory)) {
-      fs.mkdirSync(directory, { recursive: true });
-    }
+    // Navigate to the HTML file URL
+    await page.goto(htmlFileUrl, { waitUntil: "load" });
 
-    // Convert the HTML to an image
+    // Generate the output image path
     const outputImagePath = path.join(folderPath, `${testInfo.title}.png`);
-    await nodeHtmlToImage({
-      output: outputImagePath, // Output file path
-      html: htmlContent, // Pass the HTML content
-    });
+
+    // Take a full-page screenshot
+    await page.screenshot({ path: outputImagePath, fullPage: true });
 
     console.log(`Image generated successfully at ${outputImagePath}`);
-    // Attach graph to the report
+
+    // Attach the screenshot to the test report
     testInfo.attach("Lighthouse Report Image", {
       path: outputImagePath,
       contentType: "image/png",

@@ -26,7 +26,6 @@
     "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.4.5",
     "netlify-cli": "^17.37.2",
-    "node-html-to-image": "^5.0.0",
     "pidusage": "^3.0.2",
     "playwright-lighthouse": "2.2.2"
   }
