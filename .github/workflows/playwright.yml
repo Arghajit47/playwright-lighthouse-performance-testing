@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.49.1-noble
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -17,9 +19,11 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
-        sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxrandr2 libxdamage1 libfontconfig1 libxtst6 libpci3 libxkbcommon0 libxshmfence1 libgdm1 libasound2
+        sudo apt-get update && apt-get install -y default-jdk
     - name: Install dependencies
-      run: npm ci
+      run: | 
+        npm ci
+        npm install -g allure-commandline
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright Performance tests
