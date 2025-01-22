@@ -72,7 +72,7 @@ for (const key in data) {
     });
 
     test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo, folders, page);
+      await attachGraph(metricsRecorder, testInfo);
       await page.close();
     });
   });

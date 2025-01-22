@@ -25,7 +25,7 @@ for (const key in data) {
       await page.goto(value);
       await page.waitForLoadState("networkidle");
     });
-    test.only(`Desktop performance audit ${key}`, async ({ page }) => {
+    test(`Desktop performance audit ${key}`, async ({ page }) => {
       await runPerformanceAuditInDesktop(
         page,
         `${test.info().title}`,
@@ -53,7 +53,7 @@ for (const key in data) {
     });
 
     test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo, folders, page);
+      await attachGraph(metricsRecorder, testInfo);
       await page.close();
     });
   });

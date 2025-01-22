@@ -173,18 +173,14 @@ export async function attachGraph(
       name: string,
       options: { path: string; contentType: string }
     ) => void;
-  },
-  paths,
-  page
+  }
 ) {
   metricsRecorder.stop();
   const metrics = metricsRecorder.getMetrics();
 
   // Generate graph
   const graphFilename = `performance-report/cpu/${testInfo.title}.png`;
-  // const screenshots = `performance-report/screenshots/${testInfo.title}.png`;
   await generateGraph(metrics, graphFilename);
-  // await createHtmlScreenshot(paths, testInfo, page);
 
   // Attach graph to the report
   testInfo.attach("CPU and Memory Usage Graph", {
