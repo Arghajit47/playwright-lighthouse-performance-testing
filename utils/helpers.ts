@@ -174,7 +174,8 @@ export async function attachGraph(
       options: { path: string; contentType: string }
     ) => void;
   },
-  paths
+  paths,
+  page
 ) {
   metricsRecorder.stop();
   const metrics = metricsRecorder.getMetrics();
@@ -183,7 +184,7 @@ export async function attachGraph(
   const graphFilename = `performance-report/cpu/${testInfo.title}.png`;
   // const screenshots = `performance-report/screenshots/${testInfo.title}.png`;
   await generateGraph(metrics, graphFilename);
-  await createHtmlScreenshot(paths, testInfo);
+  // await createHtmlScreenshot(paths, testInfo, page);
 
   // Attach graph to the report
   testInfo.attach("CPU and Memory Usage Graph", {
@@ -192,59 +193,6 @@ export async function attachGraph(
   });
 }
 
-export async function createHtmlScreenshot(
-  paths,
-  testInfo: {
-    title: string;
-    attach: (
-      name: string,
-      options: { path: string; contentType: string }
-    ) => void;
-  },
-  page = this.page
-) {
-  let folderPath;
-  // Determine the correct folder path based on the test title
 
-  if (testInfo.title.includes("Desktop")) {
-    folderPath = paths.desktopPath.toString();
-  } else if (testInfo.title.includes("Mobile")) {
-    folderPath = paths.mobilePath.toString();
-  } else if (testInfo.title.includes("Tablet")) {
-    folderPath = paths.tabletPath.toString();
-  }
-  try {
-    // Path to your HTML file
-    const htmlPath = path.join(folderPath, `${testInfo.title}.html`);
-
-    // Check if the HTML file exists
-    if (!fs.existsSync(htmlPath)) {
-      console.error(`File not found: ${htmlPath}`);
-      return;
-    }
-
-    // Convert the HTML file to a file URL
-    const htmlFileUrl = `file://${htmlPath}`;
-
-    // Navigate to the HTML file URL
-    await page.goto(htmlFileUrl, { waitUntil: "load" });
-
-    // Generate the output image path
-    const outputImagePath = path.join(folderPath, `${testInfo.title}.png`);
-
-    // Take a full-page screenshot
-    await page.screenshot({ path: outputImagePath, fullPage: true });
-
-    console.log(`Image generated successfully at ${outputImagePath}`);
-
-    // Attach the screenshot to the test report
-    testInfo.attach("Lighthouse Report Image", {
-      path: outputImagePath,
-      contentType: "image/png",
-    });
-  } catch (error) {
-    console.error("Error generating image:", error);
-  }
-}
 
 

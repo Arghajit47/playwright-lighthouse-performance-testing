@@ -7,7 +7,6 @@ import {
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
-  createHtmlScreenshot,
 } from "../../utils/helpers";
 import { URLS, UNAUTHORIZED_PATHS } from "../../test-data/enum";
 
@@ -26,7 +25,7 @@ for (const key in data) {
       await page.goto(value);
       await page.waitForLoadState("networkidle");
     });
-    test(`Desktop performance audit ${key}`, async ({ page }) => {
+    test.only(`Desktop performance audit ${key}`, async ({ page }) => {
       await runPerformanceAuditInDesktop(
         page,
         `${test.info().title}`,
@@ -54,7 +53,7 @@ for (const key in data) {
     });
 
     test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo, folders);
+      await attachGraph(metricsRecorder, testInfo, folders, page);
       await page.close();
     });
   });
