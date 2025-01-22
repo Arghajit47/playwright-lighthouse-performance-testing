@@ -41,7 +41,24 @@ jobs:
       with:
         name: performance-report
         path: performance-report/
-        retention-days: 30    
+        retention-days: 30
+    - name: Upload Allure results
+      if: success() || failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-results
+        path: allure-results/
+        retention-days: 1
+    - name: Generate Allure report
+      if: success() || failure()  
+      run: npm run allure-test-report
+    - name: Upload Allure report
+      if: success() || failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: allure-report
+        path: allure-report/
+        retention-days: 30            
     - name: Deploy to Netlify
       if: always()
       run: |
