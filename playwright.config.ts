@@ -54,7 +54,11 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: {
           slowMo: 3000,
-          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          args: [
+            "--window-size=1920,1080",
+            "--remote-debugging-port=9222",
+            "--no-sandbox",
+          ],
           timeout: 300000,
         },
         viewport: { width: 1920, height: 1080 },
@@ -67,7 +71,11 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: {
           slowMo: 3000,
-          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          args: [
+            "--window-size=1920,1080",
+            "--remote-debugging-port=9222",
+            "--no-sandbox",
+          ],
           timeout: 300000,
         },
         viewport: { width: 1920, height: 1080 },
@@ -80,7 +88,11 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
         launchOptions: {
           slowMo: 3000,
-          args: ["--window-size=1920,1080", "--remote-debugging-port=9222"],
+          args: [
+            "--window-size=1920,1080",
+            "--remote-debugging-port=9222",
+            "--no-sandbox",
+          ],
           timeout: 300000,
         },
         viewport: { width: 1920, height: 1080 },

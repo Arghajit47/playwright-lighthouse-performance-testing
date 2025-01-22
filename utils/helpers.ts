@@ -5,7 +5,6 @@ const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
 
-
 export async function runPerformanceAuditInDesktop(
   page,
   reportName: string,
@@ -166,7 +165,16 @@ export async function generateGraph(metrics: Metric[], filename: string) {
   fs.writeFileSync(filename, imageBuffer);
 }
 
-export async function attachGraph(metricsRecorder, testInfo) {
+export async function attachGraph(
+  metricsRecorder: { stop: () => void; getMetrics: () => Metric[] },
+  testInfo: {
+    title: string;
+    attach: (
+      name: string,
+      options: { path: string; contentType: string }
+    ) => void;
+  }
+) {
   metricsRecorder.stop();
   const metrics = metricsRecorder.getMetrics();
 
@@ -180,5 +188,7 @@ export async function attachGraph(metricsRecorder, testInfo) {
     contentType: "image/png",
   });
 }
+
+
 
 
