@@ -130,6 +130,8 @@ export async function generateGraph(metrics: Metric[], filename: string) {
       ],
     },
     options: {
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         x: { title: { display: true, text: "Time (seconds)", color: "black" } },
         y: { title: { display: true, text: "Usage", color: "black" } },

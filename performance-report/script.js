@@ -53,8 +53,8 @@ function createFileList(subfolderName, files) {
     const imageName = fileName.replace(".html", ".png");
     img.src = `./cpu/${imageName}`; // Adjust the path as needed
     img.alt = `${fileName} CPU Usage`;
-    img.style.width = "300px"; // Adjust the size as needed
-    img.style.height = "150px"; // Adjust the size as needed
+    img.style.width = "40%"; // Adjust the size as needed
+    img.style.height = "20%"; // Adjust the size as needed
 
     li.appendChild(img);
     ul.appendChild(li);
