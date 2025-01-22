@@ -7,11 +7,13 @@ import {
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
+  createHtmlScreenshot,
 } from "../../utils/helpers";
 import "dotenv/config";
-import { URLS } from "../../test-data/enum";
+import { URLS, AUTHORIZED_PATHS } from "../../test-data/enum";
 
 const data = URLS;
+const folders = AUTHORIZED_PATHS;
 
 test.describe.configure({ mode: "serial" });
 
@@ -71,8 +73,9 @@ for (const key in data) {
     });
 
     test.afterEach(async ({ page }, testInfo) => {
+      await attachGraph(metricsRecorder, testInfo, folders);
+      await createHtmlScreenshot(folders, testInfo);
       await page.close();
-      await attachGraph(metricsRecorder, testInfo);
     });
   });
 }

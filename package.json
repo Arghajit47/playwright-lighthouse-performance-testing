@@ -5,7 +5,7 @@
   "scripts": {
     "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test",
     "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test",
-    "test": "npx playwright test --config=playwright.config.ts --project=Test",
+    "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=1",
     "setup:Auth": "rm -rf ./performance-report/Authorized-performance-reports",
     "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports",
     "folderStructure": "cd performance-report/ && node app.js ",
@@ -16,9 +16,9 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.49.1",
-    "lighthouse": "9.6.8",
     "allure-commandline": "2.32.0",
-    "allure-playwright": "3.0.7"
+    "allure-playwright": "3.0.7",
+    "lighthouse": "9.6.8"
   },
   "dependencies": {
     "@lighthousejs/types": "^0.0.3",
@@ -26,6 +26,7 @@
     "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.4.5",
     "netlify-cli": "^17.37.2",
+    "node-html-to-image": "^5.0.0",
     "pidusage": "^3.0.2",
     "playwright-lighthouse": "2.2.2"
   }

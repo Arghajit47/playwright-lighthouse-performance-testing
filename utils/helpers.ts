@@ -4,7 +4,7 @@ import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
-
+import nodeHtmlToImage from "node-html-to-image";
 
 export async function runPerformanceAuditInDesktop(
   page,
@@ -166,19 +166,87 @@ export async function generateGraph(metrics: Metric[], filename: string) {
   fs.writeFileSync(filename, imageBuffer);
 }
 
-export async function attachGraph(metricsRecorder, testInfo) {
+export async function attachGraph(
+  metricsRecorder: { stop: () => void; getMetrics: () => Metric[] },
+  testInfo: {
+    title: string;
+    attach: (
+      name: string,
+      options: { path: string; contentType: string }
+    ) => void;
+  },
+  paths
+) {
   metricsRecorder.stop();
   const metrics = metricsRecorder.getMetrics();
 
   // Generate graph
   const graphFilename = `performance-report/cpu/${testInfo.title}.png`;
+  // const screenshots = `performance-report/screenshots/${testInfo.title}.png`;
   await generateGraph(metrics, graphFilename);
+  await createHtmlScreenshot(paths, testInfo);
 
   // Attach graph to the report
   testInfo.attach("CPU and Memory Usage Graph", {
     path: graphFilename,
     contentType: "image/png",
   });
+}
+
+export async function createHtmlScreenshot(
+  paths,
+  testInfo: {
+    title: string;
+    attach: (
+      name: string,
+      options: { path: string; contentType: string }
+    ) => void;
+  }
+) {
+  let folderPath;
+  // Determine the correct folder path based on the test title
+
+  if (testInfo.title.includes("Desktop")) {
+    folderPath = paths.desktopPath.toString();
+  } else if (testInfo.title.includes("Mobile")) {
+    folderPath = paths.mobilePath.toString();
+  } else if (testInfo.title.includes("Tablet")) {
+    folderPath = paths.tabletPath.toString();
+  }
+  try {
+    // Path to your HTML file
+    const htmlPath = path.join(folderPath, `${testInfo.title}.html`);
+
+    // Check if the HTML file exists
+    if (!fs.existsSync(htmlPath)) {
+      // console.error(`File not found: ${htmlPath}`);
+      return;
+    }
+
+    // Read the HTML content from the file
+    const htmlContent = fs.readFileSync(htmlPath, "utf8");
+
+    const directory = path.dirname(htmlPath);
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+
+    // Convert the HTML to an image
+    const outputImagePath = path.join(folderPath, `${testInfo.title}.png`);
+    await nodeHtmlToImage({
+      output: outputImagePath, // Output file path
+      html: htmlContent, // Pass the HTML content
+    });
+
+    console.log(`Image generated successfully at ${outputImagePath}`);
+    // Attach graph to the report
+    testInfo.attach("Lighthouse Report Image", {
+      path: outputImagePath,
+      contentType: "image/png",
+    });
+  } catch (error) {
+    console.error("Error generating image:", error);
+  }
 }
 
 

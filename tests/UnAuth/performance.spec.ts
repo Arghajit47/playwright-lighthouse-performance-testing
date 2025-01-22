@@ -7,10 +7,12 @@ import {
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
+  createHtmlScreenshot,
 } from "../../utils/helpers";
-import { URLS } from "../../test-data/enum";
+import { URLS, UNAUTHORIZED_PATHS } from "../../test-data/enum";
 
 const data = URLS;
+const folders = UNAUTHORIZED_PATHS;
 
 test.describe.configure({ mode: "serial" });
 
@@ -29,7 +31,7 @@ for (const key in data) {
         page,
         `${test.info().title}`,
         desktopConfig,
-        `performance-report/Unauthorized-performance-reports/Desktop`
+        folders.desktopPath
       );
     });
 
@@ -38,7 +40,7 @@ for (const key in data) {
         page,
         `${test.info().title}`,
         mobileConfig,
-        `performance-report/Unauthorized-performance-reports/Mobile`
+        folders.mobilePath
       );
     });
 
@@ -47,13 +49,14 @@ for (const key in data) {
         page,
         `${test.info().title}`,
         tabletConfig,
-        `performance-report/Unauthorized-performance-reports/Tablet`
+        folders.tabletPath
       );
     });
 
     test.afterEach(async ({ page }, testInfo) => {
+      await attachGraph(metricsRecorder, testInfo, folders);
+      await createHtmlScreenshot(folders, testInfo);
       await page.close();
-      await attachGraph(metricsRecorder, testInfo);
     });
   });
 }
