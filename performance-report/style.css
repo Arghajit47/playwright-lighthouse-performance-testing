@@ -120,12 +120,13 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction:row;
   }
 
   li img {
     padding: 2px;
-    border-radius: 5px;
-    margin-bottom: 5px;
+    border-radius: 8px;
+    margin-bottom: 3px;
     align-self: flex-end;
     width: 100%;
     height: auto;
@@ -252,7 +253,7 @@ footer {
   }
 
   .card {
-    padding: 10px;
+    padding: 15px;
   }
 
   footer {
@@ -277,12 +278,16 @@ footer {
   }
 
   .card {
-    padding: 2px;
+    padding: 15px;
   }
 
   footer {
     font-size: 0.8em;
     padding: 8px;
+  }
+  p {
+    font-size: 0.9em;
+    margin: 10px 0;
   }
 }
 
