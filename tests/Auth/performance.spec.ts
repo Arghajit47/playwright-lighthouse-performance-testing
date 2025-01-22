@@ -7,7 +7,6 @@ import {
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
-  createHtmlScreenshot,
 } from "../../utils/helpers";
 import "dotenv/config";
 import { URLS, AUTHORIZED_PATHS } from "../../test-data/enum";
@@ -74,7 +73,6 @@ for (const key in data) {
 
     test.afterEach(async ({ page }, testInfo) => {
       await attachGraph(metricsRecorder, testInfo, folders);
-      await createHtmlScreenshot(folders, testInfo);
       await page.close();
     });
   });

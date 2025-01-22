@@ -55,7 +55,6 @@ for (const key in data) {
 
     test.afterEach(async ({ page }, testInfo) => {
       await attachGraph(metricsRecorder, testInfo, folders);
-      await createHtmlScreenshot(folders, testInfo);
       await page.close();
     });
   });
