@@ -5,6 +5,8 @@ import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
   runPerformanceAuditInTablet,
+  recordPerformanceMetrics,
+  attachGraph,
 } from "../../utils/helpers";
 import "dotenv/config";
 import { URLS } from "../../test-data/enum";
@@ -17,7 +19,9 @@ for (const key in data) {
   const value = data[key];
 
   test.describe(`Lighthouse Authorized Performance Test - ${key}`, async () => {
+    let metricsRecorder;
     test.beforeEach(async ({ page }) => {
+      metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
       await page.waitForLoadState("networkidle");
       await page
@@ -31,35 +35,44 @@ for (const key in data) {
       await page.click('//button[text()="Continue"]', { force: true });
       await page.waitForLoadState("networkidle");
     });
-    test(`Authorized Desktop Performance Audit - ${key}`, async ({ page }) => {
+    test(`Authorized Desktop Performance Audit ${key}`, async ({ page }) => {
       await runPerformanceAuditInDesktop(
         page,
-        `${test.info().title}-performance`,
+        `${test.info().title}`,
         desktopConfig,
         `performance-report/Authorized-performance-reports/Desktop`
       );
     });
 
-    test(`Authorized Mobile Performance Audit - ${key}`, async ({ page }) => {
+    test(`Authorized Mobile Performance Audit ${key}`, async ({ page }) => {
       await runPerformanceAuditInMobile(
         page,
-        `${test.info().title}-performance`,
+        `${test.info().title}`,
         mobileConfig,
         `performance-report/Authorized-performance-reports/Mobile`
       );
     });
 
-    test(`Authorized Tablet Performance Audit - ${key}`, async ({ page }) => {
+    test(`Authorized Tablet Performance Audit ${key}`, async ({ page }) => {
       await runPerformanceAuditInMobile(
         page,
-        `${test.info().title}-performance`,
+        `${test.info().title}`,
+        tabletConfig,
+        `performance-report/Authorized-performance-reports/Tablet`
+      );
+    });
+    test(`Authorized Tablet performance audit ${key}`, async ({ page }) => {
+      await runPerformanceAuditInTablet(
+        page,
+        `${test.info().title}`,
         tabletConfig,
         `performance-report/Authorized-performance-reports/Tablet`
       );
     });
 
-    test.afterEach(async ({ page }) => {
+    test.afterEach(async ({ page }, testInfo) => {
       await page.close();
+      await attachGraph(metricsRecorder, testInfo);
     });
   });
 }

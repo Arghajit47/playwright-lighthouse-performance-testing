@@ -16,6 +16,7 @@ function readFolderStructure(folderPath) {
     "index.html",
     "script.js",
     "style.css",
+    "cpu",
   ]; // Files to exclude
   const stats = fs.statSync(folderPath);
 

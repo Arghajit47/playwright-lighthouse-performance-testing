@@ -47,6 +47,16 @@ function createFileList(subfolderName, files) {
     const li = document.createElement("li");
     const filePath = `${subfolderName}/${fileName}`;
     li.innerHTML = `<a href="./${filePath}" target="_blank">${fileName}</a>`;
+
+    // Create an image element for CPU usage
+    const img = document.createElement("img");
+    const imageName = fileName.replace(".html", ".png");
+    img.src = `./cpu/${imageName}`; // Adjust the path as needed
+    img.alt = `${fileName} CPU Usage`;
+    img.style.width = "300px"; // Adjust the size as needed
+    img.style.height = "150px"; // Adjust the size as needed
+
+    li.appendChild(img);
     ul.appendChild(li);
   }
   return ul;

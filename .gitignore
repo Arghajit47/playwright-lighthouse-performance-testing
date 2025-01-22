@@ -5,6 +5,9 @@ node_modules/
 /playwright/.cache/
 Authorized-performance-reports
 Unauthorized-performance-reports
+cpu
 .vscode
 .env
 /performance-report/folderStructure.json
+/allure-report
+/allure-results
