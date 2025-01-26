@@ -35,18 +35,12 @@ jobs:
       run: npm run folderStructure
     - name: Wait for 10 seconds before generating the report
       run: sleep 10      
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: performance-report
-        path: performance-report/
-        retention-days: 30
+    # - uses: actions/upload-artifact@v4
+    #   if: always()
+    #   with:
+    #     name: playwright-report
+    #     path: playwright-report/
+    #     retention-days: 30
     - name: Upload Allure results
       if: success() || failure()
       uses: actions/upload-artifact@v4
@@ -64,9 +58,9 @@ jobs:
         name: allure-report
         path: allure-report/
         retention-days: 30            
-    - name: Deploy to Netlify
-      if: always()
-      run: |
-          npx netlify deploy --site 96d1bba3-06fb-4ded-9cee-de5e1c37ccf4 --prod --dir performance-report
-      env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}        
+    # - name: Deploy to Netlify
+    #   if: always()
+    #   run: |
+    #       npx netlify deploy --site 96d1bba3-06fb-4ded-9cee-de5e1c37ccf4 --prod --dir performance-report
+    #   env:
+    #       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}        
