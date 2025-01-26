@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test",
-    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test",
+    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test --workers=1",
     "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=1",
     "setup:Auth": "rm -rf ./performance-report/Authorized-performance-reports",
     "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports",

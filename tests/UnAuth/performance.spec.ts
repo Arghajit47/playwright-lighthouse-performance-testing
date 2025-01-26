@@ -8,6 +8,7 @@ import {
   recordPerformanceMetrics,
   attachGraph,
 } from "../../utils/helpers";
+import { attachHtmlToAllureReport } from "../../utils/common";
 import { URLS, UNAUTHORIZED_PATHS } from "../../test-data/enum";
 
 const data = URLS;
@@ -25,36 +26,50 @@ for (const key in data) {
       await page.goto(value);
       await page.waitForLoadState("networkidle");
     });
-    test(`Desktop performance audit ${key}`, async ({ page }) => {
+    test(`Desktop performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInDesktop(
         page,
         `${test.info().title}`,
         desktopConfig,
         folders.desktopPath
       );
+      await attachHtmlToAllureReport(
+        test.info().title,
+        folders.desktopPath,
+        testInfo
+      );
     });
 
-    test(`Mobile performance audit ${key}`, async ({ page }) => {
+    test(`Mobile performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInMobile(
         page,
         `${test.info().title}`,
         mobileConfig,
         folders.mobilePath
       );
+      await attachHtmlToAllureReport(
+        test.info().title,
+        folders.mobilePath,
+        testInfo
+      );
     });
 
-    test(`Tablet performance audit ${key}`, async ({ page }) => {
+    test(`Tablet performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInTablet(
         page,
         `${test.info().title}`,
         tabletConfig,
         folders.tabletPath
       );
+      await attachHtmlToAllureReport(
+        test.info().title,
+        folders.tabletPath,
+        testInfo
+      );
     });
 
     test.afterEach(async ({ page }, testInfo) => {
       await attachGraph(metricsRecorder, testInfo);
-      await page.close();
     });
   });
 }
