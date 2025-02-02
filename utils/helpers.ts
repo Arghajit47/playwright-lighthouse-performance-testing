@@ -31,14 +31,12 @@ export async function runPerformanceAuditInDesktop(
   });
   // Lighthouse scores extracted from result
   const record = {
-    performance_metrics: result.lhr.categories.performance.score * 100 || 0,
-    accessibility_metrics: result.lhr.categories.accessibility.score * 100 || 0,
-    best_practice_metrics:
-      result.lhr.categories["best-practices"].score * 100 || 0,
-    seo_metrics: result.lhr.categories.seo.score * 100 || 0,
-    tags: "desktop", // Add tags or other metadata as needed
-    device: "desktop",
-    scenario: `${reportName}`,
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "desktop",
+    test_name: `${reportName}`,
   };
 
   // // Call Supabase function to insert the record
@@ -234,19 +232,15 @@ export async function attachGraph(
   });
 }
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseToken = process.env.SUPABASE_TOKEN;
-
-if (!supabaseUrl || !supabaseToken) {
-  throw new Error("Supabase URL and token must be provided");
-}
-
-const supabase = createClient(supabaseUrl, supabaseToken);
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_TOKEN
+);
 
 async function insertLighthousePerformanceRecord(record) {
   try {
     const { data, error } = await supabase
-      .from("lighthouse_performance")
+      .from("Performance Test")
       .insert([record])
       .select();
     if (error) {
@@ -256,6 +250,23 @@ async function insertLighthousePerformanceRecord(record) {
     return data;
   } catch (error) {
     console.error("Error inserting record:", error);
+  }
+}
+
+async function checkSupabaseConnection() {
+  try {
+    const { data, error } = await supabase
+      .from("Performance Test")
+      .select("*")
+      .limit(1);
+
+    if (error) {
+      console.error("Supabase Connection Failed:", error.message);
+    } else {
+      console.log("Supabase Connection Successful:", data);
+    }
+  } catch (err) {
+    console.error("Error connecting to Supabase:", err);
   }
 }
 
