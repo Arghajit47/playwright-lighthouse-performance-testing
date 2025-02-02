@@ -67,14 +67,12 @@ export async function runPerformanceAuditInMobile(
   });
   // Lighthouse scores extracted from result
   const record = {
-    performance_metrics: result.lhr.categories.performance.score * 100 || 0,
-    accessibility_metrics: result.lhr.categories.accessibility.score * 100 || 0,
-    best_practice_metrics:
-      result.lhr.categories["best-practices"].score * 100 || 0,
-    seo_metrics: result.lhr.categories.seo.score * 100 || 0,
-    tags: "mobile", // Add tags or other metadata as needed
-    device: "mobile",
-    scenario: `${reportName}`,
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "mobile",
+    test_name: `${reportName}`,
   };
 
   // // Call Supabase function to insert the record
@@ -106,14 +104,12 @@ export async function runPerformanceAuditInTablet(
 
   // Lighthouse scores extracted from result
   const record = {
-    performance_metrics: result.lhr.categories.performance.score * 100 || 0,
-    accessibility_metrics: result.lhr.categories.accessibility.score * 100 || 0,
-    best_practice_metrics:
-      result.lhr.categories["best-practices"].score * 100 || 0,
-    seo_metrics: result.lhr.categories.seo.score * 100 || 0,
-    tags: "tablet", // Add tags or other metadata as needed
-    device: "tablet",
-    scenario: `${reportName}`,
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "tablet",
+    test_name: `${reportName}`,
   };
 
   // // Call Supabase function to insert the record
@@ -253,22 +249,7 @@ async function insertLighthousePerformanceRecord(record) {
   }
 }
 
-async function checkSupabaseConnection() {
-  try {
-    const { data, error } = await supabase
-      .from("Performance Test")
-      .select("*")
-      .limit(1);
 
-    if (error) {
-      console.error("Supabase Connection Failed:", error.message);
-    } else {
-      console.log("Supabase Connection Successful:", data);
-    }
-  } catch (err) {
-    console.error("Error connecting to Supabase:", err);
-  }
-}
 
 
 
