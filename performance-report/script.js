@@ -1,21 +1,23 @@
-// Function to toggle the folder structure section
+// Function to toggle the folder structure section with requestAnimationFrame
 function toggleReports(category, data) {
   const folderStructure = document.getElementById("folder-structure");
   const reportContainer = document.getElementById("report-container");
 
-  // Check if the reports section is already visible and contains the current category
-  if (
-    folderStructure.style.display === "block" &&
-    reportContainer.dataset.category === category
-  ) {
-    folderStructure.style.display = "none"; // Hide the section
-    reportContainer.dataset.category = ""; // Reset the category
-  } else {
-    // Render the reports and show the section
-    renderReports(category, data);
-    folderStructure.style.display = "block";
-    reportContainer.dataset.category = category; // Store the current category
-  }
+  requestAnimationFrame(() => {
+    // Check if the reports section is already visible and contains the current category
+    if (
+      folderStructure.style.display === "block" &&
+      reportContainer.dataset.category === category
+    ) {
+      folderStructure.style.display = "none"; // Hide the section
+      reportContainer.dataset.category = ""; // Reset the category
+    } else {
+      // Render the reports and show the section
+      renderReports(category, data);
+      folderStructure.style.display = "block";
+      reportContainer.dataset.category = category; // Store the current category
+    }
+  });
 }
 
 // Function to render folder categories dynamically
@@ -33,7 +35,9 @@ function renderCategories(folderStructure) {
     `;
 
     card.querySelector("a").addEventListener("click", () => {
-      toggleReports(category, folderStructure[category]); // Toggle the visibility of the reports
+      requestAnimationFrame(() =>
+        toggleReports(category, folderStructure[category])
+      );
     });
 
     categoriesContainer.appendChild(card);
@@ -138,10 +142,11 @@ async function loadDarkModePreference() {
 }
 
 // Add event listener to the dark mode toggle button
-document.getElementById("dark-mode-toggle").addEventListener("click", toggleDarkMode);
+document
+  .getElementById("dark-mode-toggle")
+  .addEventListener("click", toggleDarkMode);
 
 // Load dark mode preference on page load
 window.addEventListener("DOMContentLoaded", loadDarkModePreference);
-
 
 setupReportViewer();
