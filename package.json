@@ -27,6 +27,7 @@
     "dotenv": "^16.4.5",
     "netlify-cli": "^17.37.2",
     "pidusage": "^3.0.2",
-    "playwright-lighthouse": "2.2.2"
+    "playwright-lighthouse": "2.2.2",
+    "@supabase/supabase-js": "^2.48.1"
   }
 }

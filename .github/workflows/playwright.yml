@@ -30,6 +30,8 @@ jobs:
       env:
         EMAIL: ${{ secrets.EMAIL }}
         PASSWORD: ${{secrets.PASSWORD}}
+        SUPABASE_URL: ${{secrets.SUPABASE_URL}}
+        SUPABASE_TOKEN: ${{secrets.SUPABASE_TOKEN}}
       run: npm run test
     - name: Generate Overall Performance Test Report
       run: npm run folderStructure

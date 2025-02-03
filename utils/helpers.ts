@@ -4,6 +4,8 @@ import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
+import { createClient } from "@supabase/supabase-js";
+import "dotenv/config";
 
 export async function runPerformanceAuditInDesktop(
   page,
@@ -11,7 +13,7 @@ export async function runPerformanceAuditInDesktop(
   config,
   directory: string
 ) {
-  await playAudit({
+  const result = await playAudit({
     page: page,
     config: config,
     port: 9222,
@@ -27,6 +29,18 @@ export async function runPerformanceAuditInDesktop(
       directory: directory,
     },
   });
+  // Lighthouse scores extracted from result
+  const record = {
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "desktop",
+    test_name: `${reportName}`,
+  };
+
+  // // Call Supabase function to insert the record
+  await insertLighthousePerformanceRecord(record);
 }
 
 export async function runPerformanceAuditInMobile(
@@ -35,7 +49,7 @@ export async function runPerformanceAuditInMobile(
   config,
   directory: string
 ) {
-  await playAudit({
+  const result = await playAudit({
     page: page,
     config: config,
     port: 9222,
@@ -51,6 +65,18 @@ export async function runPerformanceAuditInMobile(
       directory: directory,
     },
   });
+  // Lighthouse scores extracted from result
+  const record = {
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "mobile",
+    test_name: `${reportName}`,
+  };
+
+  // // Call Supabase function to insert the record
+  await insertLighthousePerformanceRecord(record);
 }
 
 export async function runPerformanceAuditInTablet(
@@ -59,7 +85,7 @@ export async function runPerformanceAuditInTablet(
   config,
   directory: string
 ) {
-  await playAudit({
+  const result = await playAudit({
     page: page,
     config: config,
     port: 9222,
@@ -75,6 +101,19 @@ export async function runPerformanceAuditInTablet(
       directory: directory,
     },
   });
+
+  // Lighthouse scores extracted from result
+  const record = {
+    performance: result.lhr.categories.performance.score * 100 || 0,
+    accessibility: result.lhr.categories.accessibility.score * 100 || 0,
+    best_practice: result.lhr.categories["best-practices"].score * 100 || 0,
+    seo: result.lhr.categories.seo.score * 100 || 0,
+    device_type: "tablet",
+    test_name: `${reportName}`,
+  };
+
+  // // Call Supabase function to insert the record
+  await insertLighthousePerformanceRecord(record);
 }
 
 interface Metric {
@@ -188,6 +227,29 @@ export async function attachGraph(
     contentType: "image/png",
   });
 }
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_TOKEN
+);
+
+async function insertLighthousePerformanceRecord(record) {
+  try {
+    const { data, error } = await supabase
+      .from("Performance Test")
+      .insert([record])
+      .select();
+    if (error) {
+      throw error;
+    }
+    console.log("Record inserted successfully:", data);
+    return data;
+  } catch (error) {
+    console.error("Error inserting record:", error);
+  }
+}
+
+
 
 
 
