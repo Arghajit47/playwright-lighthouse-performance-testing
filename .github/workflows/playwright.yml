@@ -36,7 +36,9 @@ jobs:
     - name: Generate Overall Performance Test Report
       run: npm run folderStructure
     - name: Wait for 10 seconds before generating the report
-      run: sleep 10      
+      run: |
+        echo "Waiting for 10 seconds before generating the report, meanwhile for report dashboard related to the performance test run visit `https://lookerstudio.google.com/reporting/b41df31b-fcb8-4cfb-867f-6f2121490567`"
+        sleep 10      
     - uses: actions/upload-artifact@v4
       if: always()
       with:
