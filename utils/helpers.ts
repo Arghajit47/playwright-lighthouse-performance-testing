@@ -236,7 +236,7 @@ const supabase = createClient(
 async function insertLighthousePerformanceRecord(record) {
   try {
     const { data, error } = await supabase
-      .from("Performance Test")
+      .from("performance_matrix")
       .insert([record])
       .select();
     if (error) {

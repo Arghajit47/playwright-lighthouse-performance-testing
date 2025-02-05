@@ -29,6 +29,11 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     flex: 1; /* Pushes the footer to the bottom */
   }
+  iframe {
+    border:0; 
+    width: 100%; 
+    height: 60vh;
+  }
 
   h2 {
     color: #4facfe;
@@ -56,6 +61,21 @@ body {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   text-align: center;
   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#overall-btn {
+  text-decoration: none;
+  color: var(--text-color); /* Use theme-based text color */
+  font-weight: bold;
+  border: 1px solid var(--text-color);
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  font-size: 0.9em;
+}
+#overall-btn:hover {
+  background: var(--text-color);
+  color: var(--background-color); /* Contrast on hover */
 }
 
 .card:hover {
@@ -121,6 +141,13 @@ h3 {
     justify-content: space-between;
     align-items: center;
     flex-direction:row;
+  }
+
+  span .close-btn, .close-btn {
+      cursor: pointer;
+      font-size: 30px;
+      float: right;
+      padding-right: 10px;
   }
 
   li img {
@@ -262,6 +289,10 @@ footer {
     font-size: 0.9em;
     padding: 10px;
   }
+
+  iframe {
+    height: 50vh;
+  }
 }
 
 @media (max-width: 480px) {
@@ -290,6 +321,9 @@ footer {
   p {
     font-size: 0.9em;
     margin: 10px 0;
+  }
+  iframe {
+    height: 40vh;
   }
 }
 

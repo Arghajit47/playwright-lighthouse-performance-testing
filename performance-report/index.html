@@ -17,6 +17,19 @@
     <h2>Available Reports</h2>
     <p>Select a category to explore detailed performance testing results.</p>
 
+    <button id="overall-btn" class="card">Overall Performance Trend</button>
+    
+    <!-- Modal Structure -->
+    <div id="overall-modal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+        <span class="close-btn">&times;</span>
+        
+      </div>
+      <iframe src="https://lookerstudio.google.com/embed/reporting/b41df31b-fcb8-4cfb-867f-6f2121490567/page/DuclE" frameborder="0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+      </div>
+    </div>
+
     <!-- Dynamic categories will be rendered here -->
     <div id="categories" class="grid"></div>
 
