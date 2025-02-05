@@ -41,6 +41,7 @@ function renderCategories(folderStructure) {
     });
 
     categoriesContainer.appendChild(card);
+    generateModal();
   });
 }
 
@@ -139,6 +140,23 @@ async function loadDarkModePreference() {
   } else {
     toggleButton.textContent = "🌙"; // Moon icon for light mode
   }
+}
+
+// Generate Modal
+async function generateModal() {
+  document.getElementById("overall-btn").addEventListener("click", function () {
+    document.getElementById("overall-modal").style.display = "block";
+  });
+
+  document.querySelector(".close-btn").addEventListener("click", function () {
+    document.getElementById("overall-modal").style.display = "none";
+  });
+
+  window.addEventListener("click", function (event) {
+    if (event.target == document.getElementById("overall-modal")) {
+      document.getElementById("overall-modal").style.display = "none";
+    }
+  });
 }
 
 // Add event listener to the dark mode toggle button

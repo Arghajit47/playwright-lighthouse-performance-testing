@@ -72,7 +72,7 @@ for (const key in data) {
     test(`Authorized Tablet Performance Audit ${key}`, async ({
       page,
     }, testInfo) => {
-      await runPerformanceAuditInMobile(
+      await runPerformanceAuditInTablet(
         page,
         `${test.info().title}`,
         tabletConfig,
