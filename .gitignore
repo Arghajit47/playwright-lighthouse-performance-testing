@@ -12,3 +12,4 @@ node_modules/
 /allure-report
 /allure-results
 downloaded-images
+/dashboard/config.json
