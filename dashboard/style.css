@@ -63,7 +63,7 @@ body {
 
   /* Chart Containers */
   .chart-container {
-    width: 97%;
+    width: 100%;
     margin-top: 30px;
     background: #222;
     padding: 25px;
@@ -125,6 +125,29 @@ body {
     background-color: #333;
   }
 
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .pagination button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #6a11cb;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .pagination button:hover {
+    background: #444;
+  }
+  .pagination button.active {
+    background: #6a11cb;
+  }
+
   /* Dark/Light Mode Toggle */
   .theme-toggle {
     position: fixed;
@@ -143,18 +166,6 @@ body {
   .theme-toggle i {
     font-size: 24px;
     color: #fff;
-  }
-
-  footer {
-    text-align: center;
-    padding: 15px;
-    background: #4a148c;
-    color: white;
-    font-size: 1em;
-    padding: 10px 20px;
-    position: relative;
-    bottom: 0;
-    max-width: 100%;
   }
 
   /* Loading Animation */
@@ -201,5 +212,39 @@ body {
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .metrics {
+      flex-direction: column;
+    }
+    .metric-box {
+      width: 100%;
+    }
+    .filter-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .filter-container select {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header {
+      width: 100%;
+      font-size: 24px;
+      padding: 20px;
+    }
+    .metric-box h3 {
+      font-size: 16px;
+    }
+    .metric-box p {
+      font-size: 20px;
+    }
+    .chart-container h2 {
+      font-size: 18px;
     }
   }
