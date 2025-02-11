@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && npm install -g nodemon",
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "dev": "node server.mjs",
+    "start": "nodemon backend/server.mjs"
   },
   "keywords": [],
   "author": "",
