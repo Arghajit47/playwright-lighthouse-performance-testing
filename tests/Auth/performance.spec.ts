@@ -1,6 +1,9 @@
-import { test } from "@playwright/test";
-import desktopConfig from "lighthouse/lighthouse-core/config/desktop-config.js";
-import { mobileConfig, tabletConfig } from "../../lighthouse/base";
+import { chromium, test } from "@playwright/test";
+import {
+  mobileConfig,
+  tabletConfig,
+  desktopConfig,
+} from "../../lighthouse/base";
 import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
@@ -42,8 +45,9 @@ for (const key in data) {
     }, testInfo) => {
       await runPerformanceAuditInDesktop(
         page,
-        `${test.info().title}`,
+        value,
         desktopConfig,
+        `${test.info().title}`,
         `performance-report/Authorized-performance-reports/Desktop`
       );
       await attachHtmlToAllureReport(
@@ -58,8 +62,9 @@ for (const key in data) {
     }, testInfo) => {
       await runPerformanceAuditInMobile(
         page,
-        `${test.info().title}`,
+        value,
         mobileConfig,
+        `${test.info().title}`,
         `performance-report/Authorized-performance-reports/Mobile`
       );
       await attachHtmlToAllureReport(
@@ -74,8 +79,9 @@ for (const key in data) {
     }, testInfo) => {
       await runPerformanceAuditInTablet(
         page,
-        `${test.info().title}`,
+        value,
         tabletConfig,
+        `${test.info().title}`,
         `performance-report/Authorized-performance-reports/Tablet`
       );
       await attachHtmlToAllureReport(

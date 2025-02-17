@@ -1,4 +1,3 @@
-import { playAudit } from "playwright-lighthouse";
 import { thresholds } from "../lighthouse/base";
 import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
@@ -9,25 +8,32 @@ import "dotenv/config";
 
 export async function runPerformanceAuditInDesktop(
   page,
+  url,
+  lhConfig,
   reportName: string,
-  config,
   directory: string
 ) {
-  const result = await playAudit({
+  await page.goto(url, { waitUntil: "networkidle" });
+
+  // Dynamically import playAudit from playwright-lighthouse
+  const { playAudit } = await import("playwright-lighthouse");
+
+  // Run the Lighthouse audit using the provided configuration.
+  const result: any = await playAudit({
     page: page,
-    config: config,
     port: 9222,
+    config: lhConfig,
     thresholds: thresholds,
-    ignoreError: true,
     reports: {
       formats: {
-        json: false,
-        html: true,
-        csv: false,
+        html: true, // Generates an HTML report.
+        json: false, // Generates an JSON report.
+        csv: false, // Generates a CSV report.
       },
       name: `${reportName}`,
       directory: directory,
     },
+    ignoreError: true,
   });
   // Lighthouse scores extracted from result
   const record = {
@@ -45,25 +51,32 @@ export async function runPerformanceAuditInDesktop(
 
 export async function runPerformanceAuditInMobile(
   page,
+  url,
+  lhConfig,
   reportName: string,
-  config,
   directory: string
 ) {
+  await page.goto(url, { waitUntil: "networkidle" });
+
+  // Dynamically import playAudit from playwright-lighthouse
+  const { playAudit } = await import("playwright-lighthouse");
+
+  // Run the Lighthouse audit using the provided configuration.
   const result = await playAudit({
     page: page,
-    config: config,
     port: 9222,
+    config: lhConfig,
     thresholds: thresholds,
-    ignoreError: true,
     reports: {
       formats: {
-        json: false,
-        html: true,
-        csv: false,
+        html: true, // Generates an HTML report.
+        json: false, // Generates an JSON report.
+        csv: false, // Generates a CSV report.
       },
       name: `${reportName}`,
       directory: directory,
     },
+    ignoreError: true,
   });
   // Lighthouse scores extracted from result
   const record = {
@@ -79,27 +92,35 @@ export async function runPerformanceAuditInMobile(
   await insertLighthousePerformanceRecord(record);
 }
 
+// Helper function to run a Lighthouse audit with a given config
 export async function runPerformanceAuditInTablet(
   page,
+  url,
+  lhConfig,
   reportName: string,
-  config,
   directory: string
 ) {
+  await page.goto(url, { waitUntil: "networkidle" });
+
+  // Dynamically import playAudit from playwright-lighthouse
+  const { playAudit } = await import("playwright-lighthouse");
+
+  // Run the Lighthouse audit using the provided configuration.
   const result = await playAudit({
     page: page,
-    config: config,
     port: 9222,
+    config: lhConfig,
     thresholds: thresholds,
-    ignoreError: true,
     reports: {
       formats: {
-        json: false,
-        html: true,
-        csv: false,
+        html: true, // Generates an HTML report.
+        json: false, // Generates an JSON report.
+        csv: false, // Generates a CSV report.
       },
       name: `${reportName}`,
       directory: directory,
     },
+    ignoreError: true,
   });
 
   // Lighthouse scores extracted from result
@@ -248,7 +269,6 @@ async function insertLighthousePerformanceRecord(record) {
     console.error("Error inserting record:", error);
   }
 }
-
 
 
 
