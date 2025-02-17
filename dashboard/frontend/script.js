@@ -22,7 +22,9 @@ function toggleTheme() {
 // Fetch Data and Update Dashboard
 async function fetchData() {
   try {
-    const response = await fetch("http://localhost:3000/api/data");
+    const response = await fetch(
+      "https://playwright-lighthouse-performance-testing.onrender.com/api/data"
+    );
     const allData = await response.json();
     updateDashboard(allData);
     populateDeviceFilter(allData);
