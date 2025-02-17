@@ -3,6 +3,66 @@ let horizontalBarChart, seoChart, accessibilityChart, bestPracticeChart; // Stor
 let currentPage = 1; // Current page for pagination
 const rowsPerPage = 10; // Number of rows per page
 
+// Update Pagination
+function updatePagination(totalPages) {
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = ""; // Clear existing buttons
+
+  const maxVisiblePages = 5; // Number of visible pages around the current page
+  const ellipsisThreshold = 2; // Show ellipsis if pages are skipped
+
+  // Function to create a pagination button
+  function createPageButton(page, isActive = false) {
+    const button = document.createElement("button");
+    button.innerText = page;
+    button.classList.add("pagination-button");
+    if (isActive) {
+      button.classList.add("active");
+    }
+    button.addEventListener("click", () => {
+      currentPage = page;
+      updateTable(allData);
+      updatePagination(totalPages);
+    });
+    return button;
+  }
+
+  // Always show the first page
+  pagination.appendChild(createPageButton(1, currentPage === 1));
+
+  // Show ellipsis if current page is far from the first page
+  if (currentPage > ellipsisThreshold + 1) {
+    const ellipsis = document.createElement("span");
+    ellipsis.innerText = "...";
+    pagination.appendChild(ellipsis);
+  }
+
+  // Show pages around the current page
+  const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
+  const endPage = Math.min(
+    totalPages - 1,
+    currentPage + Math.floor(maxVisiblePages / 2)
+  );
+
+  for (let i = startPage; i <= endPage; i++) {
+    pagination.appendChild(createPageButton(i, i === currentPage));
+  }
+
+  // Show ellipsis if current page is far from the last page
+  if (currentPage < totalPages - ellipsisThreshold) {
+    const ellipsis = document.createElement("span");
+    ellipsis.innerText = "...";
+    pagination.appendChild(ellipsis);
+  }
+
+  // Always show the last page
+  if (totalPages > 1) {
+    pagination.appendChild(
+      createPageButton(totalPages, currentPage === totalPages)
+    );
+  }
+}
+
 // Dark/Light Mode Toggle
 function toggleTheme() {
   const body = document.body;
@@ -25,7 +85,7 @@ async function fetchData() {
     const response = await fetch(
       "https://playwright-lighthouse-performance-testing.onrender.com/api/data"
     );
-    const allData = await response.json();
+    allData = await response.json();
     updateDashboard(allData);
     populateDeviceFilter(allData);
     populateSeoDeviceFilter(allData);
@@ -93,11 +153,15 @@ function applyFilters() {
   const selectedPerformance =
     document.getElementById("performanceFilter").value;
 
+  console.log("Selected Device:", selectedDevice);
+  console.log("Selected Performance Range:", selectedPerformance);
+
   let filteredData = allData;
 
   // Filter by Device
   if (selectedDevice !== "All") {
     filteredData = filteredData.filter((d) => d.device_type === selectedDevice);
+    console.log("Data after device filter:", filteredData);
   }
 
   // Filter by Performance
@@ -114,9 +178,10 @@ function applyFilters() {
       console.log(`Checking performance: ${d.performance}`);
       return d.performance >= min && d.performance <= max;
     });
+    console.log("Data after performance filter:", filteredData);
   }
 
-  console.log("Filtered Data:", filteredData);
+  console.log("Final Filtered Data:", filteredData);
   updatePerformanceChart(filteredData);
 }
 
@@ -680,6 +745,10 @@ function updateTable(data) {
                   </tr>`;
     tableBody.innerHTML += row;
   });
+
+  // Update pagination
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+  updatePagination(totalPages);
 }
 
 // Fetch data on page load
