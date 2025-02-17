@@ -117,7 +117,7 @@ function applyFilters() {
   }
 
   console.log("Filtered Data:", filteredData);
-  updateHorizontalBarChart(filteredData);
+  updatePerformanceChart(filteredData);
 }
 
 // Apply Filters for SEO Chart
@@ -224,12 +224,22 @@ function applyBestPracticeFilters() {
 }
 
 // Update Horizontal Bar Chart for Performance
-function updateHorizontalBarChart(data) {
+function updatePerformanceChart(data) {
+  // Sort data by created_at in descending order (latest first)
+  data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   const latestTests = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d);
+    latestTests[d.test_name].push(d); // Push all runs for the test
   });
+
+  // For each test, keep only the latest 3 runs
+  for (const testName in latestTests) {
+    if (latestTests[testName].length > 3) {
+      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
+    }
+  }
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
@@ -294,11 +304,21 @@ function updateHorizontalBarChart(data) {
 
 // Update Horizontal Bar Chart for SEO
 function updateSeoChart(data) {
+  // Sort data by created_at in descending order (latest first)
+  data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   const latestTests = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d);
+    latestTests[d.test_name].push(d); // Push all runs for the test
   });
+
+  // For each test, keep only the latest 3 runs
+  for (const testName in latestTests) {
+    if (latestTests[testName].length > 3) {
+      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
+    }
+  }
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
@@ -360,11 +380,21 @@ function updateSeoChart(data) {
 
 // Update Horizontal Bar Chart for Accessibility
 function updateAccessibilityChart(data) {
+  // Sort data by created_at in descending order (latest first)
+  data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   const latestTests = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d);
+    latestTests[d.test_name].push(d); // Push all runs for the test
   });
+
+  // For each test, keep only the latest 3 runs
+  for (const testName in latestTests) {
+    if (latestTests[testName].length > 3) {
+      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
+    }
+  }
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
@@ -429,11 +459,21 @@ function updateAccessibilityChart(data) {
 
 // Update Horizontal Bar Chart for Best Practices
 function updateBestPracticeChart(data) {
+  // Sort data by created_at in descending order (latest first)
+  data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
   const latestTests = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d);
+    latestTests[d.test_name].push(d); // Push all runs for the test
   });
+
+  // For each test, keep only the latest 3 runs
+  for (const testName in latestTests) {
+    if (latestTests[testName].length > 3) {
+      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
+    }
+  }
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
@@ -534,7 +574,7 @@ function updateDashboard(data) {
   setScoreColor(seoScoreElement, seoScore);
   setScoreColor(bestPracticeScoreElement, bestPracticeScore);
 
-  updateHorizontalBarChart(data);
+  updatePerformanceChart(data);
   updateSeoChart(data);
   updateAccessibilityChart(data);
   updateBestPracticeChart(data);
