@@ -19,7 +19,11 @@ export async function runPerformanceAuditInDesktop(
 ) {
   const lighthouse = await import("lighthouse");
 
-  const browser = await puppeteer.launch({ headless: true, slowMo: 50 });
+  const browser = await puppeteer.launch({
+    headless: true,
+    slowMo: 50,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
   const { lhr, report } = await lighthouse.default(
@@ -71,7 +75,11 @@ export async function runPerformanceAuditInMobile(
 ) {
   const lighthouse = await import("lighthouse");
 
-  const browser = await puppeteer.launch({ headless: true, slowMo: 50 });
+  const browser = await puppeteer.launch({
+    headless: true,
+    slowMo: 50,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
   const { lhr, report } = await lighthouse.default(
@@ -124,7 +132,11 @@ export async function runPerformanceAuditInTablet(
 ) {
   const lighthouse = await import("lighthouse");
 
-  const browser = await puppeteer.launch({ headless: true, slowMo: 50 });
+  const browser = await puppeteer.launch({
+    headless: true,
+    slowMo: 50,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
   const { lhr, report } = await lighthouse.default(
