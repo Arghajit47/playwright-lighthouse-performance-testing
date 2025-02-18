@@ -26,10 +26,7 @@ jobs:
         npm install -g allure-commandline
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Install Chrome
-      uses: browser-actions/setup-chrome@v1
-      with:
-        chrome-version: "latest" # Install the latest stable version of Chrome  
+    
     - name: Run Playwright Performance tests
       env:
         EMAIL: ${{ secrets.EMAIL }}
