@@ -10,7 +10,8 @@ import {
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
-} from "../../utils/helpers";
+  getCookies,
+} from "../../utils/helpers.js";
 import { attachHtmlToAllureReport } from "../../utils/common";
 import { URLS, UNAUTHORIZED_PATHS } from "../../test-data/enum";
 
@@ -24,6 +25,7 @@ for (const key in data) {
 
   test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
     let metricsRecorder;
+    const cookies = getCookies();
     test.beforeEach(async ({ page }) => {
       metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
@@ -31,11 +33,11 @@ for (const key in data) {
     });
     test(`Desktop performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInDesktop(
-        page,
+        cookies,
         value,
         desktopConfig,
-        `${test.info().title}`,
-        folders.desktopPath
+        folders.desktopPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -46,11 +48,11 @@ for (const key in data) {
 
     test(`Mobile performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInMobile(
-        page,
+        cookies,
         value,
         mobileConfig,
-        `${test.info().title}`,
-        folders.mobilePath
+        folders.mobilePath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -61,11 +63,11 @@ for (const key in data) {
 
     test(`Tablet performance audit ${key}`, async ({ page }, testInfo) => {
       await runPerformanceAuditInTablet(
-        page,
+        cookies,
         value,
         tabletConfig,
-        `${test.info().title}`,
-        folders.tabletPath
+        folders.tabletPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
