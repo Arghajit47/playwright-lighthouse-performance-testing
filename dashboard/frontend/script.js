@@ -784,14 +784,37 @@ function calculateAverageData(data) {
   return avgData;
 }
 
+let showLatestRunOnly = false; // Track checkbox state
+
+// Toggle latest run results
+function toggleLatestRun() {
+  showLatestRunOnly = document.getElementById("latestRunCheckbox").checked;
+  updateTable(allData); // Re-render the table with the updated filter
+}
+
 // Update table with paginated data
 function updateTable(data) {
   const tableBody = document.getElementById("data-table");
   tableBody.innerHTML = ""; // Clear existing rows
 
+  // Filter data to show only the latest run for each test if the checkbox is ticked
+  let filteredData = data;
+  if (showLatestRunOnly) {
+    const latestTests = {};
+    data.forEach((d) => {
+      if (
+        !latestTests[d.test_name] ||
+        new Date(d.created_at) > new Date(latestTests[d.test_name].created_at)
+      ) {
+        latestTests[d.test_name] = d;
+      }
+    });
+    filteredData = Object.values(latestTests);
+  }
+
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
-  const paginatedData = data.slice(start, end);
+  const paginatedData = filteredData.slice(start, end);
 
   paginatedData.forEach((d) => {
     const row = `<tr>
@@ -801,15 +824,20 @@ function updateTable(data) {
                     <td>${d.accessibility}</td>
                     <td>${d.seo}</td>
                     <td>${d.best_practice}</td>
-                    <td>${d.created_at}</td>
+                    <td>${formatDate(d.created_at)}</td>
                   </tr>`;
     tableBody.innerHTML += row;
   });
 
   // Update pagination
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage);
   updatePagination(totalPages);
 }
 
+// Format date to be more readable
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString(); // Adjust the format as needed
+}
 // Fetch data on page load
 fetchData();
