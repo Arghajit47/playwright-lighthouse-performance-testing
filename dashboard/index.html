@@ -164,9 +164,13 @@
         <canvas id="deviceChart"></canvas>
       </div>
 
-      <!-- Table for Latest Test Results -->
       <div class="chart-container">
-        <h2>Latest Test Results</h2>
+        <h2>All Performance Test Results
+        </h2>
+        <label style="margin-left: 10px;">
+          <input type="checkbox" id="latestRunCheckbox" onchange="toggleLatestRun()" />
+          Latest Run Result
+        </label>
         <table>
           <thead>
             <tr>
@@ -184,7 +188,6 @@
         <!-- Pagination -->
         <div class="pagination" id="pagination"></div>
       </div>
-    </div>
 
     <script src="./frontend/script.js"></script>
   </body>
