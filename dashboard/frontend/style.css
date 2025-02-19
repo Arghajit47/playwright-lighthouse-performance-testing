@@ -79,6 +79,11 @@ body {
     font-weight: 500;
     color: #fff;
   }
+  canvas#seoChart {
+    overflow: auto !important;
+    overflow-anchor: auto !important;
+    overflow-clip-margin: unset !important
+}
 
   /* Filter Container */
   .filter-container {
@@ -250,3 +255,78 @@ body {
       font-size: 18px;
     }
   }
+
+  /* Light Mode Styles */
+body.light-mode {
+  background-color: #fff;
+  color: #333;
+}
+
+body.light-mode .header {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+body.light-mode .metric-box {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode .metric-box h3 {
+  color: #333;
+}
+
+body.light-mode .metric-box p {
+  color: #6a11cb;
+}
+
+body.light-mode .chart-container {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode .chart-container h2 {
+  color: #333;
+}
+
+body.light-mode table {
+  background: #f4f4f4;
+  color: #333;
+}
+
+body.light-mode th,
+body.light-mode td {
+  border: 1px solid #ddd;
+}
+
+body.light-mode th {
+  background-color: #6a11cb;
+  color: #fff;
+}
+
+body.light-mode tr:hover {
+  background-color: #e0e0e0;
+}
+
+body.light-mode .pagination button {
+  background: #f4f4f4;
+  color: #333;
+  border: 1px solid #6a11cb;
+}
+
+body.light-mode .pagination button:hover {
+  background: #e0e0e0;
+}
+
+body.light-mode .pagination button.active {
+  background: #6a11cb;
+  color: #fff;
+}
+
+body.light-mode .theme-toggle {
+  background: #f4f4f4;
+}
+
+body.light-mode .theme-toggle i {
+  color: #333;
+}
