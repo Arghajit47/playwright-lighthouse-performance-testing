@@ -4,10 +4,7 @@ const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
 import { createClient } from "@supabase/supabase-js";
-// import { writeFileSync, mkdirSync } from "fs";
 import puppeteer from "puppeteer";
-// import lighthouse from "lighthouse";
-// import { join } from "path";
 import "dotenv/config";
 
 export async function runPerformanceAuditInDesktop(
@@ -31,7 +28,7 @@ export async function runPerformanceAuditInDesktop(
     {
       port: new URL(browser.wsEndpoint()).port,
       output: "html",
-      logLevel: "info",
+      logLevel: "silent",
       disableStorageReset: true,
     },
     config

@@ -2,6 +2,7 @@ let allData = []; // Store all data for filtering
 let horizontalBarChart, seoChart, accessibilityChart, bestPracticeChart; // Store chart instances
 let currentPage = 1; // Current page for pagination
 const rowsPerPage = 10; // Number of rows per page
+Chart.register(ChartDataLabels);
 
 // Update Pagination
 function updatePagination(totalPages) {
@@ -77,6 +78,16 @@ function toggleTheme() {
     body.style.backgroundColor = "#1e1e2e";
     body.style.color = "#fff";
   }
+  // Update Chart Data Labels color when theme is toggled
+  [horizontalBarChart, seoChart, accessibilityChart, bestPracticeChart].forEach(
+    (chart) => {
+      if (chart) {
+        chart.options.plugins.datalabels.color =
+          document.body.classList.contains("light-mode") ? "#333" : "#fff";
+        chart.update();
+      }
+    }
+  );
 }
 
 // Fetch Data and Update Dashboard
@@ -316,9 +327,9 @@ function updatePerformanceChart(data) {
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgba(75, 192, 192, 0.8)"; // Green
+    if (score > 80) return "rgb(0, 190, 0)"; // Green
     if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
-    return "rgba(255, 99, 132, 0.8)"; // Red
+    return "rgb(190, 0, 0)"; // Red
   });
 
   if (horizontalBarChart) {
@@ -351,24 +362,36 @@ function updatePerformanceChart(data) {
                 const testName = testNames[context.dataIndex];
                 const runs = tooltipData[context.dataIndex];
                 return runs
-                  .map((run, index) =>
-                    run !== undefined ? `Run ${index + 1}: ${run}` : ""
-                  )
-                  .filter(Boolean)
+                  .map((run, index) => `Run ${index + 1}: ${run}`)
                   .join(", ");
               },
             },
           },
           legend: { display: false },
           title: { display: true, text: "Performance for Last 3 Runs" },
+          datalabels: {
+            anchor: "end",
+            align: (context) =>
+              context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
+            color: (context) =>
+              context.raw >= 90
+                ? "#000"
+                : document.body.classList.contains("light-mode")
+                ? "#333"
+                : "#fff",
+            font: { weight: "bold", size: 14 },
+            formatter: (value) => value,
+          },
         },
       },
+      plugins: [ChartDataLabels], // Enable datalabels plugin
     }
   );
 }
 
 // Update Horizontal Bar Chart for SEO
 function updateSeoChart(data) {
+  Chart.register(ChartDataLabels);
   // Sort data by created_at in descending order (latest first)
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
@@ -395,9 +418,9 @@ function updateSeoChart(data) {
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgba(75, 192, 192, 0.8)"; // Green
+    if (score > 80) return "rgb(0, 190, 0)"; // Green
     if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
-    return "rgba(255, 99, 132, 0.8)"; // Red
+    return "rgb(190, 0, 0)"; // Red
   });
 
   if (seoChart) {
@@ -428,18 +451,29 @@ function updateSeoChart(data) {
               const testName = testNames[context.dataIndex];
               const runs = tooltipData[context.dataIndex];
               return runs
-                .map((run, index) =>
-                  run !== undefined ? `Run ${index + 1}: ${run}` : ""
-                )
-                .filter(Boolean)
+                .map((run, index) => `Run ${index + 1}: ${run}`)
                 .join(", ");
             },
           },
         },
         legend: { display: false },
         title: { display: true, text: "SEO for Last 3 Runs" },
+        datalabels: {
+          anchor: "end",
+          align: (context) =>
+            context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
+          color: (context) =>
+            context.raw >= 90
+              ? "#000"
+              : document.body.classList.contains("light-mode")
+              ? "#333"
+              : "#fff",
+          font: { weight: "bold", size: 14 },
+          formatter: (value) => value,
+        },
       },
     },
+    plugins: [ChartDataLabels], // Enable datalabels plugin
   });
 }
 
@@ -471,9 +505,9 @@ function updateAccessibilityChart(data) {
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgba(75, 192, 192, 0.8)"; // Green
+    if (score > 80) return "rgb(0, 190, 0)"; // Green
     if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
-    return "rgba(255, 99, 132, 0.8)"; // Red
+    return "rgb(190, 0, 0)"; // Red
   });
 
   if (accessibilityChart) {
@@ -506,18 +540,29 @@ function updateAccessibilityChart(data) {
                 const testName = testNames[context.dataIndex];
                 const runs = tooltipData[context.dataIndex];
                 return runs
-                  .map((run, index) =>
-                    run !== undefined ? `Run ${index + 1}: ${run}` : ""
-                  )
-                  .filter(Boolean)
+                  .map((run, index) => `Run ${index + 1}: ${run}`)
                   .join(", ");
               },
             },
           },
           legend: { display: false },
           title: { display: true, text: "Accessibility for Last 3 Runs" },
+          datalabels: {
+            anchor: "end",
+            align: (context) =>
+              context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
+            color: (context) =>
+              context.raw >= 90
+                ? "#000"
+                : document.body.classList.contains("light-mode")
+                ? "#333"
+                : "#fff",
+            font: { weight: "bold", size: 14 },
+            formatter: (value) => value,
+          },
         },
       },
+      plugins: [ChartDataLabels], // Enable datalabels plugin
     }
   );
 }
@@ -550,9 +595,9 @@ function updateBestPracticeChart(data) {
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgba(75, 192, 192, 0.8)"; // Green
+    if (score > 80) return "rgb(0, 190, 0)"; // Green
     if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
-    return "rgba(255, 99, 132, 0.8)"; // Red
+    return "rgb(190, 0, 0)"; // Red
   });
 
   if (bestPracticeChart) {
@@ -569,7 +614,7 @@ function updateBestPracticeChart(data) {
           data: barData,
           backgroundColor: barColors,
           borderColor: barColors.map((color) => color.replace("0.8", "1")),
-          borderWidth: 1,
+          borderWidth: 5,
         },
       ],
     },
@@ -583,18 +628,29 @@ function updateBestPracticeChart(data) {
               const testName = testNames[context.dataIndex];
               const runs = tooltipData[context.dataIndex];
               return runs
-                .map((run, index) =>
-                  run !== undefined ? `Run ${index + 1}: ${run}` : ""
-                )
-                .filter(Boolean)
+                .map((run, index) => `Run ${index + 1}: ${run}`)
                 .join(", ");
             },
           },
         },
         legend: { display: false },
         title: { display: true, text: "Best Practices for Last 3 Runs" },
+        datalabels: {
+          anchor: "end",
+          align: (context) =>
+            context.dataset.data[context.dataIndex] >= 95 ? "start" : "end",
+          color: (context) =>
+            context.raw >= 95
+              ? "#000"
+              : document.body.classList.contains("light-mode")
+              ? "#333"
+              : "#fff",
+          font: { weight: "bold", size: 14 },
+          formatter: (value) => value,
+        },
       },
     },
+    plugins: [ChartDataLabels], // Enable datalabels plugin
   });
 }
 
@@ -653,8 +709,8 @@ function updateDashboard(data) {
     devices[d.device_type].performance += d.performance;
   });
   const deviceLabels = Object.keys(devices);
-  const deviceData = deviceLabels.map(
-    (d) => devices[d].performance / devices[d].count
+  const deviceData = deviceLabels.map((d) =>
+    Math.round(devices[d].performance / devices[d].count)
   );
   new Chart(document.getElementById("deviceChart"), {
     type: "bar",
@@ -664,15 +720,19 @@ function updateDashboard(data) {
         {
           label: "Avg Performance",
           data: deviceData,
-          backgroundColor: "rgba(106, 17, 203, 0.8)",
+          backgroundColor: "rgb(88, 62, 37)",
         },
       ],
     },
     options: {
       responsive: true,
       plugins: {
-        legend: { display: false },
+        legend: { display: true },
         title: { display: true, text: "Device Performance Comparison" },
+        datalabels: {
+          color: "#fff",
+          font: { weight: "bold", size: 14 },
+        },
       },
     },
   });
