@@ -102,6 +102,7 @@ async function fetchData() {
     populateSeoDeviceFilter(allData);
     populateAccessibilityDeviceFilter(allData);
     populateBestPracticeDeviceFilter(allData);
+    populateTableDeviceFilter(allData); // Add this line
   } catch (error) {
     console.error("Error fetching data:", error);
   } finally {
@@ -109,7 +110,6 @@ async function fetchData() {
     document.getElementById("dashboard").style.display = "block";
   }
 }
-
 // Populate Device Filter Options for Performance Chart
 function populateDeviceFilter(data) {
   const deviceTypes = [...new Set(data.map((d) => d.device_type))];
@@ -306,23 +306,21 @@ function updatePerformanceChart(data) {
 
   const latestTests = {};
   data.forEach((d) => {
-    if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    latestTests[d.test_name].push(d); // Push all runs for the test
+    if (!latestTests[d.test_name]) {
+      latestTests[d.test_name] = [];
+    }
+    if (latestTests[d.test_name].length < 3) {
+      latestTests[d.test_name].push(d); // Keep only the latest 3 runs
+    }
   });
 
-  // For each test, keep only the latest 3 runs
-  for (const testName in latestTests) {
-    if (latestTests[testName].length > 3) {
-      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
-    }
-  }
-
+  // Extract only the latest run for each test
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
-    (test) => latestTests[test][latestTests[test].length - 1].performance
+    (test) => latestTests[test][0].performance // Use the latest run for the bar
   );
-  const tooltipData = testNames.map((test) =>
-    latestTests[test].map((run) => run.performance)
+  const tooltipData = testNames.map(
+    (test) => latestTests[test].map((run) => run.performance) // Include last 3 runs in tooltip
   );
 
   // Dynamic Bar Colors
@@ -368,7 +366,7 @@ function updatePerformanceChart(data) {
             },
           },
           legend: { display: false },
-          title: { display: true, text: "Performance for Last 3 Runs" },
+          title: { display: true, text: "Performance for Latest Run" },
           datalabels: {
             anchor: "end",
             align: (context) =>
@@ -391,29 +389,26 @@ function updatePerformanceChart(data) {
 
 // Update Horizontal Bar Chart for SEO
 function updateSeoChart(data) {
-  Chart.register(ChartDataLabels);
   // Sort data by created_at in descending order (latest first)
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const latestTests = {};
   data.forEach((d) => {
-    if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    latestTests[d.test_name].push(d); // Push all runs for the test
+    if (!latestTests[d.test_name]) {
+      latestTests[d.test_name] = [];
+    }
+    if (latestTests[d.test_name].length < 3) {
+      latestTests[d.test_name].push(d); // Keep only the latest 3 runs
+    }
   });
 
-  // For each test, keep only the latest 3 runs
-  for (const testName in latestTests) {
-    if (latestTests[testName].length > 3) {
-      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
-    }
-  }
-
+  // Extract only the latest run for each test
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
-    (test) => latestTests[test][latestTests[test].length - 1].seo
+    (test) => latestTests[test][0].seo // Use the latest run for the bar
   );
-  const tooltipData = testNames.map((test) =>
-    latestTests[test].map((run) => run.seo)
+  const tooltipData = testNames.map(
+    (test) => latestTests[test].map((run) => run.seo) // Include last 3 runs in tooltip
   );
 
   // Dynamic Bar Colors
@@ -457,7 +452,7 @@ function updateSeoChart(data) {
           },
         },
         legend: { display: false },
-        title: { display: true, text: "SEO for Last 3 Runs" },
+        title: { display: true, text: "SEO for Latest Run" },
         datalabels: {
           anchor: "end",
           align: (context) =>
@@ -485,15 +480,8 @@ function updateAccessibilityChart(data) {
   const latestTests = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    latestTests[d.test_name].push(d); // Push all runs for the test
+    if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d); // Keep only the latest 3 runs
   });
-
-  // For each test, keep only the latest 3 runs
-  for (const testName in latestTests) {
-    if (latestTests[testName].length > 3) {
-      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
-    }
-  }
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
@@ -574,23 +562,21 @@ function updateBestPracticeChart(data) {
 
   const latestTests = {};
   data.forEach((d) => {
-    if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
-    latestTests[d.test_name].push(d); // Push all runs for the test
+    if (!latestTests[d.test_name]) {
+      latestTests[d.test_name] = [];
+    }
+    if (latestTests[d.test_name].length < 3) {
+      latestTests[d.test_name].push(d); // Keep only the latest 3 runs
+    }
   });
 
-  // For each test, keep only the latest 3 runs
-  for (const testName in latestTests) {
-    if (latestTests[testName].length > 3) {
-      latestTests[testName] = latestTests[testName].slice(0, 3).reverse(); // Keep only the latest 3 runs
-    }
-  }
-
+  // Extract only the latest run for each test
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
-    (test) => latestTests[test][latestTests[test].length - 1].best_practice
+    (test) => latestTests[test][0].best_practice // Use the latest run for the bar
   );
-  const tooltipData = testNames.map((test) =>
-    latestTests[test].map((run) => run.best_practice)
+  const tooltipData = testNames.map(
+    (test) => latestTests[test].map((run) => run.best_practice) // Include last 3 runs in tooltip
   );
 
   // Dynamic Bar Colors
@@ -614,7 +600,7 @@ function updateBestPracticeChart(data) {
           data: barData,
           backgroundColor: barColors,
           borderColor: barColors.map((color) => color.replace("0.8", "1")),
-          borderWidth: 5,
+          borderWidth: 1,
         },
       ],
     },
@@ -634,7 +620,7 @@ function updateBestPracticeChart(data) {
           },
         },
         legend: { display: false },
-        title: { display: true, text: "Best Practices for Last 3 Runs" },
+        title: { display: true, text: "Best Practices for Latest Run" },
         datalabels: {
           anchor: "end",
           align: (context) =>
@@ -812,6 +798,12 @@ function updateTable(data) {
     filteredData = Object.values(latestTests);
   }
 
+  // Apply device filter if any
+  const selectedDevice = document.getElementById("tableDeviceFilter").value;
+  if (selectedDevice !== "All") {
+    filteredData = filteredData.filter((d) => d.device_type === selectedDevice);
+  }
+
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
   const paginatedData = filteredData.slice(start, end);
@@ -838,6 +830,32 @@ function updateTable(data) {
 function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toLocaleString(); // Adjust the format as needed
+}
+
+// Populate Device Filter Options for Table
+function populateTableDeviceFilter(data) {
+  const deviceTypes = [...new Set(data.map((d) => d.device_type))];
+  const filter = document.getElementById("tableDeviceFilter");
+  deviceTypes.forEach((device) => {
+    const option = document.createElement("option");
+    option.value = device;
+    option.textContent = device;
+    filter.appendChild(option);
+  });
+}
+
+// Apply Filters for Table
+function applyTableFilters() {
+  const selectedDevice = document.getElementById("tableDeviceFilter").value;
+  let filteredData = allData;
+
+  // Filter by Device
+  if (selectedDevice !== "All") {
+    filteredData = filteredData.filter((d) => d.device_type === selectedDevice);
+  }
+
+  // Update the table with the filtered data
+  updateTable(filteredData);
 }
 // Fetch data on page load
 fetchData();
