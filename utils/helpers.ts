@@ -5,7 +5,9 @@ import fs from "fs";
 import * as path from "path";
 import { createClient } from "@supabase/supabase-js";
 import puppeteer from "puppeteer";
+const { OpenAI } = require("openai");
 import "dotenv/config";
+import { generateGPTSolution } from "./gpt";
 
 export async function runPerformanceAuditInDesktop(
   cookies,
@@ -47,18 +49,22 @@ export async function runPerformanceAuditInDesktop(
     `Performance score for ${reportName}:`,
     lhr.categories.performance.score * 100
   );
-  // Lighthouse scores extracted from result
-  const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
-    device_type: "desktop",
-    test_name: `${reportName}`,
-  };
+  try {
+    // Lighthouse scores extracted from result
+    const record = {
+      performance: lhr.categories.performance.score * 100 || 0,
+      accessibility: lhr.categories.accessibility.score * 100 || 0,
+      best_practice: lhr.categories["best-practices"].score * 100 || 0,
+      seo: lhr.categories.seo.score * 100 || 0,
+      device_type: "desktop",
+      test_name: `${reportName}`,
+    };
 
-  // // Call Supabase function to insert the record
-  await insertLighthousePerformanceRecord(record);
+    // // Call Supabase function to insert the record
+    await insertLighthousePerformanceRecord(record);
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 
   await browser.close();
 }
@@ -103,18 +109,22 @@ export async function runPerformanceAuditInMobile(
     `Performance score for ${reportName}:`,
     lhr.categories.performance.score * 100
   );
-  // Lighthouse scores extracted from result
-  const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
-    device_type: "mobile",
-    test_name: `${reportName}`,
-  };
+  try {
+    // Lighthouse scores extracted from result
+    const record = {
+      performance: lhr.categories.performance.score * 100 || 0,
+      accessibility: lhr.categories.accessibility.score * 100 || 0,
+      best_practice: lhr.categories["best-practices"].score * 100 || 0,
+      seo: lhr.categories.seo.score * 100 || 0,
+      device_type: "mobile",
+      test_name: `${reportName}`,
+    };
 
-  // // Call Supabase function to insert the record
-  await insertLighthousePerformanceRecord(record);
+    // // Call Supabase function to insert the record
+    await insertLighthousePerformanceRecord(record);
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 
   await browser.close();
 }
@@ -160,18 +170,22 @@ export async function runPerformanceAuditInTablet(
     `Performance score for ${reportName}:`,
     lhr.categories.performance.score * 100
   );
-  // Lighthouse scores extracted from result
-  const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
-    device_type: "tablet",
-    test_name: `${reportName}`,
-  };
+  try {
+    // Lighthouse scores extracted from result
+    const record = {
+      performance: lhr.categories.performance.score * 100 || 0,
+      accessibility: lhr.categories.accessibility.score * 100 || 0,
+      best_practice: lhr.categories["best-practices"].score * 100 || 0,
+      seo: lhr.categories.seo.score * 100 || 0,
+      device_type: "tablet",
+      test_name: `${reportName}`,
+    };
 
-  // // Call Supabase function to insert the record
-  await insertLighthousePerformanceRecord(record);
+    // // Call Supabase function to insert the record
+    await insertLighthousePerformanceRecord(record);
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 
   await browser.close();
 }
@@ -210,85 +224,98 @@ interface Metric {
 }
 
 export async function recordPerformanceMetrics(interval = 500) {
-  const metrics: Metric[] = [];
-  const startTime = Date.now();
+  try {
+    const metrics: Metric[] = [];
+    const startTime = Date.now();
 
-  const intervalId = setInterval(async () => {
-    const stats = await pidusage(process.pid);
-    metrics.push({
-      time: Date.now() - startTime,
-      cpu: stats.cpu,
-      memory: stats.memory / (1024 * 1024), // Convert bytes to MB
-    });
-  }, interval);
+    const intervalId = setInterval(async () => {
+      const stats = await pidusage(process.pid);
+      metrics.push({
+        time: Date.now() - startTime,
+        cpu: stats.cpu,
+        memory: stats.memory / (1024 * 1024), // Convert bytes to MB
+      });
+    }, interval);
 
-  return {
-    stop: () => clearInterval(intervalId),
-    getMetrics: () => metrics,
-  };
+    return {
+      stop: () => clearInterval(intervalId),
+      getMetrics: () => metrics,
+    };
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 }
 
 export async function generateGraph(metrics: Metric[], filename: string) {
-  const chartJSNodeCanvas = new ChartJSNodeCanvas({ width: 800, height: 400 });
+  try {
+    const chartJSNodeCanvas = new ChartJSNodeCanvas({
+      width: 800,
+      height: 400,
+    });
 
-  const labels = metrics.map((m) => (m.time / 1000).toFixed(1) + "s");
-  const cpuData = metrics.map((m) => m.cpu);
-  const memoryData = metrics.map((m) => m.memory);
+    const labels = metrics.map((m) => (m.time / 1000).toFixed(1) + "s");
+    const cpuData = metrics.map((m) => m.cpu);
+    const memoryData = metrics.map((m) => m.memory);
 
-  const configuration = {
-    type: "line",
-    data: {
-      labels,
-      datasets: [
-        {
-          label: "CPU Usage (%)",
-          data: cpuData,
-          borderColor: "rgba(75, 192, 192, 1)",
-          fill: false,
-        },
-        {
-          label: "Memory Usage (MB)",
-          data: memoryData,
-          borderColor: "rgba(255, 99, 132, 1)",
-          fill: false,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: { title: { display: true, text: "Time (seconds)", color: "black" } },
-        y: { title: { display: true, text: "Usage", color: "black" } },
+    const configuration = {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "CPU Usage (%)",
+            data: cpuData,
+            borderColor: "rgba(75, 192, 192, 1)",
+            fill: false,
+          },
+          {
+            label: "Memory Usage (MB)",
+            data: memoryData,
+            borderColor: "rgba(255, 99, 132, 1)",
+            fill: false,
+          },
+        ],
       },
-      plugins: {
-        legend: {
-          labels: {
-            color: "black",
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: { display: true, text: "Time (seconds)", color: "black" },
+          },
+          y: { title: { display: true, text: "Usage", color: "black" } },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: "black",
+            },
           },
         },
       },
-    },
-    plugins: [
-      {
-        id: "background_color",
-        beforeDraw: (chart) => {
-          const ctx = chart.ctx;
-          ctx.save();
-          ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-          ctx.fillRect(0, 0, chart.width, chart.height);
-          ctx.restore();
+      plugins: [
+        {
+          id: "background_color",
+          beforeDraw: (chart) => {
+            const ctx = chart.ctx;
+            ctx.save();
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+          },
         },
-      },
-    ],
-  };
-  const directory = path.dirname(filename);
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true });
-  }
+      ],
+    };
+    const directory = path.dirname(filename);
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
 
-  const imageBuffer = await chartJSNodeCanvas.renderToBuffer(configuration);
-  fs.writeFileSync(filename, imageBuffer);
+    const imageBuffer = await chartJSNodeCanvas.renderToBuffer(configuration);
+    fs.writeFileSync(filename, imageBuffer);
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 }
 
 export async function attachGraph(
@@ -301,18 +328,22 @@ export async function attachGraph(
     ) => void;
   }
 ) {
-  metricsRecorder.stop();
-  const metrics = metricsRecorder.getMetrics();
+  try {
+    metricsRecorder.stop();
+    const metrics = metricsRecorder.getMetrics();
 
-  // Generate graph
-  const graphFilename = `performance-report/cpu/${testInfo.title}.png`;
-  await generateGraph(metrics, graphFilename);
+    // Generate graph
+    const graphFilename = `performance-report/cpu/${testInfo.title}.png`;
+    await generateGraph(metrics, graphFilename);
 
-  // Attach graph to the report
-  testInfo.attach("CPU and Memory Usage Graph", {
-    path: graphFilename,
-    contentType: "image/png",
-  });
+    // Attach graph to the report
+    testInfo.attach("CPU and Memory Usage Graph", {
+      path: graphFilename,
+      contentType: "image/png",
+    });
+  } catch (error) {
+    await generateGPTSolution(error);
+  }
 }
 
 const supabase = createClient(
@@ -332,6 +363,7 @@ async function insertLighthousePerformanceRecord(record) {
     console.log("Record inserted successfully:", data);
     return data;
   } catch (error) {
-    console.error("Error inserting record:", error);
+    await generateGPTSolution(error);
   }
 }
+
