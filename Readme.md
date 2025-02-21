@@ -1,176 +1,199 @@
-#  Playwright - Lighthouse Performance Test
+# 🚀 Playwright + Lighthouse Puppeteer Automated Performance Testing
 
-
-This project integrates Playwright and Lighthouse to automate performance testing for web applications. It focuses on testing both authorized (logged-in) and unauthorized (public) user flows, capturing key performance metrics such as page load time, time-to-interactive, and more. These tests are run in both desktop and mobile configurations, providing a thorough evaluation of your application's performance under different user scenarios.
-
-## Table of Contents
-
-- [Project Purpose](#project-purpose)
-- [Prerequisites](#prerequisites)
-- [Setup Instructions](#setup-instructions)
-  - [Installing Dependencies](#installing-dependencies)
-  - [Environment Variables](#environment-variables)
-- [Running Tests](#running-tests)
-  - [Authorized User Tests](#authorized-user-tests)
-  - [Unauthorized User Tests](#unauthorized-user-tests)
-  - [General Tests](#general-tests)
-- [Test Structure](#test-structure)
-  - [Authorized Performance Tests](#authorized-performance-tests)
-  - [Unauthorized Performance Tests](#unauthorized-performance-tests)
-- [CI Integration](#ci-integration)
-- [Project Structure](#project-structure)
-- [Dependencies](#dependencies)
+Welcome to the **Playwright + Lighthouse Puppeteer Automated Performance Testing** project! This tool helps you measure and improve the performance of your web application by automating performance tests for both **logged-in (authorized)** and **public (unauthorized)** users. Whether you're a developer, QA engineer, or project manager, this tool makes it easy to ensure your website runs smoothly on both **desktop**, **tablet** and **mobile** devices.
 
 ---
 
-##  Project Purpose 
+## 🌟 Why Use This Tool?
 
-This project aims to simplify and automate performance testing by combining Playwright, a powerful browser automation tool, with Lighthouse, a web performance audit tool. The focus is on two distinct user journeys:
-
-- **Authorized (logged-in) users**: Performance metrics for authenticated user flows.
-- **Unauthorized (public) users**: Performance metrics for users without authentication.
-
-These tests evaluate the performance of your web application across both desktop and mobile environments.
+- **Automated Performance Testing**: Combines the power of **Playwright** (for UI automation) and **Puppeteer** (for Lighthouse browser automation) to test your website's speed and responsiveness.
+- **Real User Scenarios**: Tests both **logged-in** and **public** user flows to ensure your app performs well for all users.
+- **Cross-Device Testing**: Runs tests on both **desktop** and **mobile** configurations to simulate real-world usage.
+- **Interactive Dashboard**: Visualize performance results in an easy-to-understand dashboard deployed on **Netlify**.
+- **Easy to Use**: Simple setup and clear instructions make it accessible for both technical and non-technical users.
 
 ---
 
-##  Prerequisites 
+## 📋 Table of Contents
+
+1. [What Does This Tool Do?](#-what-does-this-tool-do)
+2. [Getting Started](#-getting-started)
+   - [Prerequisites](#-prerequisites)
+   - [Installation](#-installation)
+   - [Environment Setup](#-environment-setup)
+3. [Running Tests](#-running-tests)
+   - [Authorized User Tests](#-authorized-user-tests)
+   - [Unauthorized User Tests](#-unauthorized-user-tests)
+   - [General Tests](#-general-tests)
+4. [Understanding the Results](#-understanding-the-results)
+5. [Interactive Dashboard](#-interactive-dashboard)
+6. [Continuous Integration (CI)](#-continuous-integration-ci)
+7. [Project Structure](#-project-structure)
+8. [Dependencies](#-dependencies)
+9. [FAQs](#-faqs)
+
+---
+
+## 🎯 What Does This Tool Do?
+
+This tool automates performance testing for your web application by simulating two types of users:
+
+1. **Authorized Users (Logged-In)**: Tests the performance of pages that require user login (e.g., dashboards, account settings).
+2. **Unauthorized Users (Public)**: Tests the performance of public-facing pages (e.g., homepage, product listings).
+
+It uses:
+- **Playwright**: For **UI automation** (e.g., logging in, navigating pages).
+- **Puppeteer**: For **Lighthouse browser automation** (e.g., running performance audits).
+
+The results are displayed in an **interactive dashboard** deployed on **Netlify**, where you can visualize key performance metrics like:
+
+- **Page Load Time**: How long it takes for your page to fully load.
+- **Time to Interactive (TTI)**: How long it takes for the page to become fully interactive.
+- **Performance Score**: A score out of 100 that summarizes your page's performance.
+
+---
+
+## 🚦 Getting Started
+
+### 🛠️ Prerequisites
 
 Before you begin, make sure you have the following installed:
 
-- **Node.js**: Use the latest LTS (Long Term Support) version of Node.js.
-- **npm**: Comes pre-installed with Node.js. This is used to manage dependencies.
+- **Node.js**: Download and install the latest LTS (Long Term Support) version from [nodejs.org](https://nodejs.org/).
+- **npm**: This comes pre-installed with Node.js.
 
-Check your Node.js and npm versions by running:
+To check if you have Node.js and npm installed, run these commands in your terminal:
 
 ```bash
 node -v
 npm -v
 ```
 
----
-
-##  Setup Instructions 
-
-###  Installing Dependencies 
-
-Ensure you have the correct versions of the dependencies by using the `npm ci` command, which installs exactly what is specified in the `package.json` file, without making any updates to versions.
-
-```bash
-npm ci
-```
-
-> **Important**: Do not modify the versions of the dependencies listed in `package.json`. Any changes to the versions might lead to failed tests, as the project relies on specific versions of both Playwright and Lighthouse.
-
-###  Environment Variables 
-
-This project requires a few environment variables to manage login for authenticated tests. Create a `.env` file in the root of your project with the following variables:
-
-```bash
-EMAIL=<your_login_email>
-PASSWORD=<your_login_password>
-```
-
-These values will be used during the tests to perform login actions on your website.
+If you see version numbers, you're good to go! 🎉
 
 ---
 
-##  Running Tests 
+### 📥 Installation
 
-This project contains several npm scripts for running different types of performance tests.
+1. **Clone the Repository**: Download the project to your computer.
+   ```bash
+   git clone https://github.com/your-repo/playwright-lighthouse-performance-testing.git
+   cd playwright-lighthouse-performance-testing
+   ```
 
-###  Authorized User Tests 
+2. **Install Dependencies**: Install all the required tools and libraries.
+   ```bash
+   npm ci
+   ```
 
-To run the performance tests for authorized users (i.e., users who need to log in):
+   > **Note**: Use `npm ci` instead of `npm install` to ensure the exact versions of dependencies are installed.
+
+---
+
+### 🔧 Environment Setup
+
+To test **logged-in user flows**, you need to provide login credentials. Create a `.env` file in the root of your project and add the following:
+
+```bash
+EMAIL=your_email@example.com
+PASSWORD=your_password
+```
+
+> **Important**: Never share your `.env` file or commit it to version control (e.g., GitHub). It contains sensitive information.
+
+---
+
+## 🏃 Running Tests
+
+This project includes three types of tests:
+
+### 🔐 Authorized User Tests
+
+Run performance tests for **logged-in users**:
 
 ```bash
 npm run test:Auth
 ```
 
-This script will:
-1. Remove any previous reports generated by authorized tests.
-2. Execute both desktop and mobile performance audits for authorized users using Playwright and Lighthouse.
+This will:
+1. Remove old performance reports.
+2. Run tests for both **desktop** and **mobile** configurations.
 
-###  Unauthorized User Tests 
+---
 
-To run the performance tests for unauthorized users (i.e., users who do not need to log in):
+### 🔓 Unauthorized User Tests
+
+Run performance tests for **public users**:
 
 ```bash
 npm run test:UnAuth
 ```
 
-This script will:
-1. Remove any previous reports generated by unauthorized tests.
-2. Execute both desktop and mobile performance audits for unauthorized users.
+This will:
+1. Remove old performance reports.
+2. Run tests for both **desktop** and **mobile** configurations.
 
-###  General Tests 
+---
 
-To run the general performance tests (without focusing on authorization):
+### 🧪 General Tests
+
+Run general performance tests (without focusing on login):
 
 ```bash
 npm run test
 ```
 
-This script will:
-- Execute a general performance audit without cleaning or distinguishing between authorized and unauthorized tests.
+---
+
+## 📊 Understanding the Results
+
+After running the tests, you'll find performance reports in the `performance-report/` folder. These reports include:
+
+- **Performance Scores**: A score out of 100 for each page.
+- **Metrics**: Detailed metrics like page load time, time to interactive, and more.
+- **Recommendations**: Suggestions for improving performance.
 
 ---
 
-##  Test Structure 
+## 📈 Interactive Dashboard
 
-###  Authorized Performance Tests 
+The performance results are visualized in an **interactive dashboard** deployed on **Netlify** and **Render**. You can access the dashboard here:
 
-Located in the `tests/Auth/` directory, these tests simulate the behavior of users who are required to log in. They include:
+👉 **[Performance Matrix Dashboard](https://performance-matrix-dashboard.netlify.app/)**
 
-- Navigating to a URL.
-- Logging in using credentials stored in environment variables.
-- Running both desktop and mobile performance audits using Lighthouse.
+The dashboard provides:
+- **Visual Charts**: Bar charts, line graphs, and pie charts to visualize performance metrics.
+- **Filter Options**: Filter results by device type (desktop/mobile) or performance range (e.g., 100-80, 79-50, 49-0).
+- **Latest Run Data**: View the latest performance results for each test.
 
-Example: `Auth/performance.spec.ts`
+Here’s a sneak peek of the dashboard:
 
-###  Unauthorized Performance Tests 
-
-Located in the `tests/UnAuth/` directory, these tests simulate the performance of your web application for users who are not logged in. They measure performance metrics for the public-facing parts of the application.
-
-Example: `UnAuth/performance.spec.ts`
+![Dashboard Screenshot](https://via.placeholder.com/800x400.png?text=Performance+Dashboard+Screenshot)
 
 ---
 
-##  CI Integration 
+## 🤖 Continuous Integration (CI)
 
-This project is configured to run tests automatically on push or pull request events using GitHub Actions. The `playwright.yml` file contains the workflow configuration that performs the following steps:
-
-1. **Install dependencies**: Runs `npm ci` to install the required dependencies.
-2. **Install Playwright browsers**: Ensures the necessary browsers are installed for running the tests.
-3. **Run tests**: Executes the Playwright-Lighthouse tests and uploads the performance reports as artifacts.
-4. **Upload reports**: The performance reports generated by both authorized and unauthorized tests are uploaded as artifacts, stored for 30 days.
-
-### Example GitHub Actions Workflow (`playwright.yml`) 
-
-The CI workflow is triggered on:
-- Pushes to `main` or `master` branches.
-- Pull requests to `main` or `master`.
-
-The performance reports will be available as downloadable artifacts after the workflow completes.
+This project is set up to run tests automatically using **GitHub Actions**. Every time you push changes to the `main` or `master` branch, the tests will run, and performance reports will be generated and saved as artifacts.
 
 ---
 
-##  Project Structure 
+## 🗂️ Project Structure
 
-The repository is organized as follows:
+Here’s how the project is organized:
 
 ```
 ├── tests
 │   ├── Auth
-│   │   └── performance.spec.ts    # Authorized performance tests
+│   │   └── performance.spec.ts    # Tests for logged-in users
 │   ├── UnAuth
-│   │   └── performance.spec.ts    # Unauthorized performance tests
+│   │   └── performance.spec.ts    # Tests for public users
 ├── utils
-│   └── helpers.ts                 # Helper functions for running audits
+│   └── helpers.ts                 # Helper functions for running tests
 ├── lighthouse
 │   └── base.ts                    # Lighthouse configuration
 ├── test-data
-│   └── enum.ts                    # URLS for the tests
+│   └── enum.ts                    # URLs for testing
 ├── .env                           # Environment variables (not included in repo)
 ├── package.json                   # Project dependencies and scripts
 ├── playwright.config.ts           # Playwright configuration
@@ -179,40 +202,42 @@ The repository is organized as follows:
 
 ---
 
-##  Dependencies 
+## 📦 Dependencies
 
-This project depends on the following tools:
+This project uses the following tools:
 
-- **@playwright/test** (`^1.47.1`): A testing framework for Playwright to run browser-based tests.
-- **lighthouse** (`9.6.8`): A tool to audit web applications for performance, accessibility, SEO, and more.
-- **dotenv** (`^16.4.5`): For managing environment variables.
-- **playwright-lighthouse** (`2.2.2`): A utility that allows integrating Playwright with Lighthouse for performance audits.
+- **Playwright**: For **UI automation** (e.g., logging in, navigating pages).
+- **Puppeteer**: For **Lighthouse browser automation** (e.g., running performance audits).
+- **Lighthouse**: For performance audits.
+- **Netlify**: For deploying the interactive dashboard.
+- **Dotenv**: For managing environment variables.
 
-Make sure to use the exact versions specified in `package.json` to avoid any issues with the tests.
-
-```json
-"devDependencies": {
-  "@playwright/test": "^1.47.1",
-  "lighthouse": "9.6.8"
-},
-"dependencies": {
-  "@lighthousejs/types": "^0.0.3",
-  "dotenv": "^16.4.5",
-  "playwright-lighthouse": "2.2.2"
-}
-```
+All dependencies are listed in the `package.json` file.
 
 ---
 
-##  Notes 
+## ❓ FAQs
 
-- Ensure you set up the environment variables correctly, as the authenticated tests depend on them.
-- Always use `npm ci` instead of `npm install` to prevent version changes that might cause test failures.
-- Run `npm run test` to execute both kinds of tests (Authorized and Unauthorized).
-- For CI/CD The repo already has the secrets saved, i.e.,
+### 1. **What is Playwright?**
+Playwright is a tool for automating browser actions, like clicking buttons, filling forms, and navigating pages. It’s used here to simulate user behavior.
 
-```
-env:
-    EMAIL: ${{ secrets.EMAIL }}
-    PASSWORD: ${{secrets.PASSWORD}}
-```
+### 2. **What is Puppeteer?**
+Puppeteer is a Node.js library for controlling headless Chrome or Chromium. It’s used here to automate Lighthouse performance audits.
+
+### 3. **What is Lighthouse?**
+Lighthouse is a tool by Google that audits web pages for performance, accessibility, SEO, and more. It’s used here to measure how fast your website loads.
+
+### 4. **Can I use this for my website?**
+Yes! Just update the URLs in the `test-data/enum.ts` file to point to your website.
+
+### 5. **How do I view the test results?**
+After running the tests, open the reports in the `allure-report/index-html`.
+
+---
+
+## 🎉 Ready to Get Started?
+
+Follow the steps above to set up and run your performance tests. If you have any questions, feel free to reach out! 🚀
+
+---
+
