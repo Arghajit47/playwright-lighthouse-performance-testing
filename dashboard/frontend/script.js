@@ -320,7 +320,7 @@ function updatePerformanceChart(data) {
     (test) => latestTests[test][0].performance // Use the latest run for the bar
   );
   const tooltipData = testNames.map(
-    (test) => latestTests[test].map((run) => run.performance) // Include last 3 runs in tooltip
+    (test) => latestTests[test].map((run) => run.performance).reverse() // Include last 3 runs in tooltip
   );
 
   // Dynamic Bar Colors
