@@ -168,7 +168,13 @@ The dashboard provides:
 
 Here’s a sneak peek of the dashboard:
 
-![Dashboard Screenshot](https://via.placeholder.com/800x400.png?text=Performance+Dashboard+Screenshot)
+👉 **Dashboard Screenshots**
+
+  - **Light Mode**:
+  ![light mode](./dashboard-screenshots/light.png)
+
+  - **Dark Mode**:
+  ![dark mode](./dashboard-screenshots/dark.png)
 
 ---
 
