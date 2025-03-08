@@ -1,20 +1,3 @@
-export const mobileConfig = {
-  setView: "lighthouse:default",
-  extends: "lighthouse:default",
-  settings: {
-    onlyCategories: ["performance"],
-    emulatedFormFactor: "mobile",
-    throttling: {
-      rttMs: 40,
-      throughputKbps: 1024,
-      requestLatencyMs: 0,
-      downloadThroughputKbps: 0,
-      uploadThroughputKbps: 0,
-      cpuSlowdownMultiplier: 1,
-    },
-  },
-};
-
 export const thresholds = {
   performance: 80,
   accessibility: 50,
@@ -22,18 +5,54 @@ export const thresholds = {
   seo: 50,
 };
 
-
-export const tabletConfig = {
-  setView: "lighthouse:default",
+// Lighthouse configuration for mobile devices
+export const mobileConfig = {
   extends: "lighthouse:default",
   settings: {
-    onlyCategories: ["performance"],
-    emulatedFormFactor: "tablet",
+    formFactor: "mobile",
     screenEmulation: {
       mobile: true,
-      width: 1024, // Typical tablet width in landscape mode
-      height: 768, // Typical tablet height in landscape mode
-      deviceScaleFactor: 2, // Simulate high-resolution tablet display
+      deviceScaleFactor: 2,
+      disabled: false,
+    },
+    // throttling: {
+    //   rttMs: 40,
+    //   throughputKbps: 1024,
+    //   requestLatencyMs: 0,
+    //   downloadThroughputKbps: 0,
+    //   uploadThroughputKbps: 0,
+    //   cpuSlowdownMultiplier: 1,
+    // },
+  },
+};
+
+// Lighthouse configuration for desktop devices
+export const desktopConfig = {
+  extends: "lighthouse:default",
+  settings: {
+    formFactor: "desktop",
+    screenEmulation: {
+      mobile: false,
+      width: 1980,
+      height: 1080,
+      deviceScaleFactor: 1,
+      disabled: false,
+    },
+  },
+};
+
+// Lighthouse configuration for tablet devices (customized)
+// Note: Lighthouse doesn’t provide a default "tablet" preset, so we define typical tablet dimensions.
+export const tabletConfig = {
+  extends: "lighthouse:default",
+  settings: {
+    // Although tablets are often treated like mobile devices, you can adjust the parameters as needed.
+    formFactor: "mobile",
+    screenEmulation: {
+      mobile: true,
+      width: 768,
+      height: 1024,
+      deviceScaleFactor: 2,
       disabled: false,
     },
     throttling: {
@@ -46,4 +65,3 @@ export const tabletConfig = {
     },
   },
 };
-

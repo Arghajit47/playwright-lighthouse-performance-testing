@@ -18,10 +18,10 @@
     "@playwright/test": "^1.49.1",
     "allure-commandline": "2.32.0",
     "allure-playwright": "3.0.7",
-    "lighthouse": "9.6.8"
+    "lighthouse": "^12.3.0",
+    "playwright-lighthouse": "^4.0.0"
   },
   "dependencies": {
-    "@lighthousejs/types": "^0.0.3",
     "@supabase/supabase-js": "^2.48.1",
     "axios": "^1.7.9",
     "chart.js": "^3.9.1",
@@ -30,6 +30,7 @@
     "fs-extra": "^11.3.0",
     "netlify-cli": "^17.37.2",
     "pidusage": "^3.0.2",
-    "playwright-lighthouse": "2.2.2"
+    "lighthouse": "^12.3.0",
+    "puppeteer": "^24.2.1"
   }
 }

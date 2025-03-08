@@ -1,13 +1,17 @@
 import { test } from "@playwright/test";
-import desktopConfig from "lighthouse/lighthouse-core/config/desktop-config.js";
-import { mobileConfig, tabletConfig } from "../../lighthouse/base";
+import {
+  mobileConfig,
+  tabletConfig,
+  desktopConfig,
+} from "../../lighthouse/base";
 import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
   runPerformanceAuditInTablet,
   recordPerformanceMetrics,
   attachGraph,
-} from "../../utils/helpers";
+  getCookies,
+} from "../../utils/helpers.js";
 import "dotenv/config";
 import { URLS, AUTHORIZED_PATHS } from "../../test-data/enum";
 import { attachHtmlToAllureReport } from "../../utils/common";
@@ -22,6 +26,7 @@ for (const key in data) {
 
   test.describe(`Lighthouse Authorized Performance Test - ${key}`, async () => {
     let metricsRecorder;
+    const cookies = getCookies();
     test.beforeEach(async ({ page }) => {
       metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
@@ -41,10 +46,11 @@ for (const key in data) {
       page,
     }, testInfo) => {
       await runPerformanceAuditInDesktop(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         desktopConfig,
-        `performance-report/Authorized-performance-reports/Desktop`
+        folders.desktopPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -57,10 +63,11 @@ for (const key in data) {
       page,
     }, testInfo) => {
       await runPerformanceAuditInMobile(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         mobileConfig,
-        `performance-report/Authorized-performance-reports/Mobile`
+        folders.mobilePath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -73,10 +80,11 @@ for (const key in data) {
       page,
     }, testInfo) => {
       await runPerformanceAuditInTablet(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         tabletConfig,
-        `performance-report/Authorized-performance-reports/Tablet`
+        folders.tabletPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
