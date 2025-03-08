@@ -353,6 +353,17 @@ function updatePerformanceChart(data) {
       options: {
         indexAxis: "y",
         responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 0, // Add extra padding to prevent label cropping
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+          },
+        },
         plugins: {
           tooltip: {
             callbacks: {
@@ -439,6 +450,7 @@ function updateSeoChart(data) {
     options: {
       indexAxis: "y",
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         tooltip: {
           callbacks: {
@@ -521,6 +533,7 @@ function updateAccessibilityChart(data) {
       options: {
         indexAxis: "y",
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           tooltip: {
             callbacks: {
@@ -607,6 +620,7 @@ function updateBestPracticeChart(data) {
     options: {
       indexAxis: "y",
       responsive: true,
+      maintainAspectRatio: false,
       plugins: {
         tooltip: {
           callbacks: {
@@ -712,8 +726,33 @@ function updateDashboard(data) {
     },
     options: {
       responsive: true,
+      scales: {
+        y: {
+          ticks: {
+            font: {
+              size: window.innerWidth < 480 ? 10 : 14, // Adjust font size based on screen width
+            },
+            maxRotation: 0, // Prevent rotation
+            minRotation: 0,
+          },
+        },
+        x: {
+          ticks: {
+            font: {
+              size: window.innerWidth < 480 ? 10 : 14,
+            },
+          },
+          beginAtZero: true,
+        },
+      },
+      elements: {
+        bar: {
+          barThickness: window.innerWidth < 480 ? 10 : 20, // Adjust bar thickness for small screens
+        },
+      },
+
       plugins: {
-        legend: { display: true },
+        legend: { display: false },
         title: { display: true, text: "Device Performance Comparison" },
         datalabels: {
           color: "#fff",
