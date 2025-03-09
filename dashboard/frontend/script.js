@@ -64,6 +64,46 @@ function updatePagination(totalPages) {
   }
 }
 
+function addClickAnimation(className) {
+  document.querySelectorAll(`.${className}`).forEach((button) => {
+    button.addEventListener("click", () => {
+      button.style.transform = "scale(0.9)"; // Shrink on click
+      setTimeout(() => {
+        button.style.transform = "scale(1)"; // Return to normal size
+      }, 100);
+    });
+  });
+}
+addClickAnimation("social-button");
+
+function scrollToAccessibilityChart() {
+  // Get the target element
+  const targetElement = document.getElementById("accessibility-chart");
+
+  // Scroll to the target element with smooth behavior
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
+  }
+}
+function scrollToSeoChart() {
+  // Get the target element
+  const targetElement = document.getElementById("seo-chart");
+
+  // Scroll to the target element with smooth behavior
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
+  }
+}
+function scrollToBestPracticeChart() {
+  // Get the target element
+  const targetElement = document.getElementById("best-practice-chart");
+
+  // Scroll to the target element with smooth behavior
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
 // Dark/Light Mode Toggle
 function toggleTheme() {
   const body = document.body;
