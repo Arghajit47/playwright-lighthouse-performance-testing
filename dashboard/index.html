@@ -4,12 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Performance Dashboard for monitoring and analyzing the performance, accessibility, SEO, and best practices of web applications.">
   <link rel="icon" type="image/png" href="./frontend/performance.png" />
   <title>Performance Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="frontend/style.css" />
 </head>
 
@@ -27,15 +29,15 @@
 
     <!-- KPI Scorecards -->
     <div class="metrics">
-      <div class="metric-box">
+      <div class="metric-box" onclick="scrollToAccessibilityChart()">
         <h3>Accessibility</h3>
         <p id="accessibility-score">Loading...</p>
       </div>
-      <div class="metric-box">
+      <div class="metric-box" onclick="scrollToSeoChart()">
         <h3>SEO</h3>
         <p id="seo-score">Loading...</p>
       </div>
-      <div class="metric-box">
+      <div class="metric-box" onclick="scrollToBestPracticeChart()">
         <h3>Best Practices</h3>
         <p id="best-practice-score">Loading...</p>
       </div>
@@ -62,7 +64,7 @@
     </div>
 
     <!-- Horizontal Bar Chart for Last 3 Runs -->
-    <div class="chart-container">
+    <div class="chart-container" id="performance-chart">
       <h2>Performance for Last 3 Runs</h2>
       <canvas id="horizontalBarChart"></canvas>
     </div>
@@ -88,7 +90,7 @@
     </div>
 
     <!-- Horizontal Bar Chart for SEO -->
-    <div class="chart-container">
+    <div class="chart-container" id="seo-chart">
       <h2>SEO for Last 3 Runs</h2>
       <canvas id="seoChart"></canvas>
     </div>
@@ -114,7 +116,7 @@
     </div>
 
     <!-- Horizontal Bar Chart for Accessibility -->
-    <div class="chart-container">
+    <div class="chart-container" id="accessibility-chart">
       <h2>Accessibility for Last 3 Runs</h2>
       <canvas id="accessibilityChart"></canvas>
     </div>
@@ -140,7 +142,7 @@
     </div>
 
     <!-- Horizontal Bar Chart for Best Practices -->
-    <div class="chart-container">
+    <div class="chart-container" id="best-practice-chart">
       <h2>Best Practices for Last 3 Runs</h2>
       <canvas id="bestPracticeChart"></canvas>
     </div>
@@ -187,8 +189,26 @@
       <!-- Pagination -->
       <div class="pagination" id="pagination"></div>
     </div>
+    
 
     <script src="./frontend/script.js"></script>
+    <footer>
+      <div class="social-buttons">
+        <!-- YouTube Button -->
+        <div class="social-button" onclick="window.open('https://www.youtube.com/@sdetstudio4711', '_blank')">
+          <i class="fab fa-youtube"></i>
+        </div>
+      
+        <!-- LinkedIn Button -->
+        <div class="social-button" onclick="window.open('https://www.linkedin.com/in/arghajit-singha-1646341bb/', '_blank')">
+          <i class="fab fa-linkedin"></i>
+        </div>
+      
+        <!-- GitHub Button -->
+        <div class="social-button" onclick="window.open('https://github.com/Arghajit47', '_blank')">
+          <i class="fab fa-github"></i>
+        </div>
+      </div>
+    </footer>
 </body>
-
 </html>
