@@ -1,4 +1,5 @@
 let allData = []; // Store all data for filtering
+let latestData = []; // Store latest data for filtering
 let horizontalBarChart, seoChart, accessibilityChart, bestPracticeChart; // Store chart instances
 let currentPage = 1; // Current page for pagination
 const rowsPerPage = 10; // Number of rows per page
@@ -137,6 +138,7 @@ async function fetchData() {
       "https://playwright-lighthouse-performance-testing.onrender.com/api/data"
     );
     allData = await response.json();
+    latestData = await fetchLatestData(allData);
     updateDashboard(allData);
     populateDeviceFilter(allData);
     populateSeoDeviceFilter(allData);
@@ -186,6 +188,21 @@ function populateAccessibilityDeviceFilter(data) {
   });
 }
 
+async function fetchLatestData(data) {
+  const latestRunResults = await Object.values(
+    data.reduce((acc, test) => {
+      const { test_name, created_at } = test;
+      if (
+        !acc[test_name] ||
+        new Date(created_at) > new Date(acc[test_name].created_at)
+      ) {
+        acc[test_name] = test;
+      }
+      return acc;
+    }, {})
+  );
+  return latestRunResults;
+}
 // Populate Device Filter Options for Best Practices Chart
 function populateBestPracticeDeviceFilter(data) {
   const deviceTypes = [...new Set(data.map((d) => d.device_type))];
@@ -207,7 +224,7 @@ function applyFilters() {
   console.log("Selected Device:", selectedDevice);
   console.log("Selected Performance Range:", selectedPerformance);
 
-  let filteredData = allData;
+  let filteredData = latestData;
 
   // Filter by Device
   if (selectedDevice !== "All") {
@@ -241,7 +258,7 @@ function applySeoFilters() {
   const selectedDevice = document.getElementById("seoDeviceFilter").value;
   const selectedSeo = document.getElementById("seoFilter").value;
 
-  let filteredData = allData;
+  let filteredData = latestData;
 
   // Filter by Device
   if (selectedDevice !== "All") {
@@ -277,7 +294,7 @@ function applyAccessibilityFilters() {
     "accessibilityFilter"
   ).value;
 
-  let filteredData = allData;
+  let filteredData = latestData;
 
   // Filter by Device
   if (selectedDevice !== "All") {
@@ -312,7 +329,7 @@ function applyBestPracticeFilters() {
   const selectedBestPractice =
     document.getElementById("bestPracticeFilter").value;
 
-  let filteredData = allData;
+  let filteredData = latestData;
 
   // Filter by Device
   if (selectedDevice !== "All") {
@@ -345,6 +362,7 @@ function updatePerformanceChart(data) {
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const latestTests = {};
+  const latestTestsTooltip = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) {
       latestTests[d.test_name] = [];
@@ -353,20 +371,30 @@ function updatePerformanceChart(data) {
       latestTests[d.test_name].push(d); // Keep only the latest 3 runs
     }
   });
+  allData.forEach((d) => {
+    if (!latestTestsTooltip[d.test_name]) {
+      latestTestsTooltip[d.test_name] = [];
+    }
+    if (latestTestsTooltip[d.test_name].length < 3) {
+      latestTestsTooltip[d.test_name].push(d); // Keep only the latest 3 runs
+    }
+  });
 
   // Extract only the latest run for each test
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
     (test) => latestTests[test][0].performance // Use the latest run for the bar
   );
-  const tooltipData = testNames.map(
-    (test) => latestTests[test].map((run) => run.performance).reverse() // Include last 3 runs in tooltip
-  );
+  const tooltipData = [
+    ...testNames.map(
+      (test) => latestTestsTooltip[test].map((run) => run.performance).reverse() // Include last 3 runs in tooltip
+    ),
+  ];
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgb(0, 190, 0)"; // Green
-    if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
+    if (score >= 90) return "rgb(0, 190, 0)"; // Green
+    if (score >= 60 && score <= 89) return "rgba(255, 159, 64, 0.8)"; // Orange
     return "rgb(190, 0, 0)"; // Red
   });
 
@@ -444,6 +472,7 @@ function updateSeoChart(data) {
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const latestTests = {};
+  const latestTestsTooltip = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) {
       latestTests[d.test_name] = [];
@@ -452,20 +481,31 @@ function updateSeoChart(data) {
       latestTests[d.test_name].push(d); // Keep only the latest 3 runs
     }
   });
+  allData.forEach((d) => {
+    if (!latestTestsTooltip[d.test_name]) {
+      latestTestsTooltip[d.test_name] = [];
+    }
+    if (latestTestsTooltip[d.test_name].length < 3) {
+      latestTestsTooltip[d.test_name].push(d); // Keep only the latest 3 runs
+    }
+  });
 
   // Extract only the latest run for each test
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
     (test) => latestTests[test][0].seo // Use the latest run for the bar
   );
-  const tooltipData = testNames.map(
-    (test) => latestTests[test].map((run) => run.seo) // Include last 3 runs in tooltip
-  );
+
+  const tooltipData = [
+    ...testNames.map(
+      (test) => latestTestsTooltip[test].map((run) => run.seo) // Include last 3 runs in tooltip
+    ),
+  ];
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgb(0, 190, 0)"; // Green
-    if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
+    if (score >= 90) return "rgb(0, 190, 0)"; // Green
+    if (score >= 60 && score <= 89) return "rgba(255, 159, 64, 0.8)"; // Orange
     return "rgb(190, 0, 0)"; // Red
   });
 
@@ -530,23 +570,34 @@ function updateAccessibilityChart(data) {
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const latestTests = {};
+  const latestTestsTooltip = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) latestTests[d.test_name] = [];
     if (latestTests[d.test_name].length < 3) latestTests[d.test_name].push(d); // Keep only the latest 3 runs
+  });
+  allData.forEach((d) => {
+    if (!latestTestsTooltip[d.test_name]) {
+      latestTestsTooltip[d.test_name] = [];
+    }
+    if (latestTestsTooltip[d.test_name].length < 3) {
+      latestTestsTooltip[d.test_name].push(d); // Keep only the latest 3 runs
+    }
   });
 
   const testNames = Object.keys(latestTests);
   const barData = testNames.map(
     (test) => latestTests[test][latestTests[test].length - 1].accessibility
   );
-  const tooltipData = testNames.map((test) =>
-    latestTests[test].map((run) => run.accessibility)
-  );
+  const tooltipData = [
+    ...testNames.map((test) =>
+      latestTestsTooltip[test].map((run) => run.accessibility)
+    ),
+  ];
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgb(0, 190, 0)"; // Green
-    if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
+    if (score >= 90) return "rgb(0, 190, 0)"; // Green
+    if (score >= 60 && score <= 89) return "rgba(255, 159, 64, 0.8)"; // Orange
     return "rgb(190, 0, 0)"; // Red
   });
 
@@ -614,12 +665,21 @@ function updateBestPracticeChart(data) {
   data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   const latestTests = {};
+  const latestTestsTooltip = {};
   data.forEach((d) => {
     if (!latestTests[d.test_name]) {
       latestTests[d.test_name] = [];
     }
     if (latestTests[d.test_name].length < 3) {
       latestTests[d.test_name].push(d); // Keep only the latest 3 runs
+    }
+  });
+  allData.forEach((d) => {
+    if (!latestTestsTooltip[d.test_name]) {
+      latestTestsTooltip[d.test_name] = [];
+    }
+    if (latestTestsTooltip[d.test_name].length < 3) {
+      latestTestsTooltip[d.test_name].push(d); // Keep only the latest 3 runs
     }
   });
 
@@ -629,13 +689,13 @@ function updateBestPracticeChart(data) {
     (test) => latestTests[test][0].best_practice // Use the latest run for the bar
   );
   const tooltipData = testNames.map(
-    (test) => latestTests[test].map((run) => run.best_practice) // Include last 3 runs in tooltip
+    (test) => latestTestsTooltip[test].map((run) => run.best_practice) // Include last 3 runs in tooltip
   );
 
   // Dynamic Bar Colors
   const barColors = barData.map((score) => {
-    if (score > 80) return "rgb(0, 190, 0)"; // Green
-    if (score >= 50 && score <= 80) return "rgba(255, 159, 64, 0.8)"; // Orange
+    if (score >= 90) return "rgb(0, 190, 0)"; // Green
+    if (score >= 60 && score <= 89) return "rgba(255, 159, 64, 0.8)"; // Orange
     return "rgb(190, 0, 0)"; // Red
   });
 
@@ -938,3 +998,4 @@ function applyTableFilters() {
 }
 // Fetch data on page load
 fetchData();
+fetchLatestData();
