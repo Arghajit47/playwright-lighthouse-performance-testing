@@ -28,9 +28,10 @@
     "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.3.0",
-    "netlify-cli": "^17.37.2",
-    "pidusage": "^3.0.2",
     "lighthouse": "^12.3.0",
+    "netlify-cli": "^17.37.2",
+    "openai": "^4.85.3",
+    "pidusage": "^3.0.2",
     "puppeteer": "^24.2.1"
   }
 }
