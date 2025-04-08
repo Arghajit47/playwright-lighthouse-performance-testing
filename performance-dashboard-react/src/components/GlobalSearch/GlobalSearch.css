@@ -1,0 +1,26 @@
+.global-search {
+  margin: 20px 0;
+  position: relative;
+  max-width: 500px;
+}
+
+.global-search input {
+  width: 100%;
+  padding: 10px 15px;
+  padding-right: 35px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #999;
+}
