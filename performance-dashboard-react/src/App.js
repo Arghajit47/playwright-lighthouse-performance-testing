@@ -9,7 +9,6 @@ import DeviceChart from "./charts/DeviceChart";
 import DataTable from "./components/DataTable";
 import Loading from "./components/Loading";
 import ThemeToggle from "./components/ThemeToggle";
-
 import "./App.css";
 
 function App() {
@@ -17,7 +16,8 @@ function App() {
   const [latestData, setLatestData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState("dark");
-  const [searchTerm, setSearchTerm] = useState(""); // Global search state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [urlFilter, setUrlFilter] = useState("");
 
   // Apply theme class to body element
   useEffect(() => {
@@ -28,26 +28,35 @@ function App() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  // Filter data based on search term
-  const filteredData = allData.filter((item) => {
-    if (!searchTerm) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      (item.name && item.name.toLowerCase().includes(term)) ||
-      (item.url && item.url.toLowerCase().includes(term)) ||
-      (item.test_name && item.test_name.toLowerCase().includes(term))
-    );
-  });
+  // Get unique URLs from allData
+  const uniqueUrls = React.useMemo(() => {
+    if (!allData || allData.length === 0) return [];
+    const urls = allData.map((item) => item.url).filter(Boolean);
+    return [...new Set(urls)].sort();
+  }, [allData]);
 
-  const filteredLatestData = latestData.filter((item) => {
-    if (!searchTerm) return true;
-    const term = searchTerm.toLowerCase();
-    return (
-      (item.name && item.name.toLowerCase().includes(term)) ||
-      (item.url && item.url.toLowerCase().includes(term)) ||
-      (item.test_name && item.test_name.toLowerCase().includes(term))
-    );
-  });
+  // Combined filter function
+  const filterData = (data) => {
+    return data.filter((item) => {
+      // Search term filter
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        const matchesSearch =
+          item.name?.toLowerCase().includes(term) ||
+          item.url?.toLowerCase().includes(term) ||
+          item.test_name?.toLowerCase().includes(term);
+        if (!matchesSearch) return false;
+      }
+
+      // URL filter
+      if (urlFilter && item.url !== urlFilter) return false;
+
+      return true;
+    });
+  };
+
+  const filteredData = filterData(allData);
+  const filteredLatestData = filterData(latestData);
 
   const fetchData = async () => {
     try {
@@ -86,6 +95,11 @@ function App() {
     fetchData();
   }, []);
 
+  const clearAllFilters = () => {
+    setSearchTerm("");
+    setUrlFilter("");
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -95,20 +109,45 @@ function App() {
       <ThemeToggle toggleTheme={toggleTheme} theme={theme} />
 
       <Header>
-        <div className="global-search-container">
-          <input
-            type="text"
-            placeholder="Search by Test Name or URL..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="global-search-input"
-          />
-          {searchTerm && (
-            <button
-              onClick={() => setSearchTerm("")}
-              className="clear-search-button"
+        <div className="filters-container">
+          <div className="global-search-container">
+            <input
+              type="text"
+              placeholder="Search by Test Name"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="global-search-input"
+            />
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="clear-search-button"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div className="url-filter">
+            <label htmlFor="url-filter">Filter by URL:</label>
+            <select
+              id="url-filter"
+              value={urlFilter}
+              onChange={(e) => setUrlFilter(e.target.value)}
+              disabled={uniqueUrls.length === 0}
             >
-              Clear
+              <option value="">All URLs</option>
+              {uniqueUrls.map((url) => (
+                <option key={url} value={url}>
+                  {url}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {(searchTerm || urlFilter) && (
+            <button onClick={clearAllFilters} className="clear-all-filters">
+              Clear All Filters
             </button>
           )}
         </div>
@@ -177,7 +216,7 @@ function App() {
 
       <footer>
         <div className="version-details">
-          <p>Dashboard Version: 2.1.0</p>
+          <p>Dashboard Version: 2.1.1</p>
         </div>
       </footer>
     </div>

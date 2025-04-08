@@ -781,4 +781,44 @@ body.light-mode canvas {
   color: #fff;
 }
 
+/* Add these styles to your existing App.css */
+.filters-container {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.url-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.url-filter label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.url-filter select {
+  min-width: 250px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.clear-all-filters {
+  padding: 8px 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-all-filters:hover {
+  background-color: #e0e0e0;
+}
 
