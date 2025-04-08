@@ -821,4 +821,7 @@ body.light-mode canvas {
 .clear-all-filters:hover {
   background-color: #e0e0e0;
 }
+.pagination-info{
+  padding-top: 5%;
+}
 
