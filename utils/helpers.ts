@@ -1,4 +1,3 @@
-import { thresholds } from "../lighthouse/base";
 import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
@@ -55,6 +54,7 @@ export async function runPerformanceAuditInDesktop(
     seo: lhr.categories.seo.score * 100 || 0,
     device_type: "desktop",
     test_name: `${reportName}`,
+    url: url,
   };
 
   // // Call Supabase function to insert the record
@@ -111,6 +111,7 @@ export async function runPerformanceAuditInMobile(
     seo: lhr.categories.seo.score * 100 || 0,
     device_type: "mobile",
     test_name: `${reportName}`,
+    url: url,
   };
 
   // // Call Supabase function to insert the record
@@ -168,6 +169,7 @@ export async function runPerformanceAuditInTablet(
     seo: lhr.categories.seo.score * 100 || 0,
     device_type: "tablet",
     test_name: `${reportName}`,
+    url: url,
   };
 
   // // Call Supabase function to insert the record
