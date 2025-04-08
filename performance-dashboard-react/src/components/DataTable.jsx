@@ -88,6 +88,7 @@ const DataTable = ({ data, latestData }) => {
               <th>SEO</th>
               <th>Best Practice</th>
               <th>Date</th>
+              <th>URL</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +101,7 @@ const DataTable = ({ data, latestData }) => {
                 <td>{d.seo.toFixed(2)}</td>
                 <td>{d.best_practice.toFixed(2)}</td>
                 <td>{formatDate(d.created_at)}</td>
+                <td>{d.url}</td>
               </tr>
             ))}
           </tbody>
