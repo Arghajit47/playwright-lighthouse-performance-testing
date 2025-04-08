@@ -337,3 +337,5 @@ async function insertLighthousePerformanceRecord(record) {
     console.error("Error inserting record:", error);
   }
 }
+
+ 
