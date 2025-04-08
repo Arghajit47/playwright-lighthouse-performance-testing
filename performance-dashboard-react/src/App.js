@@ -209,7 +209,7 @@ function App() {
 
       <footer>
         <div className="version-details">
-          <p>Dashboard Version: 2.1.1</p>
+          <p>Dashboard Version: 2.1.6</p>
         </div>
       </footer>
     </div>
