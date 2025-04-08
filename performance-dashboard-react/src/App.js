@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import MetricBox from "./components/MetricBox";
@@ -118,14 +119,6 @@ function App() {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="global-search-input"
             />
-            {searchTerm && (
-              <button
-                onClick={() => setSearchTerm("")}
-                className="clear-search-button"
-              >
-                Clear
-              </button>
-            )}
           </div>
 
           <div className="url-filter">
