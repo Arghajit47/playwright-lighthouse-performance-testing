@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import Pagination from "./Pagination";
 
 const DataTable = ({ data, latestData }) => {
   const [showLatestRunOnly, setShowLatestRunOnly] = useState(false);
-  const [device_typeFilter, setdevice_typeFilter] = useState("All");
+  const [deviceFilter, setDeviceFilter] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
@@ -11,10 +12,8 @@ const DataTable = ({ data, latestData }) => {
 
   let filteredData = showLatestRunOnly ? latestData : data;
 
-  if (device_typeFilter !== "All") {
-    filteredData = filteredData.filter(
-      (d) => d.device_type === device_typeFilter
-    );
+  if (deviceFilter !== "All") {
+    filteredData = filteredData.filter((d) => d.device_type === deviceFilter);
   }
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
@@ -58,12 +57,12 @@ const DataTable = ({ data, latestData }) => {
 
       <div className="filter-container">
         <div>
-          <label htmlFor="tabledevice_typeFilter">Filter by Device:</label>
+          <label htmlFor="tabledeviceFilter">Filter by Device:</label>
           <select
-            id="tabledevice_typeFilter"
-            value={device_typeFilter}
+            id="tabledeviceFilter"
+            value={deviceFilter}
             onChange={(e) => {
-              setdevice_typeFilter(e.target.value);
+              setDeviceFilter(e.target.value);
               setCurrentPage(1); // Reset to first page when changing device_type filter
             }}
           >
