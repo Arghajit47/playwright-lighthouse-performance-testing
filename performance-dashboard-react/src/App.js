@@ -152,8 +152,8 @@ function App() {
           score={filteredLatestData[0]?.accessibility || 0}
           onClick={() =>
             document
-              .getElementById("accessibilityChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("AccessibilityChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />
@@ -162,18 +162,18 @@ function App() {
           score={filteredLatestData[0]?.seo || 0}
           onClick={() =>
             document
-              .getElementById("seoChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("SEOChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />
         <MetricBox
-          title="Best Practices"
+          title="Best-Practices"
           score={filteredLatestData[0]?.best_practice || 0}
           onClick={() =>
             document
-              .getElementById("bestPracticeChart")
-              .scrollIntoView({ behavior: "smooth" })
+              .getElementById("Best-PracticesChart")
+              .scrollIntoView({ behavior: "smooth", force: true })
           }
           theme={theme}
         />

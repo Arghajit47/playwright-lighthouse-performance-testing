@@ -1,9 +1,9 @@
 import React from "react";
 
 const FilterContainer = ({
-  device_typeTypes,
-  selecteddevice_type,
-  ondevice_typeChange,
+  deviceTypes,
+  selectedDevice,
+  onDeviceChange,
   selectedValue,
   onValueChange,
   valueOptions,
@@ -12,14 +12,14 @@ const FilterContainer = ({
   return (
     <div className="filter-container">
       <div>
-        <label htmlFor="device_typeFilter">Filter by Device:</label>
+        <label htmlFor="deviceFilter">Filter by Device:</label>
         <select
-          id="device_typeFilter"
-          value={selecteddevice_type}
-          onChange={(e) => ondevice_typeChange(e.target.value)}
+          id="deviceFilter"
+          value={selectedDevice}
+          onChange={(e) => onDeviceChange(e.target.value)}
         >
           <option value="All">All</option>
-          {device_typeTypes.map((device_type) => (
+          {deviceTypes.map((device_type) => (
             <option key={device_type} value={device_type}>
               {device_type}
             </option>

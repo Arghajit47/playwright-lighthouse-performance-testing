@@ -20,16 +20,16 @@ const MetricChartTemplate = ({
   metricKey,
   valueLabel,
 }) => {
-  const [device_typeFilter, setDevice_typeFilter] = React.useState("All");
+  const [deviceFilter, setDeviceFilter] = React.useState("All");
   const [metricFilter, setMetricFilter] = React.useState("All");
 
-  const device_typeTypes = [...new Set(allData.map((d) => d.device_type))];
+  const deviceTypes = [...new Set(allData.map((d) => d.device_type))];
   const allTestNames = [...new Set(allData.map((d) => d.test_name))];
 
   const applyFilters = () => {
     let filtered = [...data];
-    if (device_typeFilter !== "All") {
-      filtered = filtered.filter((d) => d.device_type === device_typeFilter);
+    if (deviceFilter !== "All") {
+      filtered = filtered.filter((d) => d.device_type === deviceFilter);
     }
     if (metricFilter !== "All") {
       let [min, max] = metricFilter.split("-").map(Number);
@@ -117,9 +117,9 @@ const MetricChartTemplate = ({
 
   const filters = (
     <FilterContainer
-      device_typeTypes={device_typeTypes}
-      selecteddevice_type={device_typeFilter}
-      ondevice_typeChange={setDevice_typeFilter}
+      deviceTypes={deviceTypes}
+      selectedDevice={deviceFilter}
+      onDeviceChange={setDeviceFilter}
       selectedValue={metricFilter}
       onValueChange={setMetricFilter}
       valueOptions={[
