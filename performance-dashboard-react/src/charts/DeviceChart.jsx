@@ -69,16 +69,10 @@ const DeviceChart = ({ data, theme }) => {
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
-      const runs = payload[0].payload.runs;
       return (
         <div className={`custom-tooltip ${theme}`}>
           <p className="tooltip-label">{payload[0].payload.fullName}</p>
           <p className="tooltip-item">Average: {payload[0].value}</p>
-          {runs.map((run, index) => (
-            <p key={index} className="tooltip-item">
-              Run {index + 1} ({run.date}): {run.score} ({run.testName})
-            </p>
-          ))}
         </div>
       );
     }
@@ -92,7 +86,7 @@ const DeviceChart = ({ data, theme }) => {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis

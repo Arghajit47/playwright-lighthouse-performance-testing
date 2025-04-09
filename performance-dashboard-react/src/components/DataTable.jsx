@@ -95,10 +95,10 @@ const DataTable = ({ data, latestData }) => {
               <tr key={`${d.test_name}-${d.created_at}`}>
                 <td>{d.test_name}</td>
                 <td>{d.device_type}</td>
-                <td>{d.performance.toFixed(2)}</td>
-                <td>{d.accessibility.toFixed(2)}</td>
-                <td>{d.seo.toFixed(2)}</td>
-                <td>{d.best_practice.toFixed(2)}</td>
+                <td>{d.performance}</td>
+                <td>{d.accessibility}</td>
+                <td>{d.seo}</td>
+                <td>{d.best_practice}</td>
                 <td>{formatDate(d.created_at)}</td>
                 <td>{d.url}</td>
               </tr>
