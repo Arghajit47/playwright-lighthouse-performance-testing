@@ -1,84 +1,136 @@
-import React, { useEffect, useRef } from "react";
-import { Chart } from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import React, { useEffect, useState } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 
-const DeviceChart = ({ data }) => {
-  const chartRef = useRef(null);
+const DeviceChart = ({ data, theme }) => {
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    const device_types = {};
-    data.forEach((d) => {
-      if (!device_types[d.device_type]) {
-        device_types[d.device_type] = { count: 0, performance: 0 };
-      }
-      device_types[d.device_type].count++;
-      device_types[d.device_type].performance += d.performance;
-    });
-
-    const device_typeLabels = Object.keys(device_types);
-    const device_typeData = device_typeLabels.map((d) =>
-      Math.round(device_types[d].performance / device_types[d].count)
+    // Process all runs for tooltips
+    const allDeviceRuns = {};
+    const sortedAllData = [...data].sort(
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
     );
-
-    const ctx = chartRef.current.getContext("2d");
-
-    const chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: device_typeLabels,
-        datasets: [
-          {
-            label: "Avg Performance",
-            data: device_typeData,
-            backgroundColor: "rgb(88, 62, 37)",
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            ticks: {
-              font: {
-                size: window.innerWidth < 480 ? 10 : 14,
-              },
-              maxRotation: 0,
-              minRotation: 0,
-            },
-          },
-          x: {
-            ticks: {
-              font: {
-                size: window.innerWidth < 480 ? 10 : 14,
-              },
-            },
-            beginAtZero: true,
-          },
-        },
-        elements: {
-          bar: {
-            barThickness: window.innerWidth < 480 ? 10 : 20,
-          },
-        },
-        plugins: {
-          legend: { display: false },
-          title: { display: true, text: "device_type Performance Comparison" },
-          datalabels: {
-            color: "#fff",
-            font: { weight: "bold", size: 14 },
-          },
-        },
-      },
-      plugins: [ChartDataLabels],
+    sortedAllData.forEach((test) => {
+      if (!allDeviceRuns[test.device_type])
+        allDeviceRuns[test.device_type] = [];
+      if (allDeviceRuns[test.device_type].length < 3) {
+        allDeviceRuns[test.device_type].push(test);
+      }
     });
 
-    return () => chart.destroy();
+    // Calculate averages
+    const deviceAverages = {};
+    data.forEach((test) => {
+      if (!deviceAverages[test.device_type]) {
+        deviceAverages[test.device_type] = { sum: 0, count: 0 };
+      }
+      deviceAverages[test.device_type].sum += test.performance;
+      deviceAverages[test.device_type].count++;
+    });
+
+    // Prepare chart data
+    const processedData = Object.keys(deviceAverages).map((deviceType) => {
+      const avg = Math.round(
+        deviceAverages[deviceType].sum / deviceAverages[deviceType].count
+      );
+      return {
+        name:
+          deviceType.length > 10
+            ? `${deviceType.substring(0, 10)}...`
+            : deviceType,
+        fullName: deviceType,
+        value: avg,
+        fill: getBarColor(avg),
+        runs: (allDeviceRuns[deviceType] || []).map((run) => ({
+          date: new Date(run.created_at).toLocaleDateString(),
+          score: run.performance,
+          testName: run.test_name,
+        })),
+      };
+    });
+
+    setChartData(processedData);
   }, [data]);
+
+  const getBarColor = (score) => {
+    if (score >= 80) return "#00be00";
+    if (score >= 60) return "#ff9f40";
+    return "#be0000";
+  };
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const runs = payload[0].payload.runs;
+      return (
+        <div className={`custom-tooltip ${theme}`}>
+          <p className="tooltip-label">{payload[0].payload.fullName}</p>
+          <p className="tooltip-item">Average: {payload[0].value}</p>
+          {runs.map((run, index) => (
+            <p key={index} className="tooltip-item">
+              Run {index + 1} ({run.date}): {run.score} ({run.testName})
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div className="chart-container">
       <h2>Average Performance by Device</h2>
-      <canvas id="DeviceChart" ref={chartRef}></canvas>
+      <div style={{ height: "400px", width: "100%" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={chartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              tick={{ fill: theme === "dark" ? "#fff" : "#333" }}
+            />
+            <YAxis
+              domain={[0, 100]}
+              tick={{ fill: theme === "dark" ? "#fff" : "#333" }}
+            />
+            <Tooltip
+              content={<CustomTooltip />}
+              wrapperStyle={{
+                backgroundColor: theme === "dark" ? "#333" : "#fff",
+                borderColor: "#6a11cb",
+                borderRadius: "5px",
+                padding: "10px",
+              }}
+            />
+            <Bar dataKey="value" fill="#8884d8">
+              <LabelList
+                dataKey="value"
+                position="top"
+                fill={theme === "dark" ? "#fff" : "#333"}
+                style={{ fontWeight: "bold" }}
+              />
+              {chartData.map((entry, index) => (
+                <Bar
+                  key={`bar-${index}`}
+                  dataKey="value"
+                  fill={entry.fill}
+                  stackId="a"
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
