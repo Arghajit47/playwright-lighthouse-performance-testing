@@ -8,7 +8,7 @@ const DataTable = ({ data, latestData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
-  const device_typeTypes = [...new Set(data.map((d) => d.device_type))];
+  const deviceTypes = [...new Set(data.map((d) => d.device_type))];
 
   let filteredData = showLatestRunOnly ? latestData : data;
 
@@ -67,7 +67,7 @@ const DataTable = ({ data, latestData }) => {
             }}
           >
             <option value="All">All</option>
-            {device_typeTypes.map((device_type) => (
+            {deviceTypes.map((device_type) => (
               <option key={device_type} value={device_type}>
                 {device_type}
               </option>

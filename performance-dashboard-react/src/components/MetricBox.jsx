@@ -8,7 +8,7 @@ const MetricBox = ({ title, score, onClick }) => {
   };
 
   return (
-    <div className="metric-box" onClick={onClick}>
+    <div className="metric-box" id={`${title}Chart`} onClick={onClick}>
       <h3>{title}</h3>
       <p style={{ color: getScoreColor(score) }}>{score}</p>
     </div>
