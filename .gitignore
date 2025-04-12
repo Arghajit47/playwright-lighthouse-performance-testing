@@ -1,0 +1,15 @@
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/performance-report/Authorized-performance-reports
+/performance-report/Unauthorized-performance-reports
+/performance-report/cpu/
+.vscode
+.env
+/performance-report/folderStructure.json
+/allure-report
+/allure-results
+downloaded-images
+/dashboard/config.json
