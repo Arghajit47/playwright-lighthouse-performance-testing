@@ -26,6 +26,7 @@ jobs:
         npm install -g allure-commandline
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    
     - name: Run Playwright Performance tests
       env:
         EMAIL: ${{ secrets.EMAIL }}
