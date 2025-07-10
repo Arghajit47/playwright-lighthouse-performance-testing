@@ -19,7 +19,7 @@ import { attachHtmlToAllureReport } from "../../utils/common";
 const data = URLS;
 const folders = AUTHORIZED_PATHS;
 
-// test.describe.configure({ mode: "serial" });
+test.describe.configure({ mode: "serial" });
 
 for (const key in data) {
   const value = data[key];
@@ -95,7 +95,6 @@ for (const key in data) {
 
     test.afterEach(async ({ page }, testInfo) => {
       await attachGraph(metricsRecorder, testInfo);
-      await page.close();
     });
   });
 }
