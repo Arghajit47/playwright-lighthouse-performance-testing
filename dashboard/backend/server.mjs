@@ -65,6 +65,46 @@ function initializeDbConnection() {
   }
 }
 
+app.get("/api/getcredentials", (req, res) => {
+  const authToken = req.headers["x-api-key"];
+
+  if (authToken !== process.env.CREDS_API_KEY) {
+    return res.status(403).json({ error: "Unauthorized access" });
+  }
+
+  const username = process.env.EMAIL;
+  const password = process.env.PASSWORD;
+
+  if (!username || !password) {
+    return res
+      .status(500)
+      .json({ error: "Credentials not set in environment variables" });
+  }
+
+  return res.status(200).json({ username, password });
+});
+
+app.post("/api/verifycredentials", async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ error: "Username and password are required" });
+  }
+
+  if (username === "" && password === "") {
+    return res
+      .status(401)
+      .json({ error: "Invalid username or password", isAuthenticated: false });
+  }
+
+  // Default case: credentials are invalid
+  return res
+    .status(200)
+    .json({ message: "Credentials are valid", isAuthenticated: true });
+});
+
 // --- API ROUTE ---
 // Queries the local, cached database file.
 app.get("/api/data", (req, res) => {

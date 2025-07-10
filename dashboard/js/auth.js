@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "https://test-dashboard-66zd.onrender.com/api/verifycredentials",
+        "https://playwright-lighthouse-performance-testing.onrender.com/api/verifycredentials",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

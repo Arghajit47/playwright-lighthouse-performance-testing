@@ -15,7 +15,7 @@ let uiState = {
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://test-dashboard-66zd.onrender.com/api/proxy/merged-results"
+      "https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/visual-dashboard-json/merged-results.json"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     testData = await response.json();
