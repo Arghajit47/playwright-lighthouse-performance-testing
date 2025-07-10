@@ -56,7 +56,11 @@ export default defineConfig({
           slowMo: 3000,
           args: [
             "--window-size=1920,1080",
-            "--remote-debugging-port=9222",
+            "--remote-debugging-port=9220",
+            "--remote-debugging-port=9221",
+            "--remote-debugging-port=9227",
+            "--remote-debugging-port=9228",
+            "--remote-debugging-port=9229",
             "--no-sandbox",
           ],
           timeout: 300000,
@@ -75,6 +79,10 @@ export default defineConfig({
           args: [
             "--window-size=1920,1080",
             "--remote-debugging-port=9222",
+            "--remote-debugging-port=9223",
+            "--remote-debugging-port=9224",
+            "--remote-debugging-port=9225",
+            "--remote-debugging-port=9226",
             "--no-sandbox",
           ],
           timeout: 300000,

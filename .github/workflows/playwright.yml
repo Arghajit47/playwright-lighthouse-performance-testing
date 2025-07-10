@@ -33,6 +33,9 @@ jobs:
         PASSWORD: ${{secrets.PASSWORD}}
         SUPABASE_URL: ${{secrets.SUPABASE_URL}}
         SUPABASE_TOKEN: ${{secrets.SUPABASE_TOKEN}}
+        DB_SUPABASE_URL: ${{secrets.DB_SUPABASE_URL}}
+        DB_SUPABASE_TOKEN: ${{secrets.DB_SUPABASE_TOKEN}}
+        DB_SUPABASE_BUCKET_NAME: ${{secrets.DB_SUPABASE_BUCKET_NAME}}
       run: npm run test
     - name: Generate Overall Performance Test Report
       run: npm run folderStructure
