@@ -5,7 +5,7 @@
   "scripts": {
     "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test || true && npm run upload-db",
     "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test || true && npm run upload-db",
-    "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=1 || true && npm run upload-db",
+    "test": "npm run download-db && npx playwright test --config=playwright.config.ts --project=Test --workers=1 || true && npm run upload-db",
     "setup:Auth": "rm -rf ./performance-report/Authorized-performance-reports && npm run download-db",
     "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports && npm run download-db",
     "folderStructure": "cd performance-report/ && node app.js ",
