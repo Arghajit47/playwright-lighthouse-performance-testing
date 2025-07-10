@@ -2,9 +2,35 @@ import pidusage from "pidusage";
 const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
-import { createClient } from "@supabase/supabase-js";
+// import { createClient } from "@supabase/supabase-js";
 import puppeteer from "puppeteer";
-import "dotenv/config";
+// import "dotenv/config";
+
+import Database from "better-sqlite3";
+
+// 1. Initialize the database connection.
+// This will create the 'lighthouse_performance.db' file in your project root if it doesn't exist.
+const db = new Database("lighthouse_performance.db", { verbose: console.log });
+
+// 2. Define the table schema and create the table if it doesn't exist.
+// This is a crucial step. This code will only run once to set up the table.
+const createTableStmt = `
+CREATE TABLE IF NOT EXISTS performance_matrix (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    performance INTEGER NOT NULL,
+    accessibility INTEGER NOT NULL,
+    best_practice INTEGER NOT NULL,
+    seo INTEGER NOT NULL,
+    device_type TEXT NOT NULL,
+    test_name TEXT NOT NULL,
+    url TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+db.exec(createTableStmt);
+
+// Add a function to gracefully close the database connection when the script exits
+process.on("exit", () => db.close());
 
 export async function runPerformanceAuditInDesktop(
   cookies,
@@ -317,24 +343,57 @@ export async function attachGraph(
   });
 }
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_TOKEN
-);
+// const supabase = createClient(
+//   process.env.SUPABASE_URL,
+//   process.env.SUPABASE_TOKEN
+// );
 
-async function insertLighthousePerformanceRecord(record) {
+// The function signature remains the same, but the internal logic is now for SQLite.
+async function insertLighthousePerformanceRecord(record: {
+  performance: number;
+  accessibility: number;
+  best_practice: number;
+  seo: number;
+  device_type: string;
+  test_name: string;
+  url: string;
+}) {
   try {
-    const { data, error } = await supabase
-      .from("performance_matrix")
-      .insert([record])
-      .select();
-    if (error) {
-      throw error;
-    }
-    console.log("Record inserted successfully:", data);
-    return data;
+    // 1. Define the SQL query with named parameters (@performance, @accessibility, etc.).
+    // This is a secure way to insert data and prevents SQL injection attacks.
+    const sql = `
+      INSERT INTO performance_matrix (
+        performance, 
+        accessibility, 
+        best_practice, 
+        seo, 
+        device_type, 
+        test_name, 
+        url
+      ) VALUES (
+        @performance, 
+        @accessibility, 
+        @best_practice, 
+        @seo, 
+        @device_type, 
+        @test_name, 
+        @url
+      )
+    `;
+
+    // 2. Prepare the statement. This compiles the SQL query for efficiency.
+    const stmt = db.prepare(sql);
+
+    // 3. Execute the statement with the record object.
+    // The keys in the 'record' object (@performance, etc.) are automatically mapped to the named parameters in the SQL query.
+    const info = stmt.run(record);
+
+    console.log(
+      `Record inserted successfully with ID: ${info.lastInsertRowid}`
+    );
+    return info;
   } catch (error) {
-    console.error("Error inserting record:", error);
+    console.error("Error inserting record into SQLite:", error);
   }
 }
 

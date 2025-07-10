@@ -64,6 +64,7 @@ export default defineConfig({
         viewport: { width: 1920, height: 1080 },
       },
       testDir: "./tests/Auth/",
+      // teardown: "upload db",
     },
     {
       name: "Unauthorized_Test",

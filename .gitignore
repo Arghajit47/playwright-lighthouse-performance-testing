@@ -13,3 +13,4 @@ node_modules/
 /allure-results
 /downloaded-images
 /dashboard/config.json
+lighthouse_performance.db

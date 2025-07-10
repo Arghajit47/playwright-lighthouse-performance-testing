@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test",
-    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test --workers=1",
-    "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=1",
-    "setup:Auth": "rm -rf ./performance-report/Authorized-performance-reports",
-    "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports",
+    "test:Auth": "npm run setup:Auth && npx playwright test --config=playwright.config.ts --project=Authorized_Test || true && npm run upload-db",
+    "test:UnAuth": "npm run setup:UnAuth && npx playwright test --config=playwright.config.ts --project=Unauthorized_Test || true && npm run upload-db",
+    "test": "npx playwright test --config=playwright.config.ts --project=Test --workers=1 || true && npm run upload-db",
+    "setup:Auth": "rm -rf ./performance-report/Authorized-performance-reports && npm run download-db",
+    "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports && npm run download-db",
     "folderStructure": "cd performance-report/ && node app.js ",
-    "allure-test-report": "npx allure generate --clean --single-file allure-results"
+    "allure-test-report": "npx allure generate --clean --single-file allure-results",
+    "upload-db": "node utils/storeDb.mjs",
+    "download-db": "node utils/downloadDb.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.49.1",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/sqlite3": "^5.1.0",
     "allure-commandline": "2.32.0",
     "allure-playwright": "3.0.7",
     "lighthouse": "^12.3.0",
@@ -24,13 +28,15 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.48.1",
     "axios": "^1.7.9",
+    "better-sqlite3": "^12.2.0",
     "chart.js": "^3.9.1",
     "chartjs-node-canvas": "^4.1.6",
     "dotenv": "^16.4.5",
     "fs-extra": "^11.3.0",
+    "lighthouse": "^12.3.0",
     "netlify-cli": "^17.37.2",
     "pidusage": "^3.0.2",
-    "lighthouse": "^12.3.0",
-    "puppeteer": "^24.2.1"
+    "puppeteer": "^24.2.1",
+    "sqlite3": "^5.1.7"
   }
 }
