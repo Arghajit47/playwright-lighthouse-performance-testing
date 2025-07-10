@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Test Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+  </head>
+  <body>
+    <div id="loading-overlay"></div>
+    <div class="app">
+      <!-- Common elements will be injected by JS -->
+      <div id="theme-toggle-container"></div>
+      <div id="sidebar-container"></div>
+      <button
+        id="hamburger-button"
+        class="hamburger-button"
+        aria-label="Open menu"
+      >
+        <img
+          src="https://img.icons8.com/fluency/48/menu--v3.png"
+          alt="Menu"
+          style="width: 24px; height: 24px"
+        />
+      </button>
+
+      <header class="page-header">
+        <h1>Visual Test Dashboard</h1>
+      </header>
+
+      <main id="main-content" style="display: none" class="main-container">
+        <div id="visual-cards-container"></div>
+        <div id="pie-chart-container" class="pie-chart-container"></div>
+        <div id="brand-charts-section" class="brand-charts-section"></div>
+        <div id="filters-container" class="filters-container"></div>
+        <div id="screenshot-list-container"></div>
+        <div id="test-results-container" class="card"></div>
+      </main>
+
+      <!-- Modal for viewing images -->
+      <div id="image-modal-container"></div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/visual-dashboard.js"></script>
+  </body>
+</html>
