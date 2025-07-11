@@ -10,6 +10,7 @@
     "setup:UnAuth": "rm -rf ./performance-report/Unauthorized-performance-reports && npm run download-db",
     "folderStructure": "cd performance-report/ && node app.js ",
     "allure-test-report": "npx allure generate --clean --single-file allure-results",
+    "playwright-report-generate": "npx playwright merge-reports --reporter html ./all-blob-reports",
     "upload-db": "node utils/storeDb.mjs",
     "download-db": "node utils/downloadDb.mjs"
   },
