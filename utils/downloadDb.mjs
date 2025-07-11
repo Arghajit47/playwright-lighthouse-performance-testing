@@ -67,4 +67,11 @@ export async function downloadDB(fileName, localPath) {
 }
 
 // Example usage (commented out)
-downloadDB("lighthouse_performance.db", "./lighthouse_performance.db");
+if (process.env.CI) {
+  downloadDB(
+    `lighthouse_performance_${process.env.DEVICE_TYPE}.db`,
+    `./lighthouse_performance_${process.env.DEVICE_TYPE}.db`
+  );
+} else {
+  downloadDB(`lighthouse_performance.db`, `./lighthouse_performance.db`);
+}

@@ -4,13 +4,18 @@ import fs from "fs";
 import * as path from "path";
 // import { createClient } from "@supabase/supabase-js";
 import puppeteer from "puppeteer";
-// import "dotenv/config";
+import "dotenv/config";
 
 import Database from "better-sqlite3";
 
 // 1. Initialize the database connection.
 // This will create the 'lighthouse_performance.db' file in your project root if it doesn't exist.
-const db = new Database("lighthouse_performance.db", { verbose: console.log });
+// const db = new Database("lighthouse_performance.db", { verbose: console.log });
+const db = process.env.CI
+  ? new Database(`lighthouse_performance_${process.env.DEVICE_TYPE}.db`, {
+      verbose: console.log,
+    })
+  : new Database("lighthouse_performance.db", { verbose: console.log });
 
 // 2. Define the table schema and create the table if it doesn't exist.
 // This is a crucial step. This code will only run once to set up the table.

@@ -5,6 +5,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// Get current readable date
+const date = new Date(Date.now());
+const readableDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+  .toString()
+  .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
+  .getHours()
+  .toString()
+  .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date
+  .getSeconds()
+  .toString()
+  .padStart(2, "0")}`;
+
+// Single file upload function
 export async function uploadDB(fileName, pathContent) {
   // Validate environment variables
   if (
@@ -13,13 +26,13 @@ export async function uploadDB(fileName, pathContent) {
     !process.env.DB_SUPABASE_BUCKET_NAME
   ) {
     console.error("❌ Missing required environment variables");
-    return;
+    return false;
   }
 
   // Check if file exists
   if (!fs.existsSync(pathContent)) {
     console.error(`❌ File not found: ${pathContent}`);
-    return;
+    return false;
   }
 
   // Initialize Supabase client
@@ -44,27 +57,240 @@ export async function uploadDB(fileName, pathContent) {
     if (error) {
       console.error("❌ Failed to upload DB to Supabase:", error);
       console.error("Error details:", error.message);
+      return false;
     } else {
       console.log(
         "✅ Database uploaded to Supabase successfully:",
         data,
         "Modified at: " + readableDate
       );
+      return true;
     }
   } catch (e) {
     console.error("❌ Unexpected error occurred:", e.message);
+    return false;
   }
 }
 
-const date = new Date(Date.now());
-const readableDate = `${date.getFullYear()}-${(date.getMonth() + 1)
-  .toString()
-  .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")} ${date
-  .getHours()
-  .toString()
-  .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date
-  .getSeconds()
-  .toString()
-  .padStart(2, "0")}`;
+// Find all files starting with 'lighthouse_performance' in a directory
+export function findLighthouseDbFiles(directory = "./") {
+  try {
+    const files = fs.readdirSync(directory);
+    const lighthouseFiles = files.filter((file) => {
+      // Check if file starts with 'lighthouse_performance' and ends with '.db'
+      return file.startsWith("lighthouse_performance") && file.endsWith(".db");
+    });
 
-uploadDB("lighthouse_performance.db", "./lighthouse_performance.db");
+    console.log(
+      `📂 Found ${lighthouseFiles.length} lighthouse database files in ${directory}:`
+    );
+    lighthouseFiles.forEach((file) => {
+      console.log(`   - ${file}`);
+    });
+
+    return lighthouseFiles.map((file) => ({
+      fileName: file,
+      filePath: path.join(directory, file),
+    }));
+  } catch (error) {
+    console.error(`❌ Error reading directory ${directory}:`, error.message);
+    return [];
+  }
+}
+
+// Upload all lighthouse database files
+export async function uploadAllLighthouseDBs(directory = "./") {
+  console.log(
+    `🚀 Starting batch upload of lighthouse databases from ${directory}...`
+  );
+
+  const lighthouseFiles = findLighthouseDbFiles(directory);
+
+  if (lighthouseFiles.length === 0) {
+    console.log("⚠️  No lighthouse database files found to upload");
+    return {
+      success: true,
+      totalFiles: 0,
+      uploadedFiles: 0,
+      failedFiles: 0,
+      results: [],
+    };
+  }
+
+  const uploadResults = [];
+  let uploadedCount = 0;
+  let failedCount = 0;
+
+  for (const file of lighthouseFiles) {
+    console.log(`\n📤 Processing file: ${file.fileName}`);
+
+    const success = await uploadDB(file.fileName, file.filePath);
+
+    const result = {
+      fileName: file.fileName,
+      filePath: file.filePath,
+      success: success,
+      timestamp: new Date().toISOString(),
+    };
+
+    uploadResults.push(result);
+
+    if (success) {
+      uploadedCount++;
+    } else {
+      failedCount++;
+    }
+
+    // Small delay between uploads to avoid overwhelming the server
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
+  console.log(`\n📊 Batch Upload Summary:`);
+  console.log(`   - Total files found: ${lighthouseFiles.length}`);
+  console.log(`   - Successfully uploaded: ${uploadedCount}`);
+  console.log(`   - Failed uploads: ${failedCount}`);
+  console.log(
+    `   - Success rate: ${Math.round(
+      (uploadedCount / lighthouseFiles.length) * 100
+    )}%`
+  );
+
+  return {
+    success: failedCount === 0,
+    totalFiles: lighthouseFiles.length,
+    uploadedFiles: uploadedCount,
+    failedFiles: failedCount,
+    results: uploadResults,
+  };
+}
+
+// Upload lighthouse databases with pattern matching
+export async function uploadLighthouseDBsWithPattern(
+  directory = "./",
+  pattern = "lighthouse_performance"
+) {
+  console.log(
+    `🚀 Starting pattern-based upload for files matching '${pattern}*' in ${directory}...`
+  );
+
+  try {
+    const files = fs.readdirSync(directory);
+    const matchingFiles = files.filter((file) => {
+      return file.startsWith(pattern) && file.endsWith(".db");
+    });
+
+    console.log(
+      `📂 Found ${matchingFiles.length} files matching pattern '${pattern}*':`
+    );
+    matchingFiles.forEach((file) => {
+      console.log(`   - ${file}`);
+    });
+
+    if (matchingFiles.length === 0) {
+      console.log("⚠️  No files found matching the pattern");
+      return { success: true, totalFiles: 0, uploadedFiles: 0, failedFiles: 0 };
+    }
+
+    const uploadResults = [];
+    let uploadedCount = 0;
+    let failedCount = 0;
+
+    for (const fileName of matchingFiles) {
+      const filePath = path.join(directory, fileName);
+      console.log(`\n📤 Processing file: ${fileName}`);
+
+      const success = await uploadDB(fileName, filePath);
+
+      uploadResults.push({
+        fileName,
+        filePath,
+        success,
+        timestamp: new Date().toISOString(),
+      });
+
+      if (success) {
+        uploadedCount++;
+      } else {
+        failedCount++;
+      }
+
+      // Small delay between uploads
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    console.log(`\n📊 Pattern Upload Summary:`);
+    console.log(`   - Pattern: '${pattern}*'`);
+    console.log(`   - Total files found: ${matchingFiles.length}`);
+    console.log(`   - Successfully uploaded: ${uploadedCount}`);
+    console.log(`   - Failed uploads: ${failedCount}`);
+    console.log(
+      `   - Success rate: ${Math.round(
+        (uploadedCount / matchingFiles.length) * 100
+      )}%`
+    );
+
+    return {
+      success: failedCount === 0,
+      pattern,
+      totalFiles: matchingFiles.length,
+      uploadedFiles: uploadedCount,
+      failedFiles: failedCount,
+      results: uploadResults,
+    };
+  } catch (error) {
+    console.error(`❌ Error in pattern-based upload:`, error.message);
+    return {
+      success: false,
+      error: error.message,
+      totalFiles: 0,
+      uploadedFiles: 0,
+      failedFiles: 0,
+    };
+  }
+}
+
+// Main execution - Upload all lighthouse_performance* files
+async function main() {
+  console.log(`🔥 Lighthouse Database Batch Uploader`);
+  console.log(`📅 Started at: ${readableDate}\n`);
+
+  try {
+    // Method 1: Upload all lighthouse_performance* files from current directory
+    const result = await uploadAllLighthouseDBs("./");
+
+    if (result.success) {
+      console.log(`\n🎉 All lighthouse databases uploaded successfully!`);
+    } else {
+      console.log(
+        `\n⚠️  Some uploads failed. Check the logs above for details.`
+      );
+    }
+
+    // Uncomment below to use pattern-based upload instead
+    // const result = await uploadLighthouseDBsWithPattern("./", "lighthouse_performance");
+
+    return result;
+  } catch (error) {
+    console.error(`❌ Main execution failed:`, error.message);
+    return { success: false, error: error.message };
+  }
+}
+
+// Run if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().then(result => {
+    if (result.success) {
+      console.log(`\n✅ Process completed successfully!`);
+      process.exit(0);
+    } else {
+      console.log(`\n❌ Process completed with errors!`);
+      process.exit(1);
+    }
+  }).catch(error => {
+    console.error(`❌ Unexpected error:`, error.message);
+    process.exit(1);
+  });
+}
+
+// Legacy single file upload (for backward compatibility)
+// uploadDB("lighthouse_performance.db", "./lighthouse_performance.db");

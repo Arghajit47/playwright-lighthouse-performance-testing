@@ -8,6 +8,11 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config:
+          - { type: "Auth" }
+          - { type: "UnAuth" }
     container:
       image: mcr.microsoft.com/playwright:v1.49.1-noble
     steps:
@@ -36,39 +41,35 @@ jobs:
         DB_SUPABASE_URL: ${{secrets.DB_SUPABASE_URL}}
         DB_SUPABASE_TOKEN: ${{secrets.DB_SUPABASE_TOKEN}}
         DB_SUPABASE_BUCKET_NAME: ${{secrets.DB_SUPABASE_BUCKET_NAME}}
-      run: npm run test
-    - name: Generate Overall Performance Test Report
-      run: npm run folderStructure
-    - name: Wait for 10 seconds before generating the report
-      run: |
-        echo "Waiting for 10 seconds before generating the report, meanwhile for report dashboard related to the performance test run visit `https://lookerstudio.google.com/reporting/b41df31b-fcb8-4cfb-867f-6f2121490567`or, `performance-matrix-dashboard.netlify.app`"
-        sleep 10      
+        DEVICE_TYPE: ${{matrix.config.type}}
+      run: npm run test:${{ matrix.config.type }}
+
+    - name: Merge test results
+      env:
+        DEVICE_TYPE: ${{ matrix.config.type }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+      run: node merge-results.js
+
+    - name: Upload merged result JSON
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: merged-results-${{ matrix.config.type }}
+        path: test-results/merged-results-${{ matrix.config.type }}.json
+
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 1
+        name: blob-report-${{ matrix.config.type }}
+        path: blob-report
+
     - name: Upload Allure results
       if: success() || failure()
       uses: actions/upload-artifact@v4
       with:
-        name: allure-results
+        name: allure-results-${{ matrix.config.type }}
         path: allure-results/
         retention-days: 1
-    - name: Generate Allure report
-      if: success() || failure()  
-      run: npm run allure-test-report
-    - name: Upload Allure report
-      if: success() || failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: allure-report
-        path: allure-report/
-        retention-days: 1            
-    - name: Deploy to Netlify
-      if: always()
-      run: |
-          npx netlify deploy --site 96d1bba3-06fb-4ded-9cee-de5e1c37ccf4 --prod --dir performance-report
-      env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}        
+
+    continue-on-error: true   
