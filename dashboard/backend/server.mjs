@@ -112,6 +112,7 @@ async function downloadAndMergeDatabases() {
 
 /**
  * Merges multiple downloaded databases into a single database.
+ * This version preserves ALL data by reassigning IDs to avoid conflicts.
  */
 async function mergeDownloadedDatabases(downloadResults) {
   console.log(`🔄 Starting database merge process...`);
@@ -160,7 +161,7 @@ async function mergeDownloadedDatabases(downloadResults) {
       }
     }
 
-    // Create indexes
+    // Create indexes (but skip if they fail due to duplicates)
     console.log(`📋 Creating ${indexes.length} indexes...`);
     for (const index of indexes) {
       if (index.sql) {
@@ -172,11 +173,16 @@ async function mergeDownloadedDatabases(downloadResults) {
       }
     }
 
-    // Merge data from all databases
+    // Merge data from all databases with ID reassignment
     let totalRowsMerged = 0;
+    let currentMaxId = 0;
 
-    for (const download of downloadResults) {
-      console.log(`📊 Merging data from ${path.basename(download.path)}...`);
+    for (const [dbIndex, download] of downloadResults.entries()) {
+      console.log(
+        `📊 Merging data from ${path.basename(download.path)}... (Database ${
+          dbIndex + 1
+        }/${downloadResults.length})`
+      );
 
       const sourceDb = new Database(download.path, { readonly: true });
 
@@ -184,58 +190,79 @@ async function mergeDownloadedDatabases(downloadResults) {
         for (const table of tables) {
           const tableName = table.name;
 
-          // Get table info for primary key handling
+          // Get table info
           const tableInfo = sourceDb
             .prepare(`PRAGMA table_info(${tableName})`)
             .all();
-          const primaryKeys = tableInfo.filter((col) => col.pk > 0);
+
           const columns = tableInfo.map((col) => col.name);
+          const primaryKeys = tableInfo.filter((col) => col.pk > 0);
+
+          // Check if table has an auto-incrementing primary key
+          const hasAutoIncrementId =
+            primaryKeys.length === 1 &&
+            primaryKeys[0].name.toLowerCase() === "id" &&
+            primaryKeys[0].type.toUpperCase().includes("INTEGER");
 
           // Get all rows from source table
           const rows = sourceDb.prepare(`SELECT * FROM ${tableName}`).all();
 
-          if (rows.length === 0) continue;
-
-          // Prepare insert statement with conflict resolution
-          const columnList = columns.join(", ");
-          const placeholders = columns.map(() => "?").join(", ");
-
-          let insertSql;
-          if (primaryKeys.length > 0) {
-            const hasAutoIncrement = primaryKeys.some(
-              (pk) => pk.type.toUpperCase().includes("INTEGER") && pk.pk === 1
-            );
-            insertSql = hasAutoIncrement
-              ? `INSERT OR IGNORE INTO ${tableName} (${columnList}) VALUES (${placeholders})`
-              : `INSERT OR REPLACE INTO ${tableName} (${columnList}) VALUES (${placeholders})`;
-          } else {
-            insertSql = `INSERT INTO ${tableName} (${columnList}) VALUES (${placeholders})`;
+          if (rows.length === 0) {
+            console.log(`   ⚠️  ${tableName}: No rows found`);
+            continue;
           }
 
-          const insertStmt = mergedDb.prepare(insertSql);
+          // If this is the first database, find the current max ID
+          if (dbIndex === 0 && hasAutoIncrementId) {
+            const maxIdResult = mergedDb
+              .prepare(
+                `SELECT COALESCE(MAX(id), 0) as max_id FROM ${tableName}`
+              )
+              .get();
+            currentMaxId = maxIdResult.max_id || 0;
+          }
+
+          let insertedCount = 0;
 
           // Use transaction for performance
-          const insertMany = mergedDb.transaction((rows) => {
-            let inserted = 0;
+          const insertTransaction = mergedDb.transaction(() => {
             for (const row of rows) {
               try {
-                const values = columns.map((col) => row[col]);
-                const result = insertStmt.run(values);
-                if (result.changes > 0) inserted++;
-              } catch (error) {
-                if (!error.message.includes("UNIQUE constraint")) {
-                  console.error(`Error inserting row: ${error.message}`);
+                if (hasAutoIncrementId) {
+                  // Reassign ID to avoid conflicts
+                  currentMaxId++;
+                  row.id = currentMaxId;
                 }
+
+                // Prepare insert statement - always INSERT (no conflict resolution)
+                const columnList = columns.join(", ");
+                const placeholders = columns.map(() => "?").join(", ");
+                const insertSql = `INSERT INTO ${tableName} (${columnList}) VALUES (${placeholders})`;
+
+                const insertStmt = mergedDb.prepare(insertSql);
+                const values = columns.map((col) => row[col]);
+
+                const result = insertStmt.run(values);
+                if (result.changes > 0) {
+                  insertedCount++;
+                }
+              } catch (error) {
+                console.error(
+                  `   ❌ Error inserting row in ${tableName}: ${error.message}`
+                );
+                console.error(`   Row data:`, JSON.stringify(row, null, 2));
               }
             }
-            return inserted;
           });
 
-          const insertedCount = insertMany(rows);
+          // Execute the transaction
+          insertTransaction();
           totalRowsMerged += insertedCount;
 
           console.log(
-            `   ✅ ${tableName}: ${insertedCount}/${rows.length} rows merged`
+            `   ✅ ${tableName}: ${insertedCount}/${
+              rows.length
+            } rows merged (DB: ${path.basename(download.path)})`
           );
         }
       } finally {
@@ -248,7 +275,9 @@ async function mergeDownloadedDatabases(downloadResults) {
     mergedDb.exec("ANALYZE");
     mergedDb.exec("VACUUM");
 
-    console.log(`✅ Database merge completed: ${totalRowsMerged} total rows`);
+    console.log(
+      `✅ Database merge completed: ${totalRowsMerged} total rows merged from ${downloadResults.length} databases`
+    );
   } finally {
     mergedDb.close();
   }
@@ -332,7 +361,7 @@ function initializeDbConnection() {
     db = new Database(LOCAL_DB_PATH, { readonly: true });
     console.log("Successfully connected to the local cached database.");
 
-    // Log available tables for debugging
+    // Log available tables and row counts for debugging
     const tables = db
       .prepare(
         `
@@ -343,6 +372,20 @@ function initializeDbConnection() {
       .all();
 
     console.log(`📋 Available tables: ${tables.map((t) => t.name).join(", ")}`);
+
+    // Log row counts for each table
+    for (const table of tables) {
+      try {
+        const count = db
+          .prepare(`SELECT COUNT(*) as count FROM ${table.name}`)
+          .get();
+        console.log(`📊 ${table.name}: ${count.count} rows`);
+      } catch (error) {
+        console.log(
+          `⚠️  Could not count rows in ${table.name}: ${error.message}`
+        );
+      }
+    }
   } catch (error) {
     console.error("Failed to connect to local database file:", error.message);
     db = null; // Ensure db is null if connection fails
