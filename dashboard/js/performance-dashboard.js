@@ -705,10 +705,10 @@ function renderDataTable() {
                                     <tr>
                                         <td>${d.test_name}</td>
                                         <td>${d.device_type}</td>
-                                        <td>${d.performance}</td>
-                                        <td>${d.accessibility}</td>
-                                        <td>${d.seo}</td>
-                                        <td>${d.best_practice}</td>
+                                        <td>${d.performance.toFixed(1)}</td>
+                                        <td>${d.accessibility.toFixed(1)}</td>
+                                        <td>${d.seo.toFixed(1)}</td>
+                                        <td>${d.best_practice.toFixed(1)}</td>
                                         <td>${formatDate(d.created_at)}</td>
                                         <td>${d.url}</td>
                                         <td>${d.brand}</td>
