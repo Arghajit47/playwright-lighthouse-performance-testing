@@ -24,7 +24,7 @@ let metricChartSortConfig = { key: "score", order: "asc" };
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://playwright-lighthouse-performance-testing.onrender.com/api/data"
+      "https://playwright-lighthouse-performance-testing.onrender.com/api/lighthouse/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();

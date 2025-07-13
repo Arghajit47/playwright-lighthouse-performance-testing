@@ -15,7 +15,7 @@ let uiState = {
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/visual-dashboard-json/merged-results.json"
+      "https://playwright-lighthouse-performance-testing.onrender.com/api/visual/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     testData = await response.json();
@@ -34,13 +34,32 @@ async function fetchScreenshotList() {
   if (screenshotPaths.length > 0 || uiState.loadingScreenshots) return;
   uiState.loadingScreenshots = true;
   renderScreenshotList();
+  
   try {
     const response = await fetch(
-      "https://test-dashboard-66zd.onrender.com/api/proxy/baselineList"
+      "https://playwright-lighthouse-performance-testing.onrender.com/api/baseline/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    const textData = await response.text();
-    screenshotPaths = textData.split("\n").filter((path) => path.trim() !== "");
+
+    const jsonData = await response.json();
+
+    // If the API returns an array of paths directly
+    if (Array.isArray(jsonData)) {
+      screenshotPaths = jsonData.filter((path) => path.trim() !== "");
+    }
+    // If the API returns an object with a paths property
+    else if (jsonData.paths && Array.isArray(jsonData.paths)) {
+      screenshotPaths = jsonData.paths.filter((path) => path.trim() !== "");
+    }
+    // If the API returns an object with a data property
+    else if (jsonData.data && Array.isArray(jsonData.data)) {
+      screenshotPaths = jsonData.data.filter((path) => path.trim() !== "");
+    }
+    // Fallback: try to extract paths from object values
+    else {
+      console.warn("Unexpected JSON structure:", jsonData);
+      screenshotPaths = [];
+    }
   } catch (error) {
     console.error("Failed to fetch screenshot paths:", error);
     screenshotPaths = [];
