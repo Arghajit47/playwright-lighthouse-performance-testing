@@ -8,8 +8,6 @@ import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
   runPerformanceAuditInTablet,
-  recordPerformanceMetrics,
-  attachGraph,
   getCookies,
 } from "../../utils/helpers.js";
 import { attachHtmlToAllureReport } from "../../utils/common";
@@ -21,13 +19,11 @@ const folders = UNAUTHORIZED_PATHS;
 test.describe.configure({ mode: "serial" });
 
 for (const key in data) {
-  const value = data[key];
+  const value = (data as Record<string, string>)[key];
 
   test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
-    let metricsRecorder;
     const cookies = getCookies();
     test.beforeEach(async ({ page }) => {
-      metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
       await page.waitForLoadState("networkidle");
     });
@@ -76,8 +72,7 @@ for (const key in data) {
       );
     });
 
-    test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo);
+    test.afterEach(async ({ page }) => {
       await page.close();
     });
   });

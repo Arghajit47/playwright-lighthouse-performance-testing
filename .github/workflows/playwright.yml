@@ -24,10 +24,9 @@ jobs:
         with:
           node-version: lts/*
       
-      - name: Install dependencies for canvas
+      - name: Install dependencies for Allure report
         run: |
           apt-get update
-          apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
           apt-get install -y default-jdk
       
       - name: Install dependencies

@@ -8,8 +8,6 @@ import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
   runPerformanceAuditInTablet,
-  recordPerformanceMetrics,
-  attachGraph,
   getCookies,
 } from "../../utils/helpers.js";
 import "dotenv/config";
@@ -22,13 +20,11 @@ const folders = AUTHORIZED_PATHS;
 test.describe.configure({ mode: "serial" });
 
 for (const key in data) {
-  const value = data[key];
+  const value = data[key as keyof typeof data];
 
   test.describe(`Lighthouse Authorized Performance Test - ${key}`, async () => {
-    let metricsRecorder;
     const cookies = getCookies();
     test.beforeEach(async ({ page }) => {
-      metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
       await page.waitForLoadState("networkidle");
       await page
@@ -93,8 +89,8 @@ for (const key in data) {
       );
     });
 
-    test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo);
+    test.afterEach(async ({ page }) => {
+      await page.close();
     });
   });
 }

@@ -24,7 +24,8 @@
     "allure-commandline": "2.32.0",
     "allure-playwright": "3.0.7",
     "lighthouse": "^12.3.0",
-    "playwright-lighthouse": "^4.0.0"
+    "playwright-lighthouse": "^4.0.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.48.1",
