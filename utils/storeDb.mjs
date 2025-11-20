@@ -262,7 +262,7 @@ async function main() {
       console.log(`\n🎉 All lighthouse databases uploaded successfully!`);
     } else {
       console.log(
-        `\n⚠️  Some uploads failed. Check the logs above for details.`
+        `\n⚠  Some uploads failed. Check the logs above for details.`
       );
     }
 

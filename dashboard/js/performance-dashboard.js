@@ -144,38 +144,22 @@ function getScoreColor(score) {
 
 function generateS3PerformanceReportUrl(testName = "") {
   if (!testName || typeof testName !== "string") return "#";
-  const pathConfig = {
-    dashboard: {
-      prefixes: [
-        "Contact Us",
-        "Global Discover",
-        "IR Discover",
-        "PDI Discover",
-        "Meetings",
-        "Home",
-        "Members",
-        "Organization",
-        "Support",
-        "Personal Information",
-        "Work Details",
-      ],
-      path: "performance-reports/playwright-performance-report/dashboard",
-    },
-    onboarding: {
-      path: "performance-reports/playwright-performance-report/onboarding-flow",
-    },
-  };
-  const isDashboard = pathConfig.dashboard.prefixes.some((prefix) =>
-    testName.startsWith(prefix)
-  );
-  const basePath = isDashboard
-    ? pathConfig.dashboard.path
-    : pathConfig.onboarding.path;
-  const deviceType = testName.includes("Mobile") ? "Mobile" : "Desktop";
+  let basePath;
+  if (testName.startsWith("Authorized")) {
+    basePath = "performance-report/Authorized-performance-reports";
+  } else {
+    basePath = "performance-report/Unauthorized-performance-reports";
+  }
+  const deviceType = testName.includes("Mobile")
+    ? "Mobile"
+    : testName.includes("Tablet")
+    ? "Tablet"
+    : "Desktop";
   const sanitizedTestName = testName.replace(/[^a-zA-Z0-9+_-]/g, (match) =>
-    match === " " ? "+" : ""
+    match === " " ? "%20" : ""
   );
-  return `https://fusion-networks-qa-dev.s3.eu-west-2.amazonaws.com/${basePath}/${deviceType}/${sanitizedTestName}.html`;
+  return `https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/${basePath}/${deviceType}/${sanitizedTestName}.html`;
+  
 }
 
 // --- COMPONENT RENDERERS ---
