@@ -1,13 +1,15 @@
 import { test } from "@playwright/test";
-import desktopConfig from "lighthouse/lighthouse-core/config/desktop-config.js";
-import { mobileConfig, tabletConfig } from "../../lighthouse/base";
+import {
+  mobileConfig,
+  tabletConfig,
+  desktopConfig,
+} from "../../lighthouse/base";
 import {
   runPerformanceAuditInMobile,
   runPerformanceAuditInDesktop,
   runPerformanceAuditInTablet,
-  recordPerformanceMetrics,
-  attachGraph,
-} from "../../utils/helpers";
+  getCookies,
+} from "../../utils/helpers.js";
 import "dotenv/config";
 import { URLS, AUTHORIZED_PATHS } from "../../test-data/enum";
 import { attachHtmlToAllureReport } from "../../utils/common";
@@ -18,33 +20,23 @@ const folders = AUTHORIZED_PATHS;
 test.describe.configure({ mode: "serial" });
 
 for (const key in data) {
-  const value = data[key];
+  const value = data[key as keyof typeof data];
 
   test.describe(`Lighthouse Authorized Performance Test - ${key}`, async () => {
-    let metricsRecorder;
+    const cookies = getCookies();
     test.beforeEach(async ({ page }) => {
-      metricsRecorder = await recordPerformanceMetrics();
       await page.goto(value);
-      await page.waitForLoadState("networkidle");
-      await page
-        .locator(".gap-3 .border-neutral-200 svg")
-        .click({ force: true });
-      await page.click('//div[text()="Login"]', { force: true });
-      await page.fill("#email", String(process.env.EMAIL), { force: true });
-      await page.fill("#password", String(process.env.PASSWORD), {
-        force: true,
-      });
-      await page.click('//button[text()="Continue"]', { force: true });
       await page.waitForLoadState("networkidle");
     });
     test(`Authorized Desktop Performance Audit ${key}`, async ({
       page,
     }, testInfo) => {
       await runPerformanceAuditInDesktop(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         desktopConfig,
-        `performance-report/Authorized-performance-reports/Desktop`
+        folders.desktopPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -57,10 +49,11 @@ for (const key in data) {
       page,
     }, testInfo) => {
       await runPerformanceAuditInMobile(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         mobileConfig,
-        `performance-report/Authorized-performance-reports/Mobile`
+        folders.mobilePath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -73,10 +66,11 @@ for (const key in data) {
       page,
     }, testInfo) => {
       await runPerformanceAuditInTablet(
-        page,
-        `${test.info().title}`,
+        cookies,
+        value,
         tabletConfig,
-        `performance-report/Authorized-performance-reports/Tablet`
+        folders.tabletPath,
+        `${test.info().title}`
       );
       await attachHtmlToAllureReport(
         test.info().title,
@@ -85,8 +79,8 @@ for (const key in data) {
       );
     });
 
-    test.afterEach(async ({ page }, testInfo) => {
-      await attachGraph(metricsRecorder, testInfo);
+    test.afterEach(async ({ page }) => {
+      await page.close();
     });
   });
 }

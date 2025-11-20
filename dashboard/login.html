@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Test Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="auth-container" class="auth-container">
+      <div class="auth-card">
+        <h2 class="auth-title">Welcome To Test Dashboard</h2>
+        <form id="login-form" class="auth-form">
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              class="form-input"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <p id="auth-error" class="auth-error" style="display: none"></p>
+          <button type="submit" id="login-button" class="auth-button">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

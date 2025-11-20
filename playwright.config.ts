@@ -21,7 +21,12 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [["html"], ["allure-playwright"]],
+  reporter: process.env.CI
+    ? [["list"], ["blob"], ["allure-playwright", { open: "never" }]]
+    : [
+        ["html", { open: "never" }],
+        ["allure-playwright", { open: "never" }],
+      ],
   timeout: 3 * 1000 * 100, // this is the timeout for each individual test(step) - approximately 5min
   expect: {
     timeout: 15 * 1000,
@@ -56,7 +61,11 @@ export default defineConfig({
           slowMo: 3000,
           args: [
             "--window-size=1920,1080",
-            "--remote-debugging-port=9222",
+            "--remote-debugging-port=9220",
+            "--remote-debugging-port=9221",
+            "--remote-debugging-port=9227",
+            "--remote-debugging-port=9228",
+            "--remote-debugging-port=9229",
             "--no-sandbox",
           ],
           timeout: 300000,
@@ -64,6 +73,7 @@ export default defineConfig({
         viewport: { width: 1920, height: 1080 },
       },
       testDir: "./tests/Auth/",
+      // teardown: "upload db",
     },
     {
       name: "Unauthorized_Test",
@@ -74,6 +84,10 @@ export default defineConfig({
           args: [
             "--window-size=1920,1080",
             "--remote-debugging-port=9222",
+            "--remote-debugging-port=9223",
+            "--remote-debugging-port=9224",
+            "--remote-debugging-port=9225",
+            "--remote-debugging-port=9226",
             "--no-sandbox",
           ],
           timeout: 300000,

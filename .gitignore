@@ -11,5 +11,6 @@ node_modules/
 /performance-report/folderStructure.json
 /allure-report
 /allure-results
-downloaded-images
+/downloaded-images
 /dashboard/config.json
+lighthouse_performance.db

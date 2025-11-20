@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Dashboard</title>
+    <title>Visual Test Dashboard</title>
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://code.highcharts.com/highcharts.js"></script>
   </head>
@@ -26,30 +26,23 @@
       </button>
 
       <header class="page-header">
-        <h1>Performance Dashboard</h1>
+        <h1>Visual Test Dashboard</h1>
       </header>
 
-      <main id="main-content" style="display: none">
-        <div id="kpi-cards-container"></div>
-
-        <div class="main-container">
-          <div id="filters-container">
-            <!-- Global Filters -->
-            <div id="global-filters"></div>
-            <!-- Date Filter -->
-            <div id="date-filter-container"></div>
-          </div>
-
-          <!-- Metrics Charts -->
-          <div id="metrics-container"></div>
-
-          <!-- Data Table -->
-          <div id="data-table-container"></div>
-        </div>
+      <main id="main-content" style="display: none" class="main-container">
+        <div id="visual-cards-container"></div>
+        <div id="pie-chart-container" class="pie-chart-container"></div>
+        <div id="brand-charts-section" class="brand-charts-section"></div>
+        <div id="filters-container" class="filters-container"></div>
+        <div id="screenshot-list-container"></div>
+        <div id="test-results-container" class="card"></div>
       </main>
+
+      <!-- Modal for viewing images -->
+      <div id="image-modal-container"></div>
     </div>
 
     <script src="js/common.js"></script>
-    <script src="js/performance-dashboard.js"></script>
+    <script src="js/visual-dashboard.js"></script>
   </body>
 </html>
