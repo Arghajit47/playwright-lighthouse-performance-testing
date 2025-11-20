@@ -1,9 +1,12 @@
 export const URLS = {
-  NEXTBNB_BASEURL: "https://nextbnb-three.vercel.app/",
-  POOL: "https://nextbnb-three.vercel.app/?category=Pools",
-  BEACH: "https://nextbnb-three.vercel.app/?category=Beach",
-  CAVES: "https://nextbnb-three.vercel.app/?category=Caves",
-  LUXARY: "https://nextbnb-three.vercel.app/?category=Lux",
+  NOPCOMMERCE_BASEURL: "https://demo.nopcommerce.com/",
+  COMPUTERS: "https://demo.nopcommerce.com/computers",
+  ELECTRONICS: "https://demo.nopcommerce.com/electronics",
+  APPAREL: "https://demo.nopcommerce.com/apparel",
+  DIGITAL_DOWNLOADS: "https://demo.nopcommerce.com/digital-downloads",
+  BOOKS: "https://demo.nopcommerce.com/books",
+  JEWELRY: "https://demo.nopcommerce.com/jewelry",
+  GIFT_CARDS: "https://demo.nopcommerce.com/gift-cards",
 };
 
 export const UNAUTHORIZED_PATHS = {

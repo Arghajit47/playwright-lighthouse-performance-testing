@@ -53,7 +53,7 @@ export async function uploadReport(fileName, pathContent, subFolder = "") {
     const { data, error } = await supabase.storage
       .from(bucketName)
       .upload(storagePath, fileContent, {
-        contentType: "html",
+        contentType: "text/html",
         upsert: true,
       });
 

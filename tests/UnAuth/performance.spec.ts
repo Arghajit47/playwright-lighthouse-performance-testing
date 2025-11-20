@@ -22,7 +22,7 @@ for (const key in data) {
   const value = (data as Record<string, string>)[key];
 
   test.describe(`Lighthouse Unauthorized Performance Test - ${key}`, async () => {
-    const cookies = getCookies();
+    const cookies: any[] = [];
     test.beforeEach(async ({ page }) => {
       await page.goto(value);
       await page.waitForLoadState("networkidle");

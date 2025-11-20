@@ -210,10 +210,18 @@ export async function runPerformanceAuditInTablet(
 export function getCookies() {
   return [
     {
-      name: "orangehrm",
-      value: "gb0ap2v7f80h0cql8rk77af17i",
-      path: "/web",
-      domain: "opensource-demo.orangehrmlive.com",
+      name: "fpestid",
+      value:
+        "OpT5KmCDYUTMoF-ZdtcLtu8vKl42v-cx0c8cOv6zvkY7I2iuROcJeVbytOq0hX5kXd3udg",
+      path: "/",
+      domain: ".nopcommerce.com",
+    },
+    {
+      name: ".Nop.Authentication",
+      value:
+        "CfDJ8I9z2gb9pbFBplhws12M-g0X8ffHoASHzZPzkhcf8s_AV1xJD5lMyEvODTMl7Rt2PdDgQ6AUgwAvZkx2ccGvI0TXsX3LvtRpu0yqxxUnS9FQeg3Ueh978ImT3wJ4x1CVE8nAm6xGELiF9KkBsgcTknQH6bkVPAlkAvzzl2m2uMKT8K5hzF8E95o1LQE-B66Z8vfZx3M1q3neR3J9N25od4dnO_H6KII_ChQAjNYHiS6FhFCrYdCf_ELXZOeao3W8aVR0KNv4I3O2tfU4h51gwxAAGropYxZZywan87d2fxBsVBZ33HS0FX-_R7WFaWmfHNz7pCWK5Syj5BJQk-flO9ffJWvi4G-XI4HsDBiLOoabOlefD5UG_J2RQR8jhn6gymlLp3Kcx8MdLvga9gvrCTCm43ZgU_VvhoMNmViPFNDkImMz9g1dkR4aFS-CzqYu1Vnh3hZXCtW7SwpM13vnK-mcK6j9PqIMS2qFBR-TS10hFvmH9PxC14TkIZOjR2XIsyO3-6YGBnQvn1QC-1yQoR-VQ47MuydKCt7tI4Xt4vImP_kCqK7XBaxPKLUvVtigxClw_oQ2ZMDnCXD_8FEbYDU",
+      path: "/",
+      domain: "demo.nopcommerce.com",
     },
   ];
 }
