@@ -1,5 +1,3 @@
-import pidusage from "pidusage";
-const { ChartJSNodeCanvas } = require("chartjs-node-canvas");
 import fs from "fs";
 import * as path from "path";
 // import { createClient } from "@supabase/supabase-js";
@@ -236,8 +234,6 @@ export async function handleCookieConsent(page: any) {
   }
 }
 
-
-
 // const supabase = createClient(
 //   process.env.SUPABASE_URL,
 //   process.env.SUPABASE_TOKEN
@@ -291,5 +287,3 @@ async function insertLighthousePerformanceRecord(record: {
     console.error("Error inserting record into SQLite:", error);
   }
 }
-
- 
