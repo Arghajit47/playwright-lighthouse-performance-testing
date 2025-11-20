@@ -32,7 +32,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          npm ci
+          npm i
           npm install -g allure-commandline
       
       - name: Install Playwright Browsers
