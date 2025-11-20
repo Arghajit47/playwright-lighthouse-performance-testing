@@ -54,7 +54,7 @@ export async function runPerformanceAuditInDesktop(
   const { lhr, report } = await lighthouse.default(
     url,
     {
-      port: new URL(browser.wsEndpoint()).port,
+      port: Number(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "silent",
       disableStorageReset: true,
@@ -111,7 +111,7 @@ export async function runPerformanceAuditInMobile(
   const { lhr, report } = await lighthouse.default(
     url,
     {
-      port: new URL(browser.wsEndpoint()).port,
+      port: Number(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "info",
       disableStorageReset: true,

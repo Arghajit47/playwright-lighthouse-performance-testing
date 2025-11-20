@@ -12,7 +12,8 @@
     "allure-test-report": "npx allure generate --clean --single-file allure-results",
     "playwright-report-generate": "npx playwright merge-reports --reporter html ./all-blob-reports",
     "upload-db": "node utils/storeDb.mjs",
-    "download-db": "node utils/downloadDb.mjs"
+    "download-db": "node utils/downloadDb.mjs",
+    "upload-lighthouse-report": "node utils/storeReports.mjs"
   },
   "keywords": [],
   "author": "",

@@ -48,6 +48,9 @@ jobs:
           DB_SUPABASE_BUCKET_NAME: ${{ secrets.DB_SUPABASE_BUCKET_NAME }}
           DEVICE_TYPE: ${{ matrix.config.type }}
         run: npm run test:${{ matrix.config.type }}
+
+      - name: Upload Lighthouse report
+        run: npm run upload-lighthouse-report  
       
       - name: Upload blob report
         uses: actions/upload-artifact@v4
