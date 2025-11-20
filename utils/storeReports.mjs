@@ -21,7 +21,7 @@ const readableDate = `${date.getFullYear()}-${(date.getMonth() + 1)
 export async function uploadReport(fileName, pathContent, subFolder = "") {
   // Validate environment variables
   if (
-    !process.env.DB_SUPABASE_URL ||
+    !process.env.SUPABASE_URL ||
     !process.env.REPORT_SUPABASE_TOKEN ||
     !process.env.REPORT_SUPABASE_BUCKET_NAME
   ) {
@@ -37,7 +37,7 @@ export async function uploadReport(fileName, pathContent, subFolder = "") {
 
   // Initialize Supabase client
   const supabase = createClient(
-    process.env.DB_SUPABASE_URL,
+    process.env.SUPABASE_URL,
     process.env.REPORT_SUPABASE_TOKEN
   );
 
