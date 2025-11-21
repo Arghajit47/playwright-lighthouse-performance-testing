@@ -23,5 +23,8 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/sqlite3": "^5.1.0"
+  },
+  "overrides": {
+    "glob": "^13.0.0"
   }
 }
