@@ -51,16 +51,22 @@ export async function runPerformanceAuditInDesktop(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  );
+  ) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -108,16 +114,22 @@ export async function runPerformanceAuditInMobile(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "info",
       disableStorageReset: true,
     },
     config
-  );
+  ) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -166,16 +178,22 @@ export async function runPerformanceAuditInTablet(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "info",
       disableStorageReset: true,
     },
     config
-  );
+  ) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
