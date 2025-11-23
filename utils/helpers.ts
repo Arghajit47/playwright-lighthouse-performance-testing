@@ -35,6 +35,16 @@ db.exec(createTableStmt);
 // Add a function to gracefully close the database connection when the script exits
 process.on("exit", () => db.close());
 
+/**
+ * Runs a Lighthouse performance audit in a headless desktop browser, saves the HTML report, and records scores to the local performance database.
+ *
+ * @param cookies - Array of Puppeteer-compatible cookie objects to apply to the browser session before auditing.
+ * @param url - The URL to audit.
+ * @param config - Lighthouse configuration object to use for the audit.
+ * @param outputPath - Directory path where the HTML report file will be written.
+ * @param reportName - Base filename (without extension) to use for the saved HTML report and for the recorded test name.
+ * @throws Error - If Lighthouse returns no result, missing `lhr`, or missing `report`.
+ */
 export async function runPerformanceAuditInDesktop(
   cookies: any[],
   url: string,
@@ -51,16 +61,22 @@ export async function runPerformanceAuditInDesktop(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
       logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  );
+  ) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -92,6 +108,16 @@ export async function runPerformanceAuditInDesktop(
   await browser.close();
 }
 
+/**
+ * Runs a Lighthouse performance audit for the given URL using a mobile browser context and saves the HTML report.
+ *
+ * @param cookies - Array of Puppeteer cookie objects to set on the page before auditing.
+ * @param url - The target URL to audit.
+ * @param config - Lighthouse configuration object to pass to the auditor.
+ * @param outputPath - Directory path where the HTML report will be written.
+ * @param reportName - Base filename (without extension) used for the saved report and test name.
+ * @throws Error if Lighthouse returns no result, no `lhr`, or no `report`.
+ */
 export async function runPerformanceAuditInMobile(
   cookies: any[],
   url: string,
@@ -108,16 +134,22 @@ export async function runPerformanceAuditInMobile(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = (await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
-      logLevel: "info",
+      logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  );
+  )) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -149,7 +181,16 @@ export async function runPerformanceAuditInMobile(
   await browser.close();
 }
 
-// Helper function to run a Lighthouse audit with a given config
+/**
+ * Runs a Lighthouse performance audit emulating a tablet, writes the HTML report to disk, and records the extracted scores in the local database.
+ *
+ * @param cookies - Puppeteer cookie objects to set on the page before auditing
+ * @param url - The target page URL to audit
+ * @param config - Lighthouse configuration object to apply to the audit
+ * @param outputPath - Directory path where the HTML report will be written (report file will be named `${reportName}.html`)
+ * @param reportName - Base filename (without extension) used for the generated report and test name
+ * @throws Error if the Lighthouse audit fails or returns invalid results (missing `lhr` or `report`)
+ */
 export async function runPerformanceAuditInTablet(
   cookies: any,
   url: string,
@@ -166,16 +207,22 @@ export async function runPerformanceAuditInTablet(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const { lhr, report } = await lighthouse.default(
+  const result = (await lighthouse.default(
     url,
     {
-      port: Number(new URL(browser.wsEndpoint()).port),
+      port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
-      logLevel: "info",
+      logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  );
+  )) as any;
+
+  if (!result || !result.lhr || !result.report) {
+    throw new Error('Lighthouse audit failed or returned invalid results');
+  }
+
+  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
