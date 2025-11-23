@@ -114,16 +114,16 @@ export async function runPerformanceAuditInMobile(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const result = await lighthouse.default(
+  const result = (await lighthouse.default(
     url,
     {
       port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
-      logLevel: "info",
+      logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  ) as any;
+  )) as any;
 
   if (!result || !result.lhr || !result.report) {
     throw new Error('Lighthouse audit failed or returned invalid results');
@@ -178,16 +178,16 @@ export async function runPerformanceAuditInTablet(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const result = await lighthouse.default(
+  const result = (await lighthouse.default(
     url,
     {
       port: parseInt(new URL(browser.wsEndpoint()).port),
       output: "html",
-      logLevel: "info",
+      logLevel: "silent",
       disableStorageReset: true,
     },
     config
-  ) as any;
+  )) as any;
 
   if (!result || !result.lhr || !result.report) {
     throw new Error('Lighthouse audit failed or returned invalid results');
