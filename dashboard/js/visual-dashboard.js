@@ -489,7 +489,7 @@ function renderScreenshotList() {
                     <div class="screenshot-grid">
                         ${paths
                           .map((path) => {
-                            const cleanPath = path.replace("/screenshots", "");
+                            const cleanPath = path.replace("screenshots/", "");
                             const fileName = path.split("/").pop();
                             const fullUrl = `https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/visual_test/${cleanPath}`;
                             return `
