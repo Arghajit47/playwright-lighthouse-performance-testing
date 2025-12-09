@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "https://moonlit-pastelito.netlify.app/api/verifycredentials",
+        "https://reporting-dashboard.netlify.app/api/verifycredentials",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

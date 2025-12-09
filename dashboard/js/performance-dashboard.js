@@ -24,7 +24,7 @@ let metricChartSortConfig = { key: "score", order: "asc" };
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://moonlit-pastelito.netlify.app/api/lighthouse/data"
+      "https://reporting-dashboard.netlify.app/api/lighthouse/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();

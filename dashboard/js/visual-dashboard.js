@@ -36,7 +36,7 @@ const debouncedSearch = debounce((searchValue) => {
 async function fetchData() {
   try {
     const response = await fetch(
-      "https://moonlit-pastelito.netlify.app/api/visual/data"
+      "https://reporting-dashboard.netlify.app/api/visual/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     testData = await response.json();
@@ -58,7 +58,7 @@ async function fetchScreenshotList() {
 
   try {
     const response = await fetch(
-      "https://moonlit-pastelito.netlify.app/api/baseline/data"
+      "https://reporting-dashboard.netlify.app/api/baseline/data"
     );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
