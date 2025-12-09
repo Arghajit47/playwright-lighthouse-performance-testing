@@ -813,10 +813,8 @@ app.get("/api/visual/data", (req, res) => {
       .all();
 
     if (tables.length === 0) {
-      console.log("❌ visual-matrix table not found");
-      return res
-        .status(404)
-        .json({ error: "visual-matrix table not found in database" });
+      console.log("❌ visual-matrix table not found, returning empty array");
+      return res.status(200).json([]);
     }
 
     console.log("📋 Found visual-matrix table in database");
@@ -892,10 +890,8 @@ app.get("/api/baseline/data", (req, res) => {
       .all();
 
     if (tables.length === 0) {
-      console.log("❌ Baseline table not found");
-      return res
-        .status(404)
-        .json({ error: "Baseline table not found in database" });
+      console.log("❌ Baseline table not found, returning empty array");
+      return res.status(200).json([]);
     }
 
     console.log("📋 Found baseline table in visual database");
