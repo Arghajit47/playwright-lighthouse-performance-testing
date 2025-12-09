@@ -36,7 +36,9 @@ async function downloadSingleDatabase(dbUrl, localPath) {
   console.log(`📥 Downloading: ${dbUrl}`);
   const response = await fetch(dbUrl);
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const buffer = await response.buffer();
+  const arrayBuffer = await response.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  
   fs.writeFileSync(localPath, buffer);
   return { success: true, path: localPath };
 }

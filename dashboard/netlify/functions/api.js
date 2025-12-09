@@ -44,7 +44,9 @@ async function ensureDb(localPath, url, currentDb) {
     console.log(`📥 Downloading merged DB from ${url}`);
     const res = await fetch(url);
     if (!res.ok) throw new Error("Fetch failed");
-    const buffer = await res.buffer();
+    const arrayBuffer = await res.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
     fs.writeFileSync(localPath, buffer);
 
     return new Database(localPath, { readonly: true });
