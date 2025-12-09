@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const response = await fetch(
-        "https://playwright-lighthouse-performance-testing.onrender.com/api/verifycredentials",
+        "https://moonlit-pastelito.netlify.app/api/verifycredentials",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
