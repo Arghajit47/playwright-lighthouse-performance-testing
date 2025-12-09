@@ -103,6 +103,22 @@ async function fetchScreenshotList() {
 // --- FILTERING & RENDERING ---
 // Make this globally accessible for theme changes
 window.applyFiltersAndRender = function () {
+  // Check if testData is empty array
+  if (Array.isArray(testData) && testData.length === 0) {
+    const container = document.getElementById("main-content");
+    if (container) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 3rem; background-color: var(--card-bg); border-radius: 8px; margin: 2rem; border: 1px solid var(--border-color);">
+          <h3 style="color: var(--text-primary); margin-bottom: 1rem;">No Test Data Available</h3>
+          <p style="color: var(--text-secondary); line-height: 1.6; max-width: 600px; margin: 0 auto;">
+            Seems like you ran the baseline image setup, Click on 'Show Screenshot Paths' to check all the baseline images, and if all good, Run the validation step
+          </p>
+        </div>
+      `;
+    }
+    return;
+  }
+
   filteredData = testData.filter((t) => {
     if (
       filters.searchTerm &&
