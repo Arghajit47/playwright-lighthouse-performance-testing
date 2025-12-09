@@ -2,7 +2,6 @@ import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
 import Database from "better-sqlite3";
-import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 

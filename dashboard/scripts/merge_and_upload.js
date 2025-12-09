@@ -1,6 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
 import Database from "better-sqlite3";
-import fetch from "node-fetch";
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
