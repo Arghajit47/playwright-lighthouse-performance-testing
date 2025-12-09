@@ -475,13 +475,14 @@ function renderScreenshotList() {
                     <div class="screenshot-grid">
                         ${paths
                           .map((path) => {
+                            const cleanPath = path.replace("/screenshots", "");
                             const fileName = path.split("/").pop();
-                            const fullUrl = `https://fusion-networks-qa-dev.s3.eu-west-2.amazonaws.com/Visual-test-images/${path}`;
+                            const fullUrl = `https://ocpaxmghzmfbuhxzxzae.supabase.co/storage/v1/object/public/visual_test/${cleanPath}`;
                             return `
                                 <div class="screenshot-card">
                                     <div class="card-header">
                                         <div class="file-name">${fileName}</div>
-                                        <div class="file-path">${path}</div>
+                                        <div class="file-path">${cleanPath}</div>
                                     </div>
                                     <a href="${fullUrl}" target="_blank" rel="noopener noreferrer" class="screenshot-button">🔗 Open Screenshot</a>
                                 </div>
