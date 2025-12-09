@@ -19,4 +19,4 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.DB_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.DB_SUPABASE_TOKEN }}
-        run: node scripts/merge_and_upload.js
+        run: node dashboard/scripts/merge_and_upload.js
