@@ -11,6 +11,27 @@ let uiState = {
   modalImage: null,
 };
 
+// --- DEBOUNCE UTILITY ---
+let searchDebounceTimer = null;
+const DEBOUNCE_DELAY = 800; // 800ms delay
+
+function debounce(func, delay) {
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(searchDebounceTimer);
+      func(...args);
+    };
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(later, delay);
+  };
+}
+
+// Create debounced version of the search function
+const debouncedSearch = debounce((searchValue) => {
+  filters.searchTerm = searchValue;
+  applyFiltersAndRender();
+}, DEBOUNCE_DELAY);
+
 // --- DATA FETCHING ---
 async function fetchData() {
   try {
@@ -34,7 +55,7 @@ async function fetchScreenshotList() {
   if (screenshotPaths.length > 0 || uiState.loadingScreenshots) return;
   uiState.loadingScreenshots = true;
   renderScreenshotList();
-  
+
   try {
     const response = await fetch(
       "https://playwright-lighthouse-performance-testing.onrender.com/api/baseline/data"
@@ -43,17 +64,27 @@ async function fetchScreenshotList() {
 
     const jsonData = await response.json();
 
+    // If the API returns an array of objects with 'name' property (current API structure)
+    if (Array.isArray(jsonData) && jsonData.length > 0 && jsonData[0].name) {
+      screenshotPaths = jsonData
+        .map((item) => item.name)
+        .filter((path) => path && path.trim() !== "");
+    }
     // If the API returns an array of paths directly
-    if (Array.isArray(jsonData)) {
-      screenshotPaths = jsonData.filter((path) => path.trim() !== "");
+    else if (Array.isArray(jsonData)) {
+      screenshotPaths = jsonData.filter((path) => path && path.trim() !== "");
     }
     // If the API returns an object with a paths property
     else if (jsonData.paths && Array.isArray(jsonData.paths)) {
-      screenshotPaths = jsonData.paths.filter((path) => path.trim() !== "");
+      screenshotPaths = jsonData.paths.filter(
+        (path) => path && path.trim() !== ""
+      );
     }
     // If the API returns an object with a data property
     else if (jsonData.data && Array.isArray(jsonData.data)) {
-      screenshotPaths = jsonData.data.filter((path) => path.trim() !== "");
+      screenshotPaths = jsonData.data.filter(
+        (path) => path && path.trim() !== ""
+      );
     }
     // Fallback: try to extract paths from object values
     else {
@@ -87,6 +118,8 @@ window.applyFiltersAndRender = function () {
 };
 
 function clearFilters() {
+  // Clear the debounce timer when clearing filters
+  clearTimeout(searchDebounceTimer);
   filters = { status: null, device: null, brand: null, searchTerm: "" };
   applyFiltersAndRender();
 }
