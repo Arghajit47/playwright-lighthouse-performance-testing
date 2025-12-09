@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me - Test Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/about.css" />
+  </head>
+  <body>
+    <div id="loading-overlay"></div>
+    <div class="app">
+      <!-- Common elements will be injected by JS -->
+      <div id="theme-toggle-container"></div>
+      <div id="sidebar-container"></div>
+      <button
+        id="hamburger-button"
+        class="hamburger-button"
+        aria-label="Open menu"
+      >
+        <img
+          src="https://img.icons8.com/fluency/48/menu--v3.png"
+          alt="Menu"
+          style="width: 24px; height: 24px"
+        />
+      </button>
+
+      <header class="page-header">
+        <h1>About Me - Project Documentation</h1>
+      </header>
+
+      <main id="main-content" style="display: block" class="about-container">
+        <!-- Creator Information -->
+        <div class="creator-info">
+          <div class="creator-name">Arghajit Singha</div>
+          <div class="creator-role">
+            Software Development Engineer in Test III
+          </div>
+          <p>
+            Contact me:
+            <a href="mailto:arghajitsingha47@gmail.com" class="contact-link"
+              >arghajitsingha47@gmail.com</a
+            >
+          </p>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="section-card">
+          <h2 class="section-title">🎯 Project Overview</h2>
+          <p class="file-description">
+            This comprehensive testing dashboard provides performance, visual,
+            and security testing capabilities using Playwright, Lighthouse, and
+            various security scanning tools. The project includes automated
+            CI/CD pipelines, data storage solutions, and interactive dashboards
+            for result visualization.
+          </p>
+        </div>
+
+        <!-- Frontend Files -->
+        <div class="section-card">
+          <h2 class="section-title">🌐 Frontend Dashboard Files</h2>
+
+          <div class="file-item">
+            <div class="file-name">📄 index.html</div>
+            <div class="file-description">
+              Main Performance Dashboard - Displays Lighthouse performance
+              metrics with interactive charts and filtering capabilities.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">Key Features:</div>
+              <div class="workflow-step">
+                • KPI cards showing performance, accessibility, SEO, and best
+                practices scores
+              </div>
+              <div class="workflow-step">
+                • Interactive charts with Highcharts integration
+              </div>
+              <div class="workflow-step">
+                • Advanced filtering by device type, date range, and search
+                terms
+              </div>
+              <div class="workflow-step">
+                • Data table with pagination and sorting
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📄 visual.html</div>
+            <div class="file-description">
+              Visual Testing Dashboard - Shows visual regression test results
+              and screenshot comparisons.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">Key Features:</div>
+              <div class="workflow-step">
+                • Visual test result cards with pass/fail status
+              </div>
+              <div class="workflow-step">
+                • Pie chart breakdown of test results
+              </div>
+              <div class="workflow-step">
+                • Screenshot path listing and comparison tools
+              </div>
+              <div class="workflow-step">
+                • Modal image viewer for difference images
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📄 security.html</div>
+            <div class="file-description">
+              Security Vulnerability Dashboard - Displays security scan results
+              from various tools.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">Key Features:</div>
+              <div class="workflow-step">
+                • Vulnerability alerts categorized by risk level (High, Medium,
+                Low)
+              </div>
+              <div class="workflow-step">
+                • Detailed vulnerability information with solutions
+              </div>
+              <div class="workflow-step">
+                • Alert filtering and search functionality
+              </div>
+              <div class="workflow-step">
+                • Instance details for each vulnerability
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📄 login.html</div>
+            <div class="file-description">
+              Authentication page with session management for dashboard access.
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📄 404.html</div>
+            <div class="file-description">
+              Custom error page with navigation options back to main dashboard.
+            </div>
+          </div>
+        </div>
+
+        <!-- JavaScript Files -->
+        <div class="section-card">
+          <h2 class="section-title">⚙️ JavaScript Files & Functions</h2>
+
+          <div class="file-item">
+            <div class="file-name">📜 js/common.js</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> This is the "backbone" JavaScript file
+              containing shared functionality used across ALL dashboard pages
+              (Performance, Visual, Security). Think of it as the common
+              foundation that every page needs.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                🔐 checkAuth() - Authentication Guard Function:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Acts like a security guard -
+                checks if you're logged in before letting you access dashboard
+                pages
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Looks in browser's sessionStorage for
+                key "isAuthenticated" to see if it equals "true"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Reads current page URL and checks if
+                you're on login.html or root path
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks if you're on about-me.html
+                (which is public and doesn't need login)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF not authenticated AND not on login
+                page AND not on about page → Redirect to login.html
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> IF authenticated AND on login page →
+                Redirect to index.html (main dashboard)
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User types "visual.html" in browser →
+                checkAuth() runs → No "isAuthenticated" found in sessionStorage
+                → User automatically sent to login.html
+              </div>
+              <div class="workflow-step">
+                <strong>Input:</strong> None (reads from sessionStorage and
+                window.location.pathname)
+              </div>
+              <div class="workflow-step">
+                <strong>Output:</strong> Either allows page load OR redirects
+                using window.location.replace()
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🎨 toggleTheme() - Light/Dark Mode Switcher:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Switches entire dashboard between
+                light mode (☀️ white backgrounds) and dark mode (🌙 dark
+                backgrounds)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Reads current theme from
+                localStorage.getItem('theme') - returns "light" or "dark"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Flips the theme: if "light" → change to
+                "dark", if "dark" → change to "light"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Saves new theme to
+                localStorage.setItem('theme', newValue) so it persists after
+                refresh
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Calls applyTheme(newTheme) which sets
+                document.documentElement.setAttribute('data-theme', newTheme)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> This changes CSS variables like
+                --text-primary, --bg-primary throughout entire page
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Calls renderThemeToggle() to update
+                button icon (sun ↔ moon)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> IF Highcharts exist, calls
+                window.applyFiltersAndRender() to redraw charts with new colors
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Dark mode active → User clicks sun
+                button → toggleTheme() runs → localStorage saves "light" →
+                document gets data-theme="light" → All colors change → Button
+                now shows moon → Charts redraw with light colors
+              </div>
+              <div class="workflow-step">
+                <strong>Why it matters:</strong> Accessibility feature - reduces
+                eye strain, some prefer light during day/dark at night
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🧩 renderSidebar() - Navigation Menu Builder:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates the left sidebar
+                navigation menu that lets you switch between Performance,
+                Visual, and Security dashboards
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Defines menuItems array: [{name:
+                "Performance Dashboard", path: "index.html"}, {name: "Visual
+                Dashboard", path: "visual.html"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Gets current page filename from
+                window.location.pathname.split('/').pop() (e.g., "visual.html")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Uses Array.map() to loop through each
+                menu item and generate HTML string
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> For each item: checks if item.path ===
+                currentPath, if yes adds class="active" for highlighting
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates &lt;li
+                onclick="window.location.href='path'"&gt;item name&lt;/li&gt;
+                for each menu option
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Wraps all &lt;li&gt; elements in &lt;ul
+                class="menu-items"&gt; container
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Adds brand logo image (&lt;img
+                src="assets/image.png"&gt;) at top of sidebar
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Creates overlay div (darkened
+                background) for mobile when sidebar is open
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Injects complete HTML into
+                document.getElementById('sidebar-container').innerHTML
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Attaches click listener to hamburger
+                button (☰) → calls openSidebar() on mobile
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Page loads on visual.html →
+                renderSidebar() executes → Creates 4 menu items → "Visual
+                Dashboard" gets green highlight/active class → Sidebar rendered
+                on left side → User clicks "Security Dashboard" →
+                window.location.href changes to "security.html" → Page navigates
+              </div>
+              <div class="workflow-step">
+                <strong>Mobile behavior:</strong> On screens &lt;768px, sidebar
+                hidden by default, hamburger (☰) appears, clicking slides
+                sidebar from left with animation
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🔘 renderThemeToggle() - Theme Button Creator:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates and displays the sun/moon
+                theme switcher button in top-right corner
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Reads currentTheme variable (set from
+                localStorage or defaults to "dark")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Determines if theme is light: const
+                isLight = (currentTheme === "light")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> IF isLight is true → Shows moon SVG
+                icon (suggests "click to go dark")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF isLight is false → Shows sun SVG
+                icon (suggests "click to go light")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates &lt;button
+                onclick="toggleTheme()"&gt; with appropriate icon SVG code
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Adds aria-label for screen readers
+                (accessibility): "Switch to dark mode" or "Switch to light mode"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Injects button HTML into
+                document.getElementById('theme-toggle-container')
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Page loads with dark theme →
+                renderThemeToggle() runs → isLight = false → Sun icon button
+                created → Injected into page header → User sees sun button ready
+                to click
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 js/performance-dashboard.js</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Powers the Performance Dashboard
+              (index.html). Fetches Lighthouse performance data from backend
+              server, displays metrics (Performance, Accessibility, SEO, Best
+              Practices scores 0-100), creates interactive charts, and provides
+              filtering capabilities.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                📡 fetchData() - API Data Retriever:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Makes HTTP request to backend
+                server to get ALL performance test results from database
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Uses JavaScript fetch() API to call:
+                "https://your-server.com/api/data" (GET request)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Waits for server response (async
+                operation using await keyword)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks response.ok (true if HTTP status
+                200-299, false if 400/500 errors)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF not ok: throws new Error with status
+                code
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Converts response to JSON: await
+                response.json() returns array of objects
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Stores result in global variable:
+                allData = [test1, test2, test3...] each with {performance: 85,
+                accessibility: 92, ...}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Calls applyFiltersAndRender() to
+                process data and display on screen
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Calls hideLoading() to remove loading
+                spinner/skeleton
+              </div>
+              <div class="workflow-step">
+                <strong>Error Handling:</strong> try-catch block catches network
+                errors → console.error logs it → displays "Failed to load data"
+                message to user
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Page loads → fetchData() executes →
+                Sends GET to /api/data → Server returns array of 87 test results
+                → Stored in allData → applyFiltersAndRender() called → Dashboard
+                populates
+              </div>
+              <div class="workflow-step">
+                <strong>Data structure:</strong> [{id: 1, performance: 85,
+                accessibility: 92, seo: 88, best_practice: 90, device_type:
+                "desktop", test_name: "Homepage", url: "https://site.com",
+                created_at: "2025-01-15"}...]
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📊 renderKPICards() - Summary Cards Display:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates 4 colorful summary cards
+                at top of dashboard showing AVERAGE scores across all tests
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Groups test results by test_name using
+                reduce(): {"Homepage": [test1, test2], "About Page": [test3,
+                test4]}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> For each group, finds LATEST test (most
+                recent created_at date) using reduce and Date comparison
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Creates array of latest results:
+                [homepageLatest, aboutLatest, contactLatest...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Calculates average Performance: sum all
+                performance scores ÷ count = avgPerformance
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Calculates average SEO score the same
+                way
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Calculates average Accessibility score
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Calculates average Best Practices score
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Rounds each average to 1 decimal place:
+                .toFixed(1) so "85.5%" not "85.5234567%"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Creates array of card objects: [{title:
+                "Performance", score: 85.5, icon: "⚡"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Loops through cards and generates HTML
+                with template literals
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Calls getScoreColor(score) function:
+                returns green if 80-100, yellow if 50-79, red if 0-49
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Applies color to score text: &lt;p
+                style="color: green"&gt;85.5%&lt;/p&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Injects all 4 cards into DOM:
+                document.getElementById('kpi-cards-container').innerHTML =
+                cardsHTML
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 20 test results → 10 unique test names
+                → Get latest of each → Avg Performance =
+                (85+90+78+92+88+95+82+87+91+84)/10 = 87.2% → Green card displays
+                "⚡ Performance 87.2%"
+              </div>
+              <div class="workflow-step">
+                <strong>Why "latest only":</strong> Avoids skewing averages with
+                old test data, shows current state of site performance
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🎛️ renderGlobalFilters() - Filter Interface Builder:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates search box and dropdown
+                menus allowing users to filter which test results are displayed
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Extracts unique URIs from allData:
+                [...new Set(allData.map(item => item.url))] removes duplicates
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Extracts unique Products/Brands:
+                [...new Set(allData.map(item => item.brand))]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Extracts unique Device Types: [...new
+                Set(allData.map(item => item.device_type))] gives ["desktop",
+                "mobile", "tablet"]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Creates search input: &lt;input
+                type="text" id="search-input" placeholder="Search..."&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates URI dropdown: &lt;select
+                id="uri-filter"&gt;&lt;option value=""&gt;All
+                URIs&lt;/option&gt; + loop through URIs to add options
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Creates Product dropdown: &lt;select
+                id="product-filter"&gt; same pattern
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Creates Device dropdown: &lt;select
+                id="device-filter"&gt; same pattern
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Creates "Clear All Filters" button with
+                red background
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Injects all filter HTML into
+                #global-filters container
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Attaches event listeners:
+                document.getElementById('search-input').addEventListener('input',
+                function)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> On input/change → Updates filters
+                object {searchQuery: "homepage", uriFilter: "", deviceFilter:
+                "mobile"...}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Calls applyFiltersAndRender() to
+                re-filter and re-display data
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User selects "Mobile" from device
+                dropdown → onChange event fires → filters.deviceFilter =
+                "mobile" → applyFiltersAndRender() called → Only mobile test
+                results shown in table/charts
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📈 renderMetricsContainer() - Interactive Charts Creator:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Uses Highcharts library to create
+                line/bar charts showing performance trends over time
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Takes filteredData array and sorts by
+                created_at date (oldest to newest)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Creates Highcharts configuration object
+                with type: 'line'
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Configures chart title: "Performance
+                Metrics Over Time"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Sets up X-axis categories: test names
+                or dates ["Homepage", "About", "Contact"...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Sets up Y-axis: min=0, max=100,
+                title="Score"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Creates 4 data series (one per metric)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Series 1 - Performance: {name:
+                "Performance", data: [85, 90, 88...], color: "#3b82f6"}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Series 2 - Accessibility: {name:
+                "Accessibility", data: [92, 94, 91...], color: "#22c55e"}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Series 3 - SEO: similar structure
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Series 4 - Best Practices: similar
+                structure
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Configures tooltip: shows score value
+                when hovering over data points
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Applies theme colors using CSS
+                variables: var(--text-primary) for labels
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Calls
+                Highcharts.chart('metrics-container', options) to render chart
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 30 test results over 2 weeks → Chart
+                rendered → 4 colored lines → Performance line (blue) shows
+                upward trend from 75 to 90 → User hovers over point → Tooltip
+                shows "Performance: 85"
+              </div>
+              <div class="workflow-step">
+                <strong>Interactive features:</strong> Click legend to show/hide
+                series, zoom by dragging, export as PNG/PDF
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📋 renderDataTable() - Paginated Table Generator:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates detailed HTML table
+                showing every test result with pagination (shows 10 rows per
+                page)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Gets tableState object: {currentPage:
+                1, rowsPerPage: 10, deviceFilter: "All", showLatest: false}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Starts with allData, applies device
+                filter if selected
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> IF "Show Latest Only" checked: groups
+                by test_name, keeps newest result per test
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Applies brand filter if selected
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Calculates totalPages:
+                Math.ceil(filteredData.length / rowsPerPage) e.g. 87 results /
+                10 = 9 pages
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Slices data for current page:
+                startIndex = (currentPage-1) * rowsPerPage, endIndex =
+                startIndex + rowsPerPage
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Example: Page 2 → startIndex=10,
+                endIndex=20 → shows results[10] through results[19]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Creates table HTML:
+                &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Test
+                Name&lt;/th&gt;&lt;th&gt;Device&lt;/th&gt;...&lt;/tr&gt;&lt;/thead&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Loops through current page data:
+                filteredData.slice(startIndex, endIndex).map(item => ...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> For each row: creates &lt;tr&gt; with
+                cells for test name, device, performance score, accessibility,
+                etc.
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Colors score cells: calls
+                getScoreColor(score) → &lt;td style="color:
+                green"&gt;85&lt;/td&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Formats dates: new
+                Date(item.created_at).toLocaleDateString() → "1/15/2025"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Creates pagination controls:
+                &lt;button&gt;Previous&lt;/button&gt;
+                &lt;button&gt;1&lt;/button&gt; &lt;button&gt;2&lt;/button&gt;...
+                &lt;button&gt;Next&lt;/button&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 14:</strong> Disables "Previous" if on page 1,
+                disables "Next" if on last page
+              </div>
+              <div class="workflow-step">
+                <strong>Step 15:</strong> Attaches click handlers to pagination
+                buttons → updates tableState.currentPage → calls renderTable()
+                again
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 87 results, 10 per page = 9 pages →
+                User on page 1 seeing rows 1-10 → Clicks "Next" → currentPage
+                becomes 2 → Table rerenders showing rows 11-20
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🔄 applyFiltersAndRender() - Master Orchestrator Function:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Central function that applies ALL
+                filters and re-renders ALL dashboard components (cards, charts,
+                table)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Gets current filter values from filters
+                object: {searchQuery, uriFilter, productFilter, deviceFilter,
+                startDate, endDate}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Starts with full dataset: let filtered
+                = allData
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Applies search filter: filtered =
+                filtered.filter(item => item.test_name.includes(searchQuery))
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Applies URI filter: IF uriFilter not
+                empty → filtered = filtered.filter(item => item.url ===
+                uriFilter)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Applies product filter: IF
+                productFilter not empty → keep only matching brand/product
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Applies device filter: IF deviceFilter
+                not empty → keep only matching device_type
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Applies date range: IF startDate set →
+                filtered = filtered.filter(item => new Date(item.created_at) >=
+                new Date(startDate))
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Applies end date: IF endDate set →
+                similar filtering
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Stores result in global variable:
+                filteredData = filtered
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Calls renderKPICards() → recalculates
+                and displays average scores with filtered data
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Calls renderGlobalFilters() → updates
+                filter dropdowns (may have fewer options now)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Calls renderMetricsContainer() →
+                redraws charts with filtered data
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Calls renderDataTable() → updates
+                table with filtered results
+              </div>
+              <div class="workflow-step">
+                <strong>Example Flow:</strong> 100 total results → User types
+                "homepage" in search → Step 3 filters to 8 results → User
+                selects "Mobile" device → Step 6 filters to 3 results →
+                filteredData = [3 items] → All cards/charts/table update to show
+                only these 3 results
+              </div>
+              <div class="workflow-step">
+                <strong>Performance note:</strong> This function runs every time
+                ANY filter changes, so it's optimized to be fast even with 1000+
+                results
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 js/visual-dashboard.js</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Powers Visual Testing Dashboard
+              (visual.html). Manages visual regression tests - comparing
+              baseline screenshots with current screenshots to detect UI
+              changes. Shows which tests passed (images match) or failed
+              (differences found).
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                📡 fetchData() - Visual Test Data Retriever:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Fetches visual regression test
+                results from backend API to see which UI tests passed or failed
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Calls
+                fetch("https://server.com/api/visual/data") to get visual test
+                results
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Checks response.ok → if false (404/500
+                error) throws error
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Converts response to JSON: await
+                response.json()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF empty array returned [] → Shows
+                special message: "Seems like you ran baseline image setup..."
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> IF data exists → Stores in global
+                testData = [{name: "Login Button", status: "passed", device:
+                "desktop", brand: "Chrome", imageUrl: "..."}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Calls applyFiltersAndRender() to
+                display data
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Calls hideLoading() to remove skeleton
+                loader
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Page loads → fetchData() runs → GET
+                /api/visual/data → Returns 15 test results → 10 passed, 5 failed
+                → testData populated → Dashboard shows results
+              </div>
+              <div class="workflow-step">
+                <strong>Data structure:</strong> [{name: "homepage-hero",
+                status: "passed", device: "mobile", brand: "iPhone12", imageUrl:
+                "diff.png", created_at: "2025-01-15"}...]
+              </div>
+              <div class="workflow-step">
+                <strong>Empty state:</strong> If [] returned, means baseline
+                images captured but validation not run yet
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📋 renderVisualCards() - Test Summary Cards:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates 3 cards at top showing:
+                Total Tests, Passed Tests (green), Failed Tests (red)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Counts passed tests:
+                testData.filter(test => test.status === "passed").length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Counts failed tests:
+                testData.filter(test => test.status === "failed").length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Calculates total: passed + failed
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Creates cards array: [{title: "Total
+                Tests", value: 15, color: "blue", icon: "totalIcon.png"},
+                {title: "Passed", value: 10, color: "green"}, {title: "Failed",
+                value: 5, color: "red"}]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Loops through cards and generates HTML
+                with colored values
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Each card has: Icon image, Title text,
+                Large colored number
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Injects HTML into
+                #visual-cards-container
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 15 total tests, 10 passed, 5 failed →
+                3 cards displayed → Total card shows "15" in blue → Passed shows
+                "10" in green → Failed shows "5" in red
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🥧 renderPieChart() - Pass/Fail Pie Chart:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates circular pie chart
+                visualizing test pass/fail ratio using Highcharts
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Counts passed: testData.filter(t =>
+                t.status === "passed").length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Counts failed: testData.filter(t =>
+                t.status === "failed").length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Creates Highcharts config: {chart:
+                {type: "pie"}, title: {text: "Visual Test Result Breakdown"}}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Configures data series: [{name:
+                "Passed", y: passedCount, color: "green"}, {name: "Failed", y:
+                failedCount, color: "red"}]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Enables data labels showing percentage:
+                "Passed: 66.7%", "Failed: 33.3%"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Makes slices clickable → clicking
+                "Failed" slice filters table to show only failed tests
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Configures tooltip: hovering shows
+                "Passed: 10 test(s)"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Applies theme colors for
+                text/background using CSS variables
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Calls
+                Highcharts.chart('pie-chart-container', options) to render
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 10 passed, 5 failed → Pie chart shows
+                → Green slice (66.7%) labeled "Passed: 66.7%" → Red slice
+                (33.3%) → User clicks red slice → filters.status = "failed" →
+                Table below shows only 5 failed tests
+              </div>
+              <div class="workflow-step">
+                <strong>Interactive:</strong> Click legend to hide/show slices,
+                click slice to filter results
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📋 renderTestResults() - Test Results Table:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Displays table of all test
+                results with columns: Test Name, Brand, Device, Difference Image
+                button, Status
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Checks IF testData is empty array [] →
+                Shows message: "No test data available. Seems like you ran
+                baseline setup..."
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Checks IF filteredData is empty (after
+                filters applied) → Shows: "No test results match current
+                filters"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Creates table header: &lt;div
+                class="column-labels"&gt;&lt;span&gt;Test
+                Name&lt;/span&gt;&lt;span&gt;Brand&lt;/span&gt;...&lt;/div&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Loops through filteredData:
+                filteredData.map((test, index) => ...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> For each test creates row: &lt;div
+                class="test-card-row"&gt; with 5 cells
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Cell 1: Test name (e.g., "Login Button
+                Screenshot")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Cell 2: Brand (e.g., "Chrome",
+                "Safari") or "N/A" if missing
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Cell 3: Device (e.g., "desktop",
+                "mobile")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Cell 4: IF status === "failed" → Shows
+                button "View Image" with test.imageUrl data attribute, ELSE
+                empty
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Cell 5: Status text colored green for
+                "passed", red for "failed", capitalized
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Attaches click handlers to all "View
+                Image" buttons
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> When clicked → stores imageUrl in
+                uiState.modalImage → calls renderModal()
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 5 failed tests → Table shows 5 rows →
+                Each has "View Image" button → User clicks button on row 2 →
+                Modal opens showing difference image highlighting UI change
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📸 fetchScreenshotList() - Screenshot Path Retriever:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Fetches list of ALL screenshot
+                file paths from S3/Supabase storage (baseline images)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Sets uiState.loadingScreenshots = true
+                to show loading spinner
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Calls
+                fetch("https://server.com/api/baseline/data") to get screenshot
+                metadata
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Converts response to JSON: returns
+                array like ["screenshots/desktop/homepage.png",
+                "screenshots/mobile/login.png", ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Groups screenshots by device: {Desktop:
+                [path1, path2], Mobile: [path3, path4], Tablet: [path5]}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Uses reduce() to create grouped object
+                based on device type detected in path
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Stores result in global screenshotPaths
+                = groupedObject
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Sets uiState.loadingScreenshots = false
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Calls renderScreenshotList() to display
+                the grouped screenshots
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User clicks "Show Screenshot Paths" →
+                fetchScreenshotList() runs → GET /api/baseline/data → Returns 45
+                screenshot paths → Groups into {Desktop: 15 paths, Mobile: 20
+                paths, Tablet: 10 paths} → screenshotPaths updated →
+                renderScreenshotList() called
+              </div>
+              <div class="workflow-step">
+                <strong>Use case:</strong> Allows QA to review all baseline
+                images before running validation tests
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🖼️ renderScreenshotList() - Screenshot Gallery Display:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates expandable sections
+                showing all baseline screenshot paths organized by device type
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Checks IF uiState.showScreenshots is
+                false → hides container and returns early
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> IF loadingScreenshots is true → shows
+                loading spinner
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> IF screenshotPaths is empty → shows "No
+                screenshot paths available" message
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Loops through screenshotPaths object:
+                Object.entries(screenshotPaths).map(([device, paths]) => ...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> For each device group creates section:
+                &lt;div class="screenshot-section"&gt;&lt;h3&gt;Desktop
+                Screenshots&lt;/h3&gt;...&lt;/div&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Inside section, creates grid: &lt;div
+                class="screenshot-grid"&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Loops through paths array:
+                paths.map(path => ...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> For each path: extracts filename using
+                path.split('/').pop()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Removes "/screenshots" substring from
+                path: path.replace('/screenshots', '')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Constructs full URL:
+                `https://bucket.s3.amazonaws.com/${cleanPath}`
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Creates card: &lt;div
+                class="screenshot-card"&gt;&lt;div
+                class="file-name"&gt;homepage.png&lt;/div&gt;&lt;div
+                class="file-path"&gt;/desktop/homepage.png&lt;/div&gt;&lt;a
+                href="fullUrl"&gt;🔗 Open Screenshot&lt;/a&gt;&lt;/div&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Link opens in new tab
+                (target="_blank") showing actual image
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> screenshotPaths = {Desktop:
+                ["desktop/home.png", "desktop/login.png"], Mobile:
+                ["mobile/home.png"]} → Renders 2 sections → Desktop section has
+                2 cards → Mobile section has 1 card → User clicks "🔗 Open" on
+                desktop/home.png → New tab opens showing baseline image
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🖼️ renderModal() - Image Viewer Modal:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates popup modal (overlay) to
+                display difference images when user clicks "View Image" on
+                failed test
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Checks IF uiState.modalImage is null →
+                hides modal container and returns
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> IF modalImage has URL → creates modal
+                HTML
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Modal structure: &lt;div
+                class="modal-overlay"&gt; (semi-transparent black background)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Inside overlay: &lt;div
+                class="modal-content"&gt; (white box with image)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates close button: &lt;button
+                class="close-btn"&gt;×&lt;/button&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Creates image: &lt;img
+                src="{uiState.modalImage}" alt="Difference Image"
+                loading="lazy"&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Image shows visual diff: baseline
+                screenshot overlaid with current screenshot, differences
+                highlighted in color
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Injects modal HTML into
+                #image-modal-container
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Attaches click handler to close button
+                → sets uiState.modalImage = null → calls renderModal() to hide
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Attaches click handler to overlay
+                background → clicking outside image closes modal
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User clicks "View Image" on failed
+                "Login Button" test → uiState.modalImage =
+                "https://storage.com/diff-login.png" → renderModal() runs →
+                Screen darkens → Image popup appears showing button moved 5px
+                down (highlighted) → User clicks X or background → Modal closes
+              </div>
+              <div class="workflow-step">
+                <strong>Diff image contents:</strong> Shows 3 images: Baseline
+                (expected), Current (actual), Diff (highlights changes in
+                red/yellow)
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 js/security-dashboard.js</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Powers Security Vulnerability Dashboard
+              (security.html). Parses security scan reports from tools like ZAP
+              (Zed Attack Proxy), displays vulnerabilities categorized by risk
+              level (High/Medium/Low), shows affected URLs, and provides
+              remediation guidance.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                📚 fetchReportFiles() - Security Report File Loader:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Discovers and loads HTML security
+                report files from the reports/ directory (generated by ZAP or
+                other security scanners)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Attempts to fetch directory listing
+                from "reports/" path
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Parses HTML directory index page using
+                DOMParser
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Extracts all &lt;a&gt; tags:
+                doc.querySelectorAll('a')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Filters for .html files:
+                links.filter(link => link.href.endsWith('.html'))
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates array of report filenames:
+                ["security-report-homepage.html", "security-report-login.html",
+                ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> IF directory listing fails, tries
+                Method 2: fetch reports/manifest.json
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> IF manifest.json exists → returns {
+                files: ["report1.html", "report2.html"] }
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> IF both fail, tries Method 3: Attempts
+                to fetch reports with predictable names (security-report-1.html,
+                2.html...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> For each attempt: sends HEAD request to
+                check if file exists
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Stops after 3 consecutive failures
+                (assumes no more reports)
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Dashboard loads → fetchReportFiles()
+                runs → Finds 5 .html files in reports/ → Returns array of
+                filenames → Each file fetched and parsed
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🗒️ parseReport() - HTML Report Parser:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Takes raw HTML security report
+                and extracts vulnerability data into JavaScript objects
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Creates DOMParser instance and parses
+                HTML string into Document object
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Extracts report name from &lt;title&gt;
+                tag
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Extracts execution date from &lt;h3&gt;
+                tag containing "Generated on"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Finds all vulnerability tables:
+                doc.querySelectorAll('table.results')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> For each table: extracts risk level
+                from &lt;th class="risk-high"&gt;
+                (High/Medium/Low/Informational)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Extracts vulnerability name from second
+                &lt;th&gt; tag
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Maps risk text to number: {High: 3,
+                Medium: 2, Low: 1, Informational: 0} for sorting
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Loops through table rows:
+                table.querySelectorAll('tr')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Extracts fields: Description (HTML
+                content), Solution (how to fix), Reference (links to CVE/CWE),
+                CWE ID, WASC ID, Plugin ID
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Counts vulnerable URLs/instances:
+                finds all URL fields in table
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> For each instance: stores {url:
+                "https://site.com/page", method: "GET", evidence:
+                "&lt;script&gt;alert(1)&lt;/script&gt;", attack: "XSS payload"}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Creates alert object: {name,
+                riskLevel, description, solution, references, cweId, wascId,
+                pluginId, instances: [...]}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Returns {reportName, executionDate,
+                alerts: [alert1, alert2, ...]}
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Parses report with 3 vulnerabilities →
+                High: SQL Injection (5 URLs affected) → Medium: Missing Security
+                Headers (15 URLs) → Low: Cookie without SameSite (20 URLs) →
+                Returns structured data object
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📊 renderSecurityKPIs() - Vulnerability Summary Cards:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates 4 summary cards showing
+                counts of High/Medium/Low/Informational vulnerabilities
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Filters allAlerts for High risk:
+                allAlerts.filter(alert => alert.risk === "High").length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Counts Medium risk alerts same way
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Counts Low risk and Informational
+                alerts
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Creates card array: [{title: "High
+                Risk", count: 3, color: "#ef4444" (red), icon: "🚨"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Generates HTML for each card with large
+                colored number
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Makes cards clickable: clicking "High
+                Risk" card filters to show only High risk alerts
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 3 High, 7 Medium, 12 Low, 5
+                Informational → 4 cards displayed → High Risk card shows "3" in
+                red with 🚨 icon
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📉 renderAlertsChart() - Vulnerability Distribution Chart:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Creates bar chart using
+                Highcharts showing vulnerability counts by risk level
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Counts alerts per risk level (same as
+                KPI cards)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Creates Highcharts config: {chart:
+                {type: "column"}, xAxis: {categories: ["High", "Medium", "Low",
+                "Informational"]}}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Sets Y-axis: title="Number of
+                Vulnerabilities", min=0
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Creates data series: {name:
+                "Vulnerabilities", data: [3, 7, 12, 5], colors: [red, orange,
+                yellow, blue]}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Each bar colored according to risk:
+                High=red, Medium=orange, Low=yellow, Info=blue
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Makes bars clickable: clicking bar
+                filters alerts list
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Chart shows 4 bars → High bar at 3
+                (red) → Medium at 7 (orange) → Low at 12 (yellow) → Info at 5
+                (blue)
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📜 renderAlertsList() - Vulnerability List:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Displays scrollable list of all
+                vulnerabilities on left side, clicking one shows details on
+                right
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Takes filteredAlerts array (after
+                filters applied)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Sorts by risk level: High first, then
+                Medium, Low, Informational
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> For each alert creates list item:
+                &lt;div class="alert-item" data-index="0"&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Shows risk badge: &lt;span
+                class="risk-badge high"&gt;HIGH&lt;/span&gt;
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Shows alert name: "SQL Injection"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Shows instance count: "5 instances
+                found"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Adds "active" class to currently
+                selected alert (highlights it)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Attaches click handler: clicking alert
+                → updates selectedAlertIndex → calls renderAlertDetail()
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> 15 alerts → List shows all 15 → First
+                3 have red HIGH badges → User clicks 2nd alert "XSS" →
+                selectedAlertIndex = 1 → Detail panel updates to show XSS
+                details
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📖 renderAlertDetail() - Vulnerability Details Panel:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Shows comprehensive information
+                about selected vulnerability in right panel: description,
+                solution, references, CWE/WASC IDs
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Gets selected alert: const alert =
+                filteredAlerts[selectedAlertIndex]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Creates header with risk badge and name
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Shows Description section with HTML
+                content (may include code examples)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Shows Solution section explaining how
+                to fix the vulnerability
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Shows References section with clickable
+                links to CVE database, OWASP articles
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Shows CWE ID (Common Weakness
+                Enumeration): e.g., "CWE-79: Cross-site Scripting"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Shows WASC ID (Web Application Security
+                Consortium)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Shows Plugin ID from scanning tool
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Creates "View Instances" button to see
+                all affected URLs
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> When clicked → calls
+                renderAlertInstances() to show detailed instance list below
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> SQL Injection selected → Detail shows:
+                Description (what SQL injection is) → Solution (use
+                parameterized queries) → References (link to OWASP SQL Injection
+                page) → CWE-89 → Button shows "View 5 Instances"
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 js/auth.js</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Handles user authentication on
+              login.html page. Validates credentials, creates sessions, and
+              manages login/logout flows. Uses sessionStorage to maintain
+              logged-in state.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">🔑 login() - User Login Handler:</div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Processes login form submission,
+                validates credentials, and creates authenticated session
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Attaches event listener to login form:
+                document.getElementById('login-form').addEventListener('submit',
+                function)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Prevents default form submission:
+                event.preventDefault() (stops page reload)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Gets username from input:
+                document.getElementById('username').value
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Gets password from input:
+                document.getElementById('password').value
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Trims whitespace: username.trim(),
+                password.trim()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Checks if fields empty: if (!username
+                || !password) → shows error message
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Calls validateCredentials(username,
+                password)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> IF validation fails → displays error:
+                "Invalid username or password" in red text
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> IF validation succeeds →
+                sessionStorage.setItem('isAuthenticated', 'true')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Stores username:
+                sessionStorage.setItem('username', username)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Redirects to dashboard:
+                window.location.href = 'index.html'
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User enters username="admin",
+                password="test123" → Clicks Login → validateCredentials()
+                returns true → sessionStorage updated → User redirected to
+                Performance Dashboard
+              </div>
+              <div class="workflow-step">
+                <strong>Security note:</strong> In production, credentials
+                should be validated against backend API, not client-side. This
+                is demo authentication.
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🚪 logout() - User Logout Handler:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Clears user session and returns
+                to login page
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Typically called from logout button in
+                dashboard header
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Removes authentication flag:
+                sessionStorage.removeItem('isAuthenticated')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Removes stored username:
+                sessionStorage.removeItem('username')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> OR clears entire sessionStorage:
+                sessionStorage.clear()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Redirects to login:
+                window.location.href = 'login.html'
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Browser navigates to login page, user
+                must login again to access dashboards
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User clicks "Logout" in header →
+                logout() executes → sessionStorage cleared → Redirected to
+                login.html → Attempting to access index.html now redirects back
+                to login (via checkAuth())
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                ✅ validateCredentials() - Credential Validator:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Checks if provided
+                username/password match expected values (hardcoded for demo)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Receives username and password as
+                parameters
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Compares against hardcoded valid
+                credentials (demo only)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Example check: if (username === "admin"
+                && password === "password123") return true
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> May check against multiple valid user
+                accounts
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Returns true if match found, false
+                otherwise
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> In production version: would send AJAX
+                request to backend API endpoint like POST /api/login
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Backend would check database, hash
+                passwords, return JWT token
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Token stored in
+                sessionStorage/localStorage, sent with future API requests
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> validateCredentials("admin",
+                "test123") → Checks if admin/test123 is valid → Returns true →
+                Login proceeds
+              </div>
+              <div class="workflow-step">
+                <strong>Production upgrade:</strong> Replace with: await
+                fetch('/api/login', {method: 'POST', body:
+                JSON.stringify({username, password})}) → Check response.ok →
+                Store returned JWT token
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend Files -->
+        <div class="section-card">
+          <h2 class="section-title">🖥️ Backend & Utility Files</h2>
+
+          <div class="file-item">
+            <div class="file-name">📜 backend/server.mjs</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Express.js backend server that acts as
+              the "middleman" between frontend dashboards and SQLite databases.
+              Provides REST API endpoints to fetch test data, manages database
+              connections, serves static dashboard files, and handles CORS for
+              secure cross-origin requests.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                🚀 Server Initialization & Setup:
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Imports Express framework: import
+                express from 'express'
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Imports Better-sqlite3: import Database
+                from 'better-sqlite3' (fast synchronous SQLite library)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Imports CORS middleware: import cors
+                from 'cors' (allows frontend on different port to access API)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Imports path and fs modules for file
+                operations
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Creates Express app: const app =
+                express()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Enables CORS: app.use(cors()) - allows
+                requests from any origin
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Enables JSON parsing:
+                app.use(express.json()) - parses JSON request bodies
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Serves static files:
+                app.use(express.static('dashboard')) - serves HTML/CSS/JS files
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Opens performance database: const
+                performanceDb = new Database('lighthouse_performance.db')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Opens visual test database: const
+                visualDb = new Database('visual_test.db')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Sets up graceful shutdown:
+                process.on('SIGINT', () => close databases)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Starts server: app.listen(3000, () =>
+                console.log('Server running on port 3000'))
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Run "node backend/server.mjs" → Server
+                starts → Connects to 2 databases → Listens on
+                http://localhost:3000 → Ready to receive API requests
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📈 GET /api/data - Performance Data Endpoint:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Fetches ALL performance test
+                results from lighthouse_performance.db and returns as JSON array
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Frontend makes request:
+                fetch('http://localhost:3000/api/data')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Express routes request to handler
+                function: app.get('/api/data', (req, res) => {...})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks if database connection exists:
+                if (!performanceDb) return 503 error
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Prepares SQL query: "SELECT * FROM
+                performance_matrix ORDER BY created_at DESC"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Executes query: const results =
+                performanceDb.prepare(query).all()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> .all() returns array of row objects:
+                [{id: 1, performance: 85, accessibility: 92, ...}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Logs to console: console.log(`Retrieved
+                ${results.length} records`)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Sends JSON response: res.json(results)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Frontend receives response and parses
+                JSON
+              </div>
+              <div class="workflow-step">
+                <strong>Error Handling:</strong> try-catch block catches
+                database errors → res.status(500).json({error: "Failed to fetch
+                data"})
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Frontend calls /api/data → Server
+                queries database → Returns 87 test results → Response: [{id:1,
+                performance:85, seo:88, device_type:"desktop",
+                test_name:"Homepage", url:"https://site.com",
+                created_at:"2025-01-15 10:30:00"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Database table structure:</strong>
+                performance_matrix(id, performance, accessibility,
+                best_practice, seo, device_type, test_name, url, created_at)
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🖼️ GET /api/visual/data - Visual Test Data Endpoint:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Fetches visual regression test
+                results from visual-matrix table in visual_test.db
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Frontend calls
+                fetch('http://localhost:3000/api/visual/data')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Express routes to handler:
+                app.get('/api/visual/data', (req, res) => {...})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Validates visualDb connection exists
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Checks if "visual-matrix" table exists:
+                SELECT name FROM sqlite_master WHERE type='table' AND
+                name='visual-matrix'
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> IF table doesn't exist → returns empty
+                array [] with status 200 (not an error, just no data yet)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> IF table exists but empty → returns
+                empty array [] with status 200
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> IF table has data → Queries: "SELECT *
+                FROM [visual-matrix] ORDER BY created_at DESC"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Note: Uses [visual-matrix] with
+                brackets because table name contains hyphen
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Returns JSON: [{name: "login-button",
+                status: "passed", device: "desktop", brand: "Chrome", imageUrl:
+                "diff.png", created_at: "2025-01-15"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Empty state handling:</strong> Returns [] when baseline
+                images captured but validation tests not run yet → Frontend
+                shows message "Seems like you ran baseline image setup..."
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Frontend calls /api/visual/data →
+                Table exists with 15 results → Server returns array → 10 passed,
+                5 failed → Frontend populates dashboard
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📸 GET /api/baseline/data - Baseline Screenshot Data Endpoint:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Fetches baseline screenshot
+                metadata from "baseline" table (screenshot paths, device types)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Frontend calls
+                fetch('http://localhost:3000/api/baseline/data')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Routes to handler function
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks if "baseline" table exists in
+                visualDb
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF table doesn't exist → returns empty
+                array [] (baseline not captured yet)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> IF table exists → Queries: "SELECT *
+                FROM baseline ORDER BY created_at DESC"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Returns array of baseline image
+                records: [{path: "desktop/homepage.png", device: "desktop",
+                created_at: "2025-01-15"}, ...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Frontend uses this data to display
+                screenshot gallery grouped by device
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User clicks "Show Screenshot Paths"
+                button → Frontend calls /api/baseline/data → Server returns 45
+                screenshot paths → Frontend groups by device and displays
+                gallery
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">🗄️ Static File Serving:</div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Serves dashboard HTML, CSS,
+                JavaScript files when users access the website
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> app.use(express.static('dashboard'))
+                tells Express to serve files from dashboard/ folder
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> When user navigates to
+                http://localhost:3000/index.html → Express looks in
+                dashboard/index.html
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Reads file contents and sends to
+                browser with correct Content-Type header
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> HTML files sent with Content-Type:
+                text/html
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> CSS files sent with Content-Type:
+                text/css
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> JS files sent with Content-Type:
+                application/javascript
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Also serves images, fonts, any other
+                assets in dashboard/ folder
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> User visits http://localhost:3000/ →
+                Express serves dashboard/index.html → Browser renders page →
+                Page requests dashboard/css/style.css → Express serves it → Page
+                requests dashboard/js/performance-dashboard.js → Express serves
+                it
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🔌 Database Connection Management:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Manages SQLite database
+                connections with proper initialization and cleanup
+              </div>
+              <div class="workflow-step"><strong>Initialization:</strong></div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Creates database connections when
+                server starts: new Database('lighthouse_performance.db')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Opens file or creates it if doesn't
+                exist
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Better-sqlite3 keeps connection open
+                for fast queries (synchronous, no callbacks)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Stores connections in variables:
+                performanceDb, visualDb
+              </div>
+              <div class="workflow-step">
+                <strong>Graceful Shutdown:</strong>
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Listens for SIGINT signal (Ctrl+C):
+                process.on('SIGINT', handler)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> When signal received → Closes database
+                connections: performanceDb.close(), visualDb.close()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Prevents database corruption from
+                abrupt shutdown
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Exits process: process.exit(0)
+              </div>
+              <div class="workflow-step">
+                <strong>Error Handling:</strong> Catches database connection
+                errors → Logs to console → Server continues running with limited
+                functionality
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Server starts → Opens 2 databases
+                successfully → Runs for 8 hours serving requests → Admin presses
+                Ctrl+C → SIGINT received → Databases closed properly → Server
+                exits
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 utils/helpers.ts</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Core testing utilities powering
+              Lighthouse performance audits. Contains functions to run audits on
+              Desktop/Mobile/Tablet devices, capture performance metrics (CPU,
+              memory), store results in SQLite database, and generate visual
+              performance charts. Used by all performance test specs.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                🖥️ runPerformanceAuditInDesktop() - Desktop Audit Runner:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Launches headless Chrome browser
+                in desktop mode, runs Lighthouse performance audit on target
+                URL, generates HTML report, stores results in database
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> cookies (array of cookie objects
+                for authentication), url (page to test), config (Lighthouse
+                desktop configuration), outputPath (where to save HTML report),
+                reportName (name for report file)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Dynamically imports Lighthouse: const
+                lighthouse = await import('lighthouse')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Launches Puppeteer browser: await
+                puppeteer.launch({headless: true, args: ['--no-sandbox']})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Creates new page: const page = await
+                browser.newPage()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Sets cookies for authentication: await
+                page.setCookie(...cookies) - spreads cookie array
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Extracts port from browser WebSocket
+                endpoint: new URL(browser.wsEndpoint()).port
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Converts port to integer:
+                parseInt(port)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Runs Lighthouse audit: await
+                lighthouse.default(url, {port, output: 'html', logLevel:
+                'silent', disableStorageReset: true}, config)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Lighthouse returns result object with
+                lhr (Lighthouse Result) and report (HTML)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Validates result exists: if (!result ||
+                !result.lhr || !result.report) throw Error
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> Destructures: const {lhr, report} =
+                result
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> Creates output directory if missing:
+                fs.mkdirSync(path.dirname(outputPath), {recursive: true})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 12:</strong> Writes HTML report to file:
+                fs.writeFileSync(`${outputPath}/${reportName}.html`, report)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 13:</strong> Logs performance score:
+                console.log(`Performance score:
+                ${lhr.categories.performance.score * 100}`)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 14:</strong> Extracts all scores: performance =
+                lhr.categories.performance.score * 100, accessibility =
+                lhr.categories.accessibility.score * 100, etc.
+              </div>
+              <div class="workflow-step">
+                <strong>Step 15:</strong> Creates record object: {performance:
+                85, accessibility: 92, best_practice: 90, seo: 88, device_type:
+                "desktop", test_name: reportName, url: url}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 16:</strong> Calls
+                insertLighthousePerformanceRecord(record) to store in database
+              </div>
+              <div class="workflow-step">
+                <strong>Step 17:</strong> Closes browser: await browser.close()
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong>
+                runPerformanceAuditInDesktop([cookies], "https://site.com",
+                desktopConfig, "performance-report/Desktop", "Homepage Desktop")
+                → Launches Chrome → Audits homepage → Score: 85 → Saves HTML
+                report → Stores {performance:85, accessibility:92, ...} in
+                database → Closes browser
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📱 runPerformanceAuditInMobile() - Mobile Audit Runner:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Same as desktop audit but
+                simulates mobile device (smaller screen, slower CPU/network)
+              </div>
+              <div class="workflow-step">
+                <strong>Differences from desktop:</strong>
+              </div>
+              <div class="workflow-step">
+                <strong>1.</strong> Uses mobileConfig instead of desktopConfig →
+                Sets formFactor: "mobile"
+              </div>
+              <div class="workflow-step">
+                <strong>2.</strong> Screen emulation: mobile: true,
+                deviceScaleFactor: 2 (Retina display)
+              </div>
+              <div class="workflow-step">
+                <strong>3.</strong> CPU throttling: Simulates slower mobile
+                processor
+              </div>
+              <div class="workflow-step">
+                <strong>4.</strong> Network throttling: Simulates 4G mobile
+                connection (may be commented out for faster CI)
+              </div>
+              <div class="workflow-step">
+                <strong>5.</strong> device_type in record set to "mobile"
+              </div>
+              <div class="workflow-step">
+                <strong>6.</strong> logLevel: "info" instead of "silent" (shows
+                more debugging info)
+              </div>
+              <div class="workflow-step">
+                <strong>Why test mobile:</strong> Mobile devices typically have
+                lower scores due to slower CPUs, smaller screens, touch
+                interfaces. Important to test both!
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Mobile audit on homepage → Performance
+                score 72 (vs desktop 85) → Identifies mobile-specific issues
+                like large images not optimized
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📱 runPerformanceAuditInTablet() - Tablet Audit Runner:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Simulates tablet device (medium
+                between mobile and desktop)
+              </div>
+              <div class="workflow-step">
+                <strong>Tablet configuration specifics:</strong>
+              </div>
+              <div class="workflow-step">
+                <strong>1.</strong> Screen size: 768x1024 pixels (typical iPad
+                size)
+              </div>
+              <div class="workflow-step">
+                <strong>2.</strong> formFactor: "mobile" (Lighthouse treats
+                tablets as mobile)
+              </div>
+              <div class="workflow-step">
+                <strong>3.</strong> deviceScaleFactor: 2 (Retina tablet display)
+              </div>
+              <div class="workflow-step">
+                <strong>4.</strong> CPU throttling: 1.5x slowdown (between
+                mobile and desktop)
+              </div>
+              <div class="workflow-step">
+                <strong>5.</strong> Network throttling: 1500 Kbps (faster than
+                mobile, slower than desktop)
+              </div>
+              <div class="workflow-step">
+                <strong>6.</strong> device_type: "tablet" in database record
+              </div>
+              <div class="workflow-step">
+                <strong>Why test tablet:</strong> Tablets often have different
+                layouts, touch interactions, but more power than phones. Tests
+                ensure responsive design works at all sizes.
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Tablet audit shows score 78 → Between
+                mobile (72) and desktop (85) → Identifies tablet-specific layout
+                issues
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📊 recordPerformanceMetrics() - CPU/Memory Monitor:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Monitors Node.js process CPU
+                usage and memory consumption during test execution, useful for
+                identifying resource-heavy tests
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Gets current process ID: process.pid
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Starts interval timer: setInterval(()
+                => {}, 1000) - samples every 1 second
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Uses pidusage library:
+                pidusage(process.pid, (err, stats) => {})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> stats object contains: {cpu: 25.5,
+                memory: 156789123} - CPU as percentage, memory in bytes
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Pushes stats to array:
+                metricsData.push({timestamp: Date.now(), cpu: stats.cpu, memory:
+                stats.memory})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Returns object: {stop: () =>
+                clearInterval(timer), getData: () => metricsData}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Test calls recorder.stop() when
+                finished to stop monitoring
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Test calls recorder.getData() to get
+                array of all measurements
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Test starts →
+                recordPerformanceMetrics() called → Samples every 1s → Test runs
+                30s → recorder.stop() → getData() returns 30 data points →
+                [{cpu: 25, memory: 150MB}, {cpu: 45, memory: 180MB}, ...] → Used
+                to generate CPU/memory graph
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🗃️ insertLighthousePerformanceRecord() - Database Storage:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Inserts Lighthouse audit results
+                into SQLite database for later retrieval by dashboard
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Receives record object: {performance:
+                85, accessibility: 92, best_practice: 90, seo: 88, device_type:
+                "desktop", test_name: "Homepage", url: "https://site.com"}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Connects to database: const db = new
+                Database('lighthouse_performance.db')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Ensures table exists (should already
+                exist from initialization)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Prepares INSERT statement: "INSERT INTO
+                performance_matrix (performance, accessibility, best_practice,
+                seo, device_type, test_name, url) VALUES (?, ?, ?, ?, ?, ?, ?)"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Uses parameterized query (?
+                placeholders) to prevent SQL injection
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Executes statement:
+                stmt.run(record.performance, record.accessibility, ...)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Database automatically adds: id
+                (auto-increment), created_at (current timestamp)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Logs success: console.log(`Inserted
+                record for ${record.test_name}`)
+              </div>
+              <div class="workflow-step">
+                <strong>Error Handling:</strong> Catches database errors → Logs
+                error but doesn't fail test (audit still succeeded)
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> After desktop audit completes →
+                insertRecord({performance:85, ...}) called → INSERT INTO
+                performance_matrix... → New row added with id=47,
+                created_at="2025-01-15 10:30:00" → Dashboard can now fetch this
+                result via /api/data
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📈 attachGraph() - Performance Chart Generator:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Generates PNG image of CPU/memory
+                usage graph and attaches to test report (Allure or Playwright
+                HTML report)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Receives metricsRecorder object from
+                recordPerformanceMetrics()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Calls recorder.getData() to get array
+                of measurements
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Processes data: Extracts CPU values
+                [25, 30, 45, 50...], memory values [150MB, 160MB, 180MB...]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Creates ChartJS configuration: {type:
+                'line', data: {labels: timestamps, datasets: [{label: 'CPU %',
+                data: cpuValues}, {label: 'Memory MB', data: memoryValues}]}}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Uses chartjs-node-canvas library to
+                render chart without browser
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Generates PNG image: const buffer =
+                await chartJSNodeCanvas.renderToBuffer(config)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Writes to file:
+                fs.writeFileSync('performance-graph.png', buffer)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Attaches to test report:
+                testInfo.attach('Performance Metrics', {contentType:
+                'image/png', path: 'performance-graph.png'})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Graph shows: X-axis = time in seconds,
+                Y-axis left = CPU %, Y-axis right = Memory MB, 2 colored lines
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Test finishes → attachGraph() called →
+                Generates graph showing CPU spiked to 80% at 15s mark, memory
+                gradually increased from 150MB to 200MB → Graph PNG attached to
+                Playwright HTML report → QA can review resource usage
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 utils/storeDb.mjs</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Utility for uploading SQLite database
+              files to Supabase cloud storage. Used in CI/CD pipeline to backup
+              test results after runs complete.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                ☁️ uploadDB() - Database Uploader:
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> fileName
+                ("lighthouse_performance.db"), pathContent
+                ("./lighthouse_performance.db")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Validates env vars: DB_SUPABASE_URL,
+                DB_SUPABASE_TOKEN, DB_SUPABASE_BUCKET_NAME
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> IF missing → console.error("❌ Missing
+                env vars") → return false
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks file exists:
+                fs.existsSync(pathContent)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF not found → console.error("❌ File
+                not found") → return false
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Initializes Supabase: createClient(URL,
+                TOKEN)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Reads file: const fileContent =
+                fs.readFileSync(pathContent) → Returns Buffer
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Uploads:
+                supabase.storage.from(bucket).upload(fileName, fileContent,
+                {contentType: 'application/vnd.sqlite3', upsert: true})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> upsert: true → overwrites if exists,
+                creates if new
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Awaits: const {data, error} = await
+                upload
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> IF error → console.error("❌ Upload
+                failed") → return false
+              </div>
+              <div class="workflow-step">
+                <strong>Step 11:</strong> IF success → console.log("✅
+                Uploaded", timestamp) → return true
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Reads 5MB DB → Uploads to Supabase →
+                URL: https://supabase.co/storage/.../lighthouse_performance.db
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🔍 findLighthouseDbFiles() - File Finder:
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> directory (defaults to "./")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Reads directory: const files =
+                fs.readdirSync(directory)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Filters: files.filter(f =>
+                f.startsWith('lighthouse_performance') && f.endsWith('.db'))
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Matches: "lighthouse_performance.db" ✓,
+                "lighthouse_performance_mobile.db" ✓
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Logs: console.log("📂 Found X files")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Maps to objects: [{fileName: "file.db",
+                filePath: "./file.db"}]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Returns array for batch upload
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Finds 3 DBs →
+                lighthouse_performance_desktop.db (8MB), _mobile.db (6MB),
+                _tablet.db (7MB)
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 utils/storeReports.mjs</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Uploads HTML Lighthouse reports to
+              Supabase. Preserves folder structure (Authorized/Unauthorized/CPU,
+              Desktop/Mobile/Tablet).
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                📝 uploadReport() - Single Report Uploader:
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> fileName ("Homepage.html"),
+                pathContent (full local path), subFolder ("Authorized/Desktop")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Validates env vars (same 3 as uploadDB)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Checks file exists locally
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Creates Supabase client
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Constructs path: storagePath =
+                subFolder ? `${subFolder}/${fileName}` : fileName
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Example: subFolder="Authorized/Desktop"
+                + fileName="Home.html" → "Authorized/Desktop/Home.html"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Reads HTML: const content =
+                fs.readFileSync(pathContent)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Uploads:
+                supabase.storage.from(bucket).upload(storagePath, content,
+                {contentType: 'text/html', upsert: true})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> contentType: 'text/html' → Browser
+                renders it, not downloads
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Returns true/false for success tracking
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Uploads 500KB HTML → Viewable at
+                https://supabase.co/.../Authorized/Desktop/Home.html
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                📁 findReportFiles() - Recursive Finder:
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> directory (path to scan),
+                baseDirectory (tracks subfolder during recursion)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Checks directory exists
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Reads contents: const items =
+                fs.readdirSync(directory)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> For each item: Gets full path, checks
+                if directory or file
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> IF directory → Recursively calls
+                itself: findReportFiles(fullPath, `${baseDir}/${item}`)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> IF file ends with .html → Adds to
+                results: {fileName, filePath, subFolder}
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Returns array of ALL .html files at any
+                depth with their folder paths
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Scans Authorized/ → Desktop/Home.html,
+                Mobile/Home.html → Returns [{fileName:"Home.html",
+                subFolder:"Authorized/Desktop"}, {fileName:"Home.html",
+                subFolder:"Authorized/Mobile"}]
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">
+                🚀 uploadAllPerformanceReports() - Batch Orchestrator:
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> performanceReportDir (defaults to
+                "./performance-report")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Defines directories:
+                ["Authorized-performance-reports",
+                "Unauthorized-performance-reports", "cpu"]
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> For each directory: Scans for HTML
+                files using findReportFiles()
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> For each found file: Calls
+                uploadReport() → Gets Promise (doesn't await yet)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Collects all Promises in array:
+                allUploads.push(uploadPromise)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> Logs total: console.log("🚀 Starting
+                upload of X files...")
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Executes ALL in parallel: const results
+                = await Promise.all(allUploads)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> Counts successes: results.filter(r => r
+                === true).length
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> Logs summary: "📊 Upload Summary: ✅ X
+                successful, ❌ Y failed"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Returns true if all succeeded, false if
+                any failed
+              </div>
+              <div class="workflow-step">
+                <strong>Example:</strong> Finds 45 files → Uploads all parallel
+                in 30s → 43 succeed, 2 fail → Logs summary → Returns false
+              </div>
+              <div class="workflow-step">
+                <strong>CI/CD:</strong> GitHub Actions runs tests → node
+                utils/storeReports.mjs → Uploads all reports to Supabase
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 utils/common.ts</div>
+            <div class="file-description">
+              <strong>Purpose:</strong> Shared TypeScript utilities for test
+              reporting and Allure integration. Attaches Lighthouse HTML reports
+              to test results for consolidated viewing.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">
+                📎 attachHtmlToAllureReport() - Report Attacher:
+              </div>
+              <div class="workflow-step">
+                <strong>What it does:</strong> Attaches Lighthouse HTML report
+                to Playwright/Allure test report so QA can view everything in
+                one place
+              </div>
+              <div class="workflow-step">
+                <strong>Parameters:</strong> testName ("Homepage Desktop"),
+                reportPath ("./performance-report/Desktop"), testInfo
+                (Playwright TestInfo object)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 1:</strong> Constructs full path: const fullPath =
+                path.join(reportPath, `${testName}.html`)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 2:</strong> Example:
+                path.join("./performance-report/Desktop", "Homepage
+                Desktop.html") = "./performance-report/Desktop/Homepage
+                Desktop.html"
+              </div>
+              <div class="workflow-step">
+                <strong>Step 3:</strong> Checks file exists: if
+                (!fs.existsSync(fullPath)) → console.error → return
+              </div>
+              <div class="workflow-step">
+                <strong>Step 4:</strong> Reads HTML: const htmlContent =
+                fs.readFileSync(fullPath, 'utf-8')
+              </div>
+              <div class="workflow-step">
+                <strong>Step 5:</strong> 'utf-8' encoding → reads as text string
+                (not binary)
+              </div>
+              <div class="workflow-step">
+                <strong>Step 6:</strong> Attaches to test:
+                testInfo.attach(testName, {body: htmlContent, contentType:
+                'text/html'})
+              </div>
+              <div class="workflow-step">
+                <strong>Step 7:</strong> contentType: 'text/html' → Report
+                viewer renders HTML inline
+              </div>
+              <div class="workflow-step">
+                <strong>Step 8:</strong> In Playwright report: Test shows ✅/❌
+                status + 📎 Attachments section
+              </div>
+              <div class="workflow-step">
+                <strong>Step 9:</strong> Click attachment name → Opens full
+                Lighthouse report showing: Performance score, Metrics (FCP, LCP,
+                TTI), Opportunities, Diagnostics, Screenshots
+              </div>
+              <div class="workflow-step">
+                <strong>Step 10:</strong> QA reviews all details without opening
+                separate files
+              </div>
+              <div class="workflow-step">
+                <strong>Example Usage:</strong> test('audit', async ({page},
+                testInfo) => { await runPerformanceAuditInDesktop(...) → await
+                attachHtmlToAllureReport("Homepage Desktop", "./reports",
+                testInfo) → Report attached → QA clicks attachment in report →
+                Sees full Lighthouse metrics }
+              </div>
+              <div class="workflow-step">
+                <strong>Benefits:</strong> 1) Single location for all artifacts,
+                2) No downloading 50 HTML files, 3) Easy comparison across
+                tests, 4) Shareable report URL, 5) Search across attachments
+              </div>
+            </div>
+            <div class="workflow-section" style="margin-top: 1rem">
+              <div class="workflow-title">🛠️ Other Common Utilities:</div>
+              <div class="workflow-step">
+                <strong>May include:</strong> Helper functions (formatDate,
+                generateTestId), Constants (TEST_TIMEOUT, REPORT_FOLDER), Type
+                definitions (interface TestResult, type DeviceType)
+              </div>
+              <div class="workflow-step">
+                <strong>Why separate file:</strong> DRY principle → Write once,
+                import everywhere → Changes in one place apply to all tests →
+                Maintains consistency
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Files -->
+        <div class="section-card">
+          <h2 class="section-title">🧪 Test Files & Workflows</h2>
+
+          <div class="file-item">
+            <div class="file-name">📜 tests/Auth/performance.spec.ts</div>
+            <div class="file-description">
+              Authenticated user performance tests using Playwright and
+              Lighthouse.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">Test Workflow:</div>
+              <div class="workflow-step">1. Navigate to target URL</div>
+              <div class="workflow-step">2. Perform login authentication</div>
+              <div class="workflow-step">
+                3. Run Lighthouse audits (Desktop, Mobile, Tablet)
+              </div>
+              <div class="workflow-step">4. Record performance metrics</div>
+              <div class="workflow-step">5. Store results in database</div>
+              <div class="workflow-step">6. Generate HTML reports</div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 tests/UnAuth/performance.spec.ts</div>
+            <div class="file-description">
+              Unauthenticated (public) performance tests for guest user
+              experience.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">Test Workflow:</div>
+              <div class="workflow-step">1. Navigate to public pages</div>
+              <div class="workflow-step">
+                2. Run Lighthouse audits without authentication
+              </div>
+              <div class="workflow-step">3. Record performance metrics</div>
+              <div class="workflow-step">
+                4. Store results and generate reports
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 test-data/enum.ts</div>
+            <div class="file-description">
+              Test configuration and URL definitions for different test
+              scenarios.
+            </div>
+            <div class="function-list">
+              <div class="function-item">URLS - Target URLs for testing</div>
+              <div class="function-item">
+                AUTHORIZED_PATHS - Authenticated test paths
+              </div>
+              <div class="function-item">
+                UNAUTHORIZED_PATHS - Public test paths
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration Files -->
+        <div class="section-card">
+          <h2 class="section-title">⚙️ Configuration & Lighthouse Setup</h2>
+
+          <div class="file-item">
+            <div class="file-name">📜 lighthouse/base.ts</div>
+            <div class="file-description">
+              Lighthouse configuration presets for different device types and
+              testing scenarios.
+            </div>
+            <div class="function-list">
+              <div class="function-item">
+                mobileConfig - Mobile device simulation settings
+              </div>
+              <div class="function-item">
+                desktopConfig - Desktop browser settings
+              </div>
+              <div class="function-item">
+                tabletConfig - Tablet device simulation
+              </div>
+              <div class="function-item">
+                thresholds - Performance score thresholds
+              </div>
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 playwright.config.ts</div>
+            <div class="file-description">
+              Playwright test framework configuration with reporting and
+              execution settings.
+            </div>
+          </div>
+
+          <div class="file-item">
+            <div class="file-name">📜 .github/workflows/playwright.yml</div>
+            <div class="file-description">
+              CI/CD pipeline configuration for automated testing and deployment.
+            </div>
+            <div class="workflow-section">
+              <div class="workflow-title">CI/CD Workflow:</div>
+              <div class="workflow-step">
+                1. Trigger on push/PR to main branch
+              </div>
+              <div class="workflow-step">
+                2. Set up Node.js and dependencies
+              </div>
+              <div class="workflow-step">3. Install Playwright browsers</div>
+              <div class="workflow-step">4. Run performance tests</div>
+              <div class="workflow-step">
+                5. Upload databases and reports to Supabase
+              </div>
+              <div class="workflow-step">6. Generate and deploy artifacts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technologies Used -->
+        <div class="section-card">
+          <h2 class="section-title">🛠️ Technologies & Tools</h2>
+          <div class="tech-grid">
+            <div class="tech-item">
+              <div class="tech-name">Frontend</div>
+              <div class="file-description">
+                HTML5, CSS3, Vanilla JavaScript, Highcharts.js for data
+                visualization
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Backend</div>
+              <div class="file-description">
+                Node.js, Express.js, SQLite3, Better-sqlite3
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Testing</div>
+              <div class="file-description">
+                Playwright, Lighthouse, Puppeteer, TypeScript
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Storage</div>
+              <div class="file-description">
+                Supabase Storage, SQLite databases
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">CI/CD</div>
+              <div class="file-description">
+                GitHub Actions, Automated deployment
+              </div>
+            </div>
+            <div class="tech-item">
+              <div class="tech-name">Monitoring</div>
+              <div class="file-description">
+                Performance metrics, CPU/Memory tracking
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="section-card">
+          <h2 class="section-title">🔗 API Endpoints</h2>
+          <table class="responsive-table">
+            <thead>
+              <tr>
+                <th>Endpoint</th>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>/api/data</td>
+                <td>GET</td>
+                <td>Performance test data</td>
+                <td>JSON array of performance records</td>
+              </tr>
+              <tr>
+                <td>/api/visual/data</td>
+                <td>GET</td>
+                <td>Visual test results</td>
+                <td>JSON array of visual test data</td>
+              </tr>
+              <tr>
+                <td>/api/baseline/data</td>
+                <td>GET</td>
+                <td>Baseline test data</td>
+                <td>JSON array of baseline records</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Project Architecture -->
+        <div class="section-card">
+          <h2 class="section-title">🏗️ Project Architecture</h2>
+          <div class="workflow-section">
+            <div class="workflow-title">Data Flow:</div>
+            <div class="workflow-step">
+              1. <strong>Test Execution:</strong> Playwright runs performance
+              tests using Lighthouse
+            </div>
+            <div class="workflow-step">
+              2. <strong>Data Collection:</strong> Results stored in SQLite
+              databases
+            </div>
+            <div class="workflow-step">
+              3. <strong>Storage:</strong> Databases and reports uploaded to
+              Supabase
+            </div>
+            <div class="workflow-step">
+              4. <strong>API Layer:</strong> Express.js server provides REST
+              endpoints
+            </div>
+            <div class="workflow-step">
+              5. <strong>Frontend:</strong> Dashboards fetch and visualize data
+            </div>
+            <div class="workflow-step">
+              6. <strong>CI/CD:</strong> Automated testing and deployment
+              pipeline
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/about.js"></script>
+  </body>
+</html>
