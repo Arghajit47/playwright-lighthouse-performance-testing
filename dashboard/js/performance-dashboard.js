@@ -241,7 +241,7 @@ function renderKPICards() {
 }
 
 function renderGlobalFilters() {
-  const container = document.getElementById("global-filters-container");
+  const container = document.getElementById("global-filters");
   if (!container) return;
 
   const activeElement = document.activeElement;
