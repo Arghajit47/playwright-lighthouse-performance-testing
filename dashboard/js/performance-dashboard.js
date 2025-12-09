@@ -3,7 +3,7 @@
 // --- GLOBAL STATE ---
 let allData = [];
 let latestData = [];
-let filteredData = []; // Data after global filters are applied
+let filteredData = [];
 let filters = {
   searchQuery: "",
   uriFilter: "",
@@ -12,6 +12,8 @@ let filters = {
   startDate: null,
   endDate: null,
 };
+let searchDebounceTimer = null;
+const DEBOUNCE_DELAY = 500;
 let availableFilters = {
   uris: [],
   products: [],
@@ -19,6 +21,23 @@ let availableFilters = {
 };
 let activeMetricsTab = "performance";
 let metricChartSortConfig = { key: "score", order: "asc" };
+
+// --- DEBOUNCE UTILITY ---
+function debounce(func, delay) {
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(searchDebounceTimer);
+      func(...args);
+    };
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(later, delay);
+  };
+}
+
+const debouncedSearch = debounce((searchValue) => {
+  filters.searchQuery = searchValue;
+  applyFiltersAndRender();
+}, DEBOUNCE_DELAY);
 
 // --- DATA FETCHING ---
 async function fetchData() {
@@ -222,8 +241,13 @@ function renderKPICards() {
 }
 
 function renderGlobalFilters() {
-  const container = document.getElementById("global-filters");
+  const container = document.getElementById("global-filters-container");
   if (!container) return;
+
+  const activeElement = document.activeElement;
+  const isSearchFocused = activeElement && activeElement.id === "search-input";
+  const cursorPosition = isSearchFocused ? activeElement.selectionStart : null;
+
   const renderOptions = (options, placeholder) => {
     if (options.length === 0)
       return `<option value="" disabled>No data</option>`;
@@ -261,10 +285,18 @@ function renderGlobalFilters() {
   document.getElementById("uri-filter").value = filters.uriFilter;
   document.getElementById("product-filter").value = filters.productFilter;
   document.getElementById("device-filter").value = filters.deviceFilter;
-  document.getElementById("search-input").addEventListener("input", (e) => {
-    filters.searchQuery = e.target.value;
-    applyFiltersAndRender();
+  
+  const searchInput = document.getElementById("search-input");
+  searchInput.addEventListener("input", (e) => {
+    const searchValue = e.target.value;
+    filters.searchQuery = searchValue;
+    debouncedSearch(searchValue);
   });
+  
+  if (isSearchFocused && cursorPosition !== null) {
+    searchInput.focus();
+    searchInput.setSelectionRange(cursorPosition, cursorPosition);
+  }
   document.getElementById("uri-filter").addEventListener("change", (e) => {
     filters.uriFilter = e.target.value;
     applyFiltersAndRender();
@@ -280,6 +312,7 @@ function renderGlobalFilters() {
   document
     .getElementById("clear-all-filters-btn")
     .addEventListener("click", () => {
+      clearTimeout(searchDebounceTimer);
       filters.searchQuery = "";
       filters.uriFilter = "";
       filters.productFilter = "";

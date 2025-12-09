@@ -13,7 +13,7 @@ let uiState = {
 
 // --- DEBOUNCE UTILITY ---
 let searchDebounceTimer = null;
-const DEBOUNCE_DELAY = 3000; // 3000ms delay
+const DEBOUNCE_DELAY = 500;
 
 function debounce(func, delay) {
   return function executedFunction(...args) {
@@ -292,6 +292,10 @@ function renderFilters() {
   const container = document.getElementById("filters-container");
   if (!container) return;
 
+  const activeElement = document.activeElement;
+  const isSearchFocused = activeElement && activeElement.id === "test-search";
+  const cursorPosition = isSearchFocused ? activeElement.selectionStart : null;
+
   const devices = [...new Set(testData.map((t) => t.device))];
   const brands = [...new Set(testData.map((t) => t.brand).filter(Boolean))];
   const hasActiveFilter =
@@ -354,10 +358,17 @@ function renderFilters() {
         }
     `;
 
-  document.getElementById("test-search").addEventListener("input", (e) => {
-    filters.searchTerm = e.target.value;
-    applyFiltersAndRender();
+  const searchInput = document.getElementById("test-search");
+  searchInput.addEventListener("input", (e) => {
+    const searchValue = e.target.value;
+    filters.searchTerm = searchValue;
+    debouncedSearch(searchValue);
   });
+  
+  if (isSearchFocused && cursorPosition !== null) {
+    searchInput.focus();
+    searchInput.setSelectionRange(cursorPosition, cursorPosition);
+  }
   document.getElementById("device-select").addEventListener("change", (e) => {
     filters.device = e.target.value || null;
     applyFiltersAndRender();
