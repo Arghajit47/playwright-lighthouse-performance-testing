@@ -6,8 +6,9 @@ function checkAuth() {
   const onLoginPage =
     window.location.pathname.endsWith("login.html") ||
     window.location.pathname === "/";
+  const onAboutPage = window.location.pathname.endsWith("about-me.html");
 
-  if (!isAuthenticated && !onLoginPage) {
+  if (!isAuthenticated && !onLoginPage && !onAboutPage) {
     window.location.replace("login.html");
   } else if (isAuthenticated && onLoginPage) {
     window.location.replace("index.html");
@@ -59,7 +60,8 @@ function renderSidebar() {
   const menuItems = [
     { name: "Performance Dashboard", path: "index.html" },
     { name: "Visual Dashboard", path: "visual.html" },
-    { name: "Security Dashboard", path: "security.html" }, // <-- ADDED THIS LINE
+    { name: "Security Dashboard", path: "security.html" },
+    { name: "About Me", path: "about-me.html" },
   ];
   const currentPath = window.location.pathname.split("/").pop();
 
