@@ -13,7 +13,7 @@ let uiState = {
 
 // --- DEBOUNCE UTILITY ---
 let searchDebounceTimer = null;
-const DEBOUNCE_DELAY = 800; // 800ms delay
+const DEBOUNCE_DELAY = 3000; // 3000ms delay
 
 function debounce(func, delay) {
   return function executedFunction(...args) {
