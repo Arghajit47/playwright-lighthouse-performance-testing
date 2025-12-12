@@ -802,68 +802,72 @@ app.get("/api/visual/data", (req, res) => {
   }
 
   try {
-    // Check if visual-matrix table exists
+    // Check if visual_matrix table exists
     const tables = visualDb
       .prepare(
         `
         SELECT name FROM sqlite_master 
-        WHERE type='table' AND name = 'visual-matrix'
+        WHERE type='table' AND name = 'visual_matrix'
       `
       )
       .all();
 
     if (tables.length === 0) {
-      console.log("❌ visual-matrix table not found, returning empty array");
+      console.log("❌ visual_matrix table not found, returning empty array");
       return res.status(200).json([]);
     }
 
-    console.log("📋 Found visual-matrix table in database");
+    console.log("📋 Found visual_matrix table in database");
 
     // Check table structure
-    const tableInfo = visualDb.prepare(`PRAGMA table_info([visual-matrix])`).all();
+    const tableInfo = visualDb
+      .prepare(`PRAGMA table_info([visual_matrix])`)
+      .all();
     const hasCreatedAt = tableInfo.some(
       (col) => col.name.toLowerCase() === "created_at"
     );
-    const hasId = tableInfo.some(
-      (col) => col.name.toLowerCase() === "id"
-    );
+    const hasId = tableInfo.some((col) => col.name.toLowerCase() === "id");
 
     console.log(
-      `📋 visual-matrix table columns: ${tableInfo
+      `📋 visual_matrix table columns: ${tableInfo
         .map((col) => col.name)
         .join(", ")}`
     );
-    console.log(`📋 visual-matrix table has created_at: ${hasCreatedAt}, has id: ${hasId}`);
+    console.log(
+      `📋 visual_matrix table has created_at: ${hasCreatedAt}, has id: ${hasId}`
+    );
 
     // Use appropriate ORDER BY clause
     let query;
     if (hasCreatedAt) {
-      query = `SELECT * FROM [visual-matrix] ORDER BY created_at DESC`;
+      query = `SELECT * FROM [visual_matrix] ORDER BY created_at DESC`;
     } else if (hasId) {
-      query = `SELECT * FROM [visual-matrix] ORDER BY id DESC`;
+      query = `SELECT * FROM [visual_matrix] ORDER BY id DESC`;
     } else {
-      query = `SELECT * FROM [visual-matrix]`;
+      query = `SELECT * FROM [visual_matrix]`;
     }
 
-    console.log(`📊 Executing visual-matrix query: ${query}`);
+    console.log(`📊 Executing visual_matrix query: ${query}`);
     const stmt = visualDb.prepare(query);
     const data = stmt.all();
 
     if (data.length === 0) {
-      console.log("📊 visual-matrix table exists but contains no data, returning empty array");
+      console.log(
+        "📊 visual_matrix table exists but contains no data, returning empty array"
+      );
       return res.status(200).json([]);
     }
 
     console.log(
-      `📊 Visual API call completed: Retrieved ${data.length} records from visual-matrix table`
+      `📊 Visual API call completed: Retrieved ${data.length} records from visual_matrix table`
     );
 
     res.json(data);
   } catch (error) {
-    console.error("❌ Error querying visual-matrix table:", error);
+    console.error("❌ Error querying visual_matrix table:", error);
     res
       .status(500)
-      .json({ error: "Failed to fetch data from the visual-matrix table" });
+      .json({ error: "Failed to fetch data from the visual_matrix table" });
   }
 });
 
