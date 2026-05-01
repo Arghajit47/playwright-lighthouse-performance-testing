@@ -36,12 +36,30 @@ for (const key in data) {
         value,
         desktopConfig,
         folders.desktopPath,
-        `${test.info().title}`
+        `${test.info().title}`,
       );
       await attachHtmlToAllureReport(
         test.info().title,
         folders.desktopPath,
-        testInfo
+        testInfo,
+      );
+    });
+
+    test.only(`Authorized Full Page Scroll Desktop Audit ${key}`, async ({
+      page,
+    }, testInfo) => {
+      await runPerformanceAuditInDesktop(
+        cookies,
+        value,
+        desktopConfig,
+        folders.desktopPath,
+        `${test.info().title}`,
+        { fullPageScroll: true },
+      );
+      await attachHtmlToAllureReport(
+        test.info().title,
+        folders.desktopPath,
+        testInfo,
       );
     });
 
@@ -53,12 +71,12 @@ for (const key in data) {
         value,
         mobileConfig,
         folders.mobilePath,
-        `${test.info().title}`
+        `${test.info().title}`,
       );
       await attachHtmlToAllureReport(
         test.info().title,
         folders.mobilePath,
-        testInfo
+        testInfo,
       );
     });
 
@@ -70,12 +88,12 @@ for (const key in data) {
         value,
         tabletConfig,
         folders.tabletPath,
-        `${test.info().title}`
+        `${test.info().title}`,
       );
       await attachHtmlToAllureReport(
         test.info().title,
         folders.tabletPath,
-        testInfo
+        testInfo,
       );
     });
 

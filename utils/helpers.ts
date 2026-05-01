@@ -3,7 +3,6 @@ import * as path from "path";
 // import { createClient } from "@supabase/supabase-js";
 import puppeteer from "puppeteer";
 import "dotenv/config";
-
 import Database from "better-sqlite3";
 
 // 1. Initialize the database connection.
@@ -50,7 +49,8 @@ export async function runPerformanceAuditInDesktop(
   url: string,
   config: object,
   outputPath: string,
-  reportName: string
+  reportName: string,
+  options?: { fullPageScroll?: boolean },
 ) {
   const lighthouse = await import("lighthouse");
 
@@ -61,22 +61,72 @@ export async function runPerformanceAuditInDesktop(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const result = await lighthouse.default(
-    url,
-    {
-      port: parseInt(new URL(browser.wsEndpoint()).port),
-      output: "html",
-      logLevel: "silent",
-      disableStorageReset: true,
-    },
-    config
-  ) as any;
 
-  if (!result || !result.lhr || !result.report) {
-    throw new Error('Lighthouse audit failed or returned invalid results');
+  let reportStr;
+  let summaryLhr;
+
+  if (options?.fullPageScroll) {
+    const flow = await lighthouse.startFlow(page, {
+      name: reportName,
+      config: config as any,
+      flags: {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        disableStorageReset: true,
+      },
+    });
+
+    await flow.navigate(url, { name: "Initial Load" });
+    await flow.startTimespan({ name: "Scroll to Bottom" });
+
+    // Scroll logic to trigger lazy loading
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        let totalHeight = 0;
+        const distance = 100;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve(true);
+          }
+        }, 100);
+      });
+    });
+
+    await flow.endTimespan();
+
+    const flowResult = await flow.createFlowResult();
+    reportStr = await flow.generateReport();
+
+    if (!flowResult || !flowResult.steps || flowResult.steps.length === 0) {
+      throw new Error(
+        "Lighthouse flow audit failed or returned invalid results",
+      );
+    }
+
+    summaryLhr = flowResult.steps[0].lhr;
+  } else {
+    const result = (await lighthouse.default(
+      url,
+      {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        output: "html",
+        logLevel: "silent",
+        disableStorageReset: true,
+      },
+      config,
+    )) as any;
+
+    if (!result || !result.lhr || !result.report) {
+      throw new Error("Lighthouse audit failed or returned invalid results");
+    }
+
+    reportStr = result.report;
+    summaryLhr = result.lhr;
   }
-
-  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -85,18 +135,18 @@ export async function runPerformanceAuditInDesktop(
   }
 
   // Write the Lighthouse report to the file
-  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), report);
+  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), reportStr);
 
   console.log(
     `Performance score for ${reportName}:`,
-    lhr.categories.performance.score * 100
+    summaryLhr.categories.performance.score * 100,
   );
   // Lighthouse scores extracted from result
   const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
+    performance: summaryLhr.categories.performance.score * 100 || 0,
+    accessibility: summaryLhr.categories.accessibility.score * 100 || 0,
+    best_practice: summaryLhr.categories["best-practices"].score * 100 || 0,
+    seo: summaryLhr.categories.seo.score * 100 || 0,
     device_type: "desktop",
     test_name: `${reportName}`,
     url: url,
@@ -123,7 +173,8 @@ export async function runPerformanceAuditInMobile(
   url: string,
   config: object,
   outputPath: string,
-  reportName: string
+  reportName: string,
+  options?: { fullPageScroll?: boolean },
 ) {
   const lighthouse = await import("lighthouse");
 
@@ -134,22 +185,72 @@ export async function runPerformanceAuditInMobile(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const result = (await lighthouse.default(
-    url,
-    {
-      port: parseInt(new URL(browser.wsEndpoint()).port),
-      output: "html",
-      logLevel: "silent",
-      disableStorageReset: true,
-    },
-    config
-  )) as any;
 
-  if (!result || !result.lhr || !result.report) {
-    throw new Error('Lighthouse audit failed or returned invalid results');
+  let reportStr;
+  let summaryLhr;
+
+  if (options?.fullPageScroll) {
+    const flow = await lighthouse.startFlow(page, {
+      name: reportName,
+      config: config as any,
+      flags: {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        disableStorageReset: true,
+      },
+    });
+
+    await flow.navigate(url, { name: "Initial Load" });
+    await flow.startTimespan({ name: "Scroll to Bottom" });
+
+    // Scroll logic to trigger lazy loading
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        let totalHeight = 0;
+        const distance = 100;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve(true);
+          }
+        }, 100);
+      });
+    });
+
+    await flow.endTimespan();
+
+    const flowResult = await flow.createFlowResult();
+    reportStr = await flow.generateReport();
+
+    if (!flowResult || !flowResult.steps || flowResult.steps.length === 0) {
+      throw new Error(
+        "Lighthouse flow audit failed or returned invalid results",
+      );
+    }
+
+    summaryLhr = flowResult.steps[0].lhr;
+  } else {
+    const result = (await lighthouse.default(
+      url,
+      {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        output: "html",
+        logLevel: "silent",
+        disableStorageReset: true,
+      },
+      config,
+    )) as any;
+
+    if (!result || !result.lhr || !result.report) {
+      throw new Error("Lighthouse audit failed or returned invalid results");
+    }
+
+    reportStr = result.report;
+    summaryLhr = result.lhr;
   }
-
-  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -158,18 +259,18 @@ export async function runPerformanceAuditInMobile(
   }
 
   // Write the Lighthouse report to the file
-  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), report);
+  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), reportStr);
 
   console.log(
     `Performance score for ${reportName}:`,
-    lhr.categories.performance.score * 100
+    summaryLhr.categories.performance.score * 100,
   );
   // Lighthouse scores extracted from result
   const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
+    performance: summaryLhr.categories.performance.score * 100 || 0,
+    accessibility: summaryLhr.categories.accessibility.score * 100 || 0,
+    best_practice: summaryLhr.categories["best-practices"].score * 100 || 0,
+    seo: summaryLhr.categories.seo.score * 100 || 0,
     device_type: "mobile",
     test_name: `${reportName}`,
     url: url,
@@ -196,7 +297,8 @@ export async function runPerformanceAuditInTablet(
   url: string,
   config: object,
   outputPath: string,
-  reportName: string
+  reportName: string,
+  options?: { fullPageScroll?: boolean },
 ) {
   const lighthouse = await import("lighthouse");
 
@@ -207,22 +309,72 @@ export async function runPerformanceAuditInTablet(
   });
   const page = await browser.newPage();
   await page.setCookie(...cookies);
-  const result = (await lighthouse.default(
-    url,
-    {
-      port: parseInt(new URL(browser.wsEndpoint()).port),
-      output: "html",
-      logLevel: "silent",
-      disableStorageReset: true,
-    },
-    config
-  )) as any;
 
-  if (!result || !result.lhr || !result.report) {
-    throw new Error('Lighthouse audit failed or returned invalid results');
+  let reportStr;
+  let summaryLhr;
+
+  if (options?.fullPageScroll) {
+    const flow = await lighthouse.startFlow(page, {
+      name: reportName,
+      config: config as any,
+      flags: {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        disableStorageReset: true,
+      },
+    });
+
+    await flow.navigate(url, { name: "Initial Load" });
+    await flow.startTimespan({ name: "Scroll to Bottom" });
+
+    // Scroll logic to trigger lazy loading
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        let totalHeight = 0;
+        const distance = 100;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            resolve(true);
+          }
+        }, 100);
+      });
+    });
+
+    await flow.endTimespan();
+
+    const flowResult = await flow.createFlowResult();
+    reportStr = await flow.generateReport();
+
+    if (!flowResult || !flowResult.steps || flowResult.steps.length === 0) {
+      throw new Error(
+        "Lighthouse flow audit failed or returned invalid results",
+      );
+    }
+
+    summaryLhr = flowResult.steps[0].lhr;
+  } else {
+    const result = (await lighthouse.default(
+      url,
+      {
+        port: parseInt(new URL(browser.wsEndpoint()).port),
+        output: "html",
+        logLevel: "silent",
+        disableStorageReset: true,
+      },
+      config,
+    )) as any;
+
+    if (!result || !result.lhr || !result.report) {
+      throw new Error("Lighthouse audit failed or returned invalid results");
+    }
+
+    reportStr = result.report;
+    summaryLhr = result.lhr;
   }
-
-  const { lhr, report } = result;
 
   // Ensure the output directory exists
   const directory = path.dirname(path.join(outputPath, `${reportName}.html`));
@@ -231,18 +383,18 @@ export async function runPerformanceAuditInTablet(
   }
 
   // Write the Lighthouse report to the file
-  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), report);
+  fs.writeFileSync(path.join(outputPath, `${reportName}.html`), reportStr);
 
   console.log(
     `Performance score for ${reportName}:`,
-    lhr.categories.performance.score * 100
+    summaryLhr.categories.performance.score * 100,
   );
   // Lighthouse scores extracted from result
   const record = {
-    performance: lhr.categories.performance.score * 100 || 0,
-    accessibility: lhr.categories.accessibility.score * 100 || 0,
-    best_practice: lhr.categories["best-practices"].score * 100 || 0,
-    seo: lhr.categories.seo.score * 100 || 0,
+    performance: summaryLhr.categories.performance.score * 100 || 0,
+    accessibility: summaryLhr.categories.accessibility.score * 100 || 0,
+    best_practice: summaryLhr.categories["best-practices"].score * 100 || 0,
+    seo: summaryLhr.categories.seo.score * 100 || 0,
     device_type: "tablet",
     test_name: `${reportName}`,
     url: url,

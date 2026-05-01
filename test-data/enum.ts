@@ -1,12 +1,13 @@
 export const URLS = {
-  NOPCOMMERCE_BASEURL: "https://demo.nopcommerce.com/",
-  COMPUTERS: "https://demo.nopcommerce.com/computers",
-  ELECTRONICS: "https://demo.nopcommerce.com/electronics",
-  APPAREL: "https://demo.nopcommerce.com/apparel",
-  DIGITAL_DOWNLOADS: "https://demo.nopcommerce.com/digital-downloads",
-  BOOKS: "https://demo.nopcommerce.com/books",
-  JEWELRY: "https://demo.nopcommerce.com/jewelry",
-  GIFT_CARDS: "https://demo.nopcommerce.com/gift-cards",
+  PLAYWRIGHT_PULSE_DASHBOARD:
+    "https://github.com/Arghajit47/playwright-pulse-dashboard",
+  PLAYWRIGHT_PULSE: "https://github.com/Arghajit47/playwright-pulse",
+  PLAYWRIGHT_DATABASE_TESTING:
+    "https://github.com/Arghajit47/Playwright-database-testing",
+  PLAYWRIGHT_VISUAL_TESTING:
+    "https://github.com/Arghajit47/Playwright-Visual-Testing",
+  PLAYWRIGHT_LIGHTHOUSE_TESTING:
+    "https://github.com/Arghajit47/playwright-lighthouse-performance-testing",
 };
 
 export const UNAUTHORIZED_PATHS = {
